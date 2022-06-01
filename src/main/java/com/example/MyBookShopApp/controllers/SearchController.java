@@ -32,11 +32,18 @@ public class SearchController {
         return new ArrayList<>();
     }
 
+    /*
     @ModelAttribute("numberOfsearchBook")
     public int numberOfsearchBook() {
         return 5;
     }
 
+    model.addAttribute("numberOfsearchBook", bookService.getBooksByTitle(searchWordDto.getExample()).size());
+
+    без данной модели неправильно считает количество книг.
+    Но когда ее добавляю, после повторного нажатия по поиску вылетает ошибка???
+    Сколько в проектк багов!!!
+    */
 
     @GetMapping(value = {"/search", "/search/{searchWord}"})
     public String getSearchResult(@PathVariable(value = "searchWord", required = false) SearchWordDto searchWordDto,
@@ -44,14 +51,12 @@ public class SearchController {
         model.addAttribute("searchWordDto", searchWordDto);
         model.addAttribute("searchResult",
                 bookService.getPageOfSearchResultBooks(searchWordDto.getExample(), 0, 5).getContent());
-        model.addAttribute("numberOfsearchBook",
-                bookService.getBooksByTitle(searchWordDto.getExample()).size());
         return "/search/index";
     }
 
     @GetMapping("/search/page/{searchWord}")
     @ResponseBody
-    public BooksPageDto getNextSearchPage(@RequestParam("offset") Integer offset,
+    public BooksPageDto getNextSearchPage1(@RequestParam("offset") Integer offset,
                                           @RequestParam("limit") Integer limit,
                                           @PathVariable(value = "searchWord", required = false) SearchWordDto searchWordDto) {
         return new BooksPageDto(bookService.getPageOfSearchResultBooks(searchWordDto.getExample(), offset, limit).getContent());

@@ -6,6 +6,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -48,13 +49,7 @@ public class BookService {
         return bookRepository.getBestsellers();
     }
 
-
     public Page<Book> getPageRecommendedBooks(Integer offset, Integer limit) {
-        Pageable nextPage = PageRequest.of(offset, limit);
-        return bookRepository.findAll(nextPage);
-    }
-
-    public Page<Book> getPageRecentBooks(Integer offset, Integer limit) {
         Pageable nextPage = PageRequest.of(offset, limit);
         return bookRepository.findAll(nextPage);
     }
@@ -67,6 +62,31 @@ public class BookService {
     public Page<Book> getPageOfSearchResultBooks(String searchWord, Integer offset, Integer limit) {
         Pageable nextPage = PageRequest.of(offset, limit);
         return bookRepository.findBooksByTitleContaining(searchWord, nextPage);
+    }
+
+    //RECENT
+    //without pubDate
+    public Page<Book> getPageRecentBooks(Integer offset, Integer limit) {
+        Pageable nextPage = PageRequest.of(offset, limit);
+        return bookRepository.findAll(nextPage);
+    }
+
+    //with pubDate
+    public Page<Book> getPageRecentBooksByPubDateBetween(Date from, Date to, Integer offset, Integer limit) {
+        Pageable nextPage = PageRequest.of(offset, limit);
+        return bookRepository.findBooksByPubDateBetween(from, to, nextPage);
+    }
+
+    //only with pubDate from
+    public Page<Book> getPageRecentBooksByPubDateAfter(Date from, Integer offset, Integer limit) {
+        Pageable nextPage = PageRequest.of(offset, limit);
+        return bookRepository.findBooksByPubDateAfter(from, nextPage);
+    }
+
+    //only with pubDate to
+    public Page<Book> getPageRecentBooksByPubDateBefore(Date to, Integer offset, Integer limit) {
+        Pageable nextPage = PageRequest.of(offset, limit);
+        return bookRepository.findBooksByPubDateBefore(to, nextPage);
     }
 
 
