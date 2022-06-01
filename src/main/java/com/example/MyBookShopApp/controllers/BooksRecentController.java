@@ -45,7 +45,6 @@ public class BooksRecentController {
                                           @RequestParam("limit") Integer limit) throws ParseException {
         Date dateFrom = new SimpleDateFormat("dd.MM.yyyy").parse(from);
         Date dateTo = new SimpleDateFormat("dd.MM.yyyy").parse(to);
-
         return new BooksPageDto(bookService.getPageRecentBooksByPubDateBetween(dateFrom, dateTo, offset, limit).getContent());
     }
 }

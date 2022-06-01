@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<div class="Cards Cards_refresh" th:fragment="pool_recent">
+<div class="Cards Cards_refresh" th:fragment="poolSearch">
     <div class="Cards">
         <div class="Card" th:each="book : ${searchResult}">
             <div class="Card-picture">
@@ -25,6 +25,7 @@
         </div>
     </div>
     <div class="Cards-footer Cards-footer_center"><a class="btn btn_primary" href="#"
+                                                     th:attr="data-refreshshow=${category}, data-refreshquery = ${searchWordDto.example}"
                                                      data-refreshoffset="0" data-refreshlimit="5">Показать еще</a>
     </div>
 </div>

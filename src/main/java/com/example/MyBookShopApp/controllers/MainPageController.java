@@ -42,6 +42,15 @@ public class MainPageController {
         return bookService.getPagePopularBooks(0, 10).getContent();
     }
 
+    @GetMapping(value = {"/books/recommended", "/books/recents", "/books/populars"})
+    @ResponseBody
+    public BooksPageDto getBooksPage(@RequestParam("offset") Integer offset,
+                                                @RequestParam("limit") Integer limit) {
+        return new BooksPageDto(bookService.getPageRecommendedBooks(offset, limit).getContent());
+    }
+}
+
+   /*
     @GetMapping("/books/recommended")
     @ResponseBody
     public BooksPageDto getRecommendedBooksPage(@RequestParam("offset") Integer offset,
@@ -62,4 +71,4 @@ public class MainPageController {
                                            @RequestParam("limit") Integer limit) {
         return new BooksPageDto(bookService.getPagePopularBooks(offset, limit).getContent());
     }
-}
+    */
