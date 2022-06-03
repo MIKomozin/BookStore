@@ -56,6 +56,19 @@ public class Book {
     @JsonIgnore
     private Author author;
 
+    //2.2
+    @Column(name = "users_buy_book", columnDefinition = "INT NOT NULL DEFAULT 0")
+    @ApiModelProperty("number of users bought this book")
+    private Integer usersBuyBook;
+
+    @Column(name = "users_added_book_to_cart", columnDefinition = "INT NOT NULL DEFAULT 0")
+    @ApiModelProperty("number of users added book to cart")
+    private Integer usersAddedBookToCart;
+
+    @Column(name = "users_postponed_book", columnDefinition = "INT NOT NULL DEFAULT 0")
+    @ApiModelProperty("number of users postponed book")
+    private Integer usersPostponedBook;
+
     public Integer getId() {
         return id;
     }
@@ -134,5 +147,29 @@ public class Book {
 
     public void setAuthor(Author author) {
         this.author = author;
+    }
+
+    public Integer getUsersBuyBook() {
+        return usersBuyBook;
+    }
+
+    public void setUsersBuyBook(Integer usersBuyBook) {
+        this.usersBuyBook = usersBuyBook;
+    }
+
+    public Integer getUsersAddedBookToCart() {
+        return usersAddedBookToCart;
+    }
+
+    public void setUsersAddedBookToCart(Integer usersAddedBookToCart) {
+        this.usersAddedBookToCart = usersAddedBookToCart;
+    }
+
+    public Integer getUsersPostponedBook() {
+        return usersPostponedBook;
+    }
+
+    public void setUsersPostponedBook(Integer usersPostponedBook) {
+        this.usersPostponedBook = usersPostponedBook;
     }
 }

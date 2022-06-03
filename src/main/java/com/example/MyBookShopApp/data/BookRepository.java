@@ -40,4 +40,8 @@ public interface BookRepository extends JpaRepository<Book, Integer> {
     @Query(value = "SELECT * FROM books WHERE pub_date <= ?1 ORDER BY pub_date DESC", nativeQuery = true)
     Page<Book> findBooksByPubDateBefore(Date to, Pageable nextPage);
 
+
+    //POPULAR
+    @Query(value = "SELECT * FROM books ORDER BY (users_buy_book+0.7*users_added_book_to_cart+0.4*users_postponed_book) DESC", nativeQuery = true)
+    Page<Book> findBooksByPopIndex(Pageable nextPage);
 }
