@@ -33,7 +33,7 @@ public class BooksRecentController {
     @GetMapping("/books/recent")
     public String getRecentPage(Model model) {
         model.addAttribute("searchResult",
-                bookService.getPageRecentBooks(0, 8).getContent());
+                bookService.getPageRecentBooks(0, 20).getContent());
         return "/books/recent";
     }
 

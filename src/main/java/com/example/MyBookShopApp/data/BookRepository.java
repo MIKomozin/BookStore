@@ -29,12 +29,15 @@ public interface BookRepository extends JpaRepository<Book, Integer> {
 
     //RECENT
     //with pubDate
+    @Query(value = "SELECT * FROM books WHERE pub_date >= ?1 AND pub_date <= ?2 ORDER BY pub_date DESC", nativeQuery = true)
     Page<Book> findBooksByPubDateBetween(Date from, Date to, Pageable nextPage);
 
     //only with pubDate from
+    @Query(value = "SELECT * FROM books WHERE pub_date >= ?1 ORDER BY pub_date DESC", nativeQuery = true)
     Page<Book> findBooksByPubDateAfter(Date from, Pageable nextPage);
 
     //only with pubDate to
+    @Query(value = "SELECT * FROM books WHERE pub_date <= ?1 ORDER BY pub_date DESC", nativeQuery = true)
     Page<Book> findBooksByPubDateBefore(Date to, Pageable nextPage);
 
 }
