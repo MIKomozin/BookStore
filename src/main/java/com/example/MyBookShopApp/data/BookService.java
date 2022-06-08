@@ -89,5 +89,9 @@ public class BookService {
         return bookRepository.findBooksByPubDateBefore(to, nextPage);
     }
 
-
+    //2.3
+    public Page<Book> getBooksByTagId(Integer tagId, Integer offset, Integer limit) {
+        Pageable nextPage = PageRequest.of(offset, limit);
+        return bookRepository.findBooksByTagId(tagId, nextPage);
+    }
 }

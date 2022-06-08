@@ -1,12 +1,10 @@
 package com.example.MyBookShopApp.data;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
 import javax.persistence.*;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -55,6 +53,11 @@ public class Book {
     @JoinColumn(name = "author_id", referencedColumnName = "id")
     @JsonIgnore
     private Author author;
+
+    //2.3
+    @OneToMany(mappedBy = "book")
+    @JsonIgnore
+    List<Book2Tag> book2Tag;
 
     //2.2
     @Column(name = "users_buy_book", columnDefinition = "INT NOT NULL DEFAULT 0")
@@ -171,5 +174,13 @@ public class Book {
 
     public void setUsersPostponedBook(Integer usersPostponedBook) {
         this.usersPostponedBook = usersPostponedBook;
+    }
+
+    public List<Book2Tag> getBook2Tag() {
+        return book2Tag;
+    }
+
+    public void setBook2Tag(List<Book2Tag> book2Tag) {
+        this.book2Tag = book2Tag;
     }
 }

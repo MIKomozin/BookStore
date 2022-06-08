@@ -1,8 +1,8 @@
-package skbx.example.struct.book.links;
+package com.example.MyBookShopApp.data;
 
 import java.io.Serializable;
 
-public class BookToTagId implements Serializable {
+public class Book2TagId implements Serializable {
 
     private int tag;
     private int book;

@@ -1,14 +1,13 @@
 package com.example.MyBookShopApp.controllers;
 
-import com.example.MyBookShopApp.data.Book;
-import com.example.MyBookShopApp.data.BookService;
-import com.example.MyBookShopApp.data.BooksPageDto;
+import com.example.MyBookShopApp.data.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -16,10 +15,12 @@ import java.util.List;
 public class MainPageController {
 
     private final BookService bookService;
+    private final TagService tagService;
 
     @Autowired
-    public MainPageController(BookService bookService) {
+    public MainPageController(BookService bookService, TagService tagService) {
         this.bookService = bookService;
+        this.tagService = tagService;
     }
 
     @GetMapping("/")
@@ -40,6 +41,11 @@ public class MainPageController {
     @ModelAttribute("popularBooks")
     public List<Book> popularBooks() {
         return bookService.getPagePopularBooks(0, 10).getContent();
+    }
+
+    @ModelAttribute("tags")
+    public List<Tag> getTagName() {
+        return tagService.getTagData();
     }
 
     @GetMapping(value = {"/books/recommended", "/books/recents", "/books/populars"})

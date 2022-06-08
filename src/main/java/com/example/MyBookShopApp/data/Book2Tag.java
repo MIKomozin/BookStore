@@ -1,13 +1,10 @@
-package skbx.example.struct.book.links;
-
-import com.example.MyBookShopApp.data.Book;
-import com.example.MyBookShopApp.data.Tag;
+package com.example.MyBookShopApp.data;
 
 import javax.persistence.*;
 
 @Entity
 @Table(name = "book2tag")
-@IdClass(BookToTagId.class)
+@IdClass(Book2TagId.class)
 public class Book2Tag {
 
     @Id
@@ -16,13 +13,13 @@ public class Book2Tag {
 
     @Id
     @ManyToOne
-    @JoinColumn(name = "tag_id", referencedColumnName = "id")
-    private Tag tag;
+    @JoinColumn(name = "book_id", referencedColumnName = "id")
+    private Book book;
 
     @Id
     @ManyToOne
-    @JoinColumn(name = "book_id", referencedColumnName = "id")
-    private Book book;
+    @JoinColumn(name = "tag_id", referencedColumnName = "id")
+    private Tag tag;
 
     public Integer getId() {
         return id;
@@ -32,19 +29,19 @@ public class Book2Tag {
         this.id = id;
     }
 
-    public Tag getTag() {
-        return tag;
-    }
-
-    public void setTag(Tag tag) {
-        this.tag = tag;
-    }
-
     public Book getBook() {
         return book;
     }
 
     public void setBook(Book book) {
         this.book = book;
+    }
+
+    public Tag getTag() {
+        return tag;
+    }
+
+    public void setTag(Tag tag) {
+        this.tag = tag;
     }
 }

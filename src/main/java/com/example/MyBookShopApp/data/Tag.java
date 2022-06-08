@@ -1,24 +1,21 @@
 package com.example.MyBookShopApp.data;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
-
 import javax.persistence.*;
-import java.util.Date;
+import java.util.List;
 
 @Entity
 @Table(name = "tags")
-@ApiModel(description = "entity representing a tag")
 public class Tag {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @ApiModelProperty("id generated database of tags automatically")
     private Integer id;
 
     @Column(name = "tag_name", columnDefinition = "TEXT NOT NULL")
-    @ApiModelProperty("name of tag")
     private String tagName;
+
+    @OneToMany(mappedBy = "tag")
+    List<Book2Tag> tag2Book;
 
     public Integer getId() {
         return id;
@@ -34,5 +31,13 @@ public class Tag {
 
     public void setTagName(String tagName) {
         this.tagName = tagName;
+    }
+
+    public List<Book2Tag> getTag2Book() {
+        return tag2Book;
+    }
+
+    public void setTag2Book(List<Book2Tag> tag2Book) {
+        this.tag2Book = tag2Book;
     }
 }
