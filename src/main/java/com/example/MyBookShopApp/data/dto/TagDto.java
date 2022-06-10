@@ -1,4 +1,4 @@
-package com.example.MyBookShopApp.data;
+package com.example.MyBookShopApp.data.dto;
 
 public class TagDto {
 
@@ -18,5 +18,15 @@ public class TagDto {
 
     public void setId(String id) {
         this.id = id;
+    }
+
+    public Integer getIntId() {
+        Integer intId = 1;
+        try {
+            intId = Integer.parseInt(id);
+        } catch (NumberFormatException a) {
+            intId = 1000;
+        }
+        return intId;
     }
 }

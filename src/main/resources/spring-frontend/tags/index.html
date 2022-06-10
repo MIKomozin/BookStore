@@ -22,10 +22,10 @@
     <div class="wrap">
         <main class="Middle-main">
             <ul class="breadcrumbs"
-                th:replace="~{fragments/breadcrumb_fragment :: breadcrumps(category=${tagPhraseDto.id})}"></ul>
+                th:replace="~{fragments/breadcrumb_fragment :: breadcrumps(category=${tagByTagId.tagName})}"></ul>
             <div class="Section">
                 <div class="Section-header">
-                    <h1 class="Section-title" th:text="${tagPhraseDto.id}">название тэга
+                    <h1 class="Section-title" th:text="${tagByTagId.tagName}">название тэга
                     </h1>
                     <div class="Section-header-links"><a class="Section-header-link" th:href="@{/}" href="/index.html#tags">Все
                         тэги</a>

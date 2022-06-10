@@ -1,12 +1,12 @@
 package com.example.MyBookShopApp.data;
 
+import com.example.MyBookShopApp.data.entity.Book;
+import com.example.MyBookShopApp.data.repository.BookRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-
-import java.sql.SQLException;
 
 @Service
 public class BooksRatingAndPopulatityService {

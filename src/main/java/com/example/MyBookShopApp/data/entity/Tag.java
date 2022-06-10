@@ -1,4 +1,4 @@
-package com.example.MyBookShopApp.data;
+package com.example.MyBookShopApp.data.entity;
 
 import javax.persistence.*;
 import java.util.List;

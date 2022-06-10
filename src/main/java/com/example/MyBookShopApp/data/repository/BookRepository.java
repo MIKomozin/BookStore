@@ -1,5 +1,6 @@
-package com.example.MyBookShopApp.data;
+package com.example.MyBookShopApp.data.repository;
 
+import com.example.MyBookShopApp.data.entity.Book;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -29,7 +30,8 @@ public interface BookRepository extends JpaRepository<Book, Integer> {
 
     //RECENT
     //with pubDate
-    @Query(value = "SELECT * FROM books WHERE pub_date >= ?1 AND pub_date <= ?2 ORDER BY pub_date DESC", nativeQuery = true)
+    @Query(value = "SELECT * FROM books WHERE pub_date >= ?1 AND pub_date <= ?2 ORDER BY pub_date DESC",
+            nativeQuery = true, countQuery = "SELECT count(*) FROM books WHERE pub_date >= ?1 AND pub_date <= ?2")
     Page<Book> findBooksByPubDateBetween(Date from, Date to, Pageable nextPage);
 
     //only with pubDate from
@@ -41,10 +43,12 @@ public interface BookRepository extends JpaRepository<Book, Integer> {
     Page<Book> findBooksByPubDateBefore(Date to, Pageable nextPage);
 
     //POPULAR
-    @Query(value = "SELECT * FROM books ORDER BY (users_buy_book+0.7*users_added_book_to_cart+0.4*users_postponed_book) DESC", nativeQuery = true)
+    @Query(value = "SELECT * FROM books ORDER BY (users_buy_book+0.7*users_added_book_to_cart+0.4*users_postponed_book) DESC",
+            nativeQuery = true, countQuery = "SELECT count(*) FROM books")
     Page<Book> findBooksByPopIndex(Pageable nextPage);
 
     //2.3
-    @Query(value = "SELECT books.id AS id, pub_date, is_bestseller, slug, title, image, description, price, discount, author_id, users_buy_book, users_added_book_to_cart, users_postponed_book FROM book2tag JOIN books ON book_id = books.id JOIN tags ON tag_id = tags.id WHERE tag_id = ?1", nativeQuery = true)
+    @Query(value = "SELECT books.id AS id, pub_date, is_bestseller, slug, title, image, description, price, discount, author_id, users_buy_book, users_added_book_to_cart, users_postponed_book FROM books JOIN book2tag ON books.id = book_id JOIN tags ON tag_id = tags.id WHERE tag_id = ?1",
+            nativeQuery = true, countQuery = "SELECT count(*) FROM book2tag WHERE tag_id = ?1")
     Page<Book> findBooksByTagId(Integer tagId, Pageable nextPage);
 }

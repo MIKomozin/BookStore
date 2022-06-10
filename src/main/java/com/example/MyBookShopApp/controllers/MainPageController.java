@@ -1,14 +1,13 @@
 package com.example.MyBookShopApp.controllers;
 
 import com.example.MyBookShopApp.data.*;
+import com.example.MyBookShopApp.data.dto.BooksPageDto;
+import com.example.MyBookShopApp.data.entity.Book;
+import com.example.MyBookShopApp.data.entity.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 @Controller
@@ -51,7 +50,7 @@ public class MainPageController {
     @GetMapping(value = {"/books/recommended", "/books/recents", "/books/populars"})
     @ResponseBody
     public BooksPageDto getBooksPage(@RequestParam("offset") Integer offset,
-                                                @RequestParam("limit") Integer limit) {
+                                     @RequestParam("limit") Integer limit) {
         return new BooksPageDto(bookService.getPageRecommendedBooks(offset, limit).getContent());
     }
 }
