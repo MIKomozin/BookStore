@@ -1,5 +1,7 @@
 package com.example.MyBookShopApp.data.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.util.List;
 
@@ -15,6 +17,7 @@ public class Tag {
     private String tagName;
 
     @OneToMany(mappedBy = "tag")
+    @JsonIgnore
     List<Book2Tag> tag2Book;
 
     public Integer getId() {

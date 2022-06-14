@@ -51,4 +51,9 @@ public interface BookRepository extends JpaRepository<Book, Integer> {
     @Query(value = "SELECT books.id AS id, pub_date, is_bestseller, slug, title, image, description, price, discount, author_id, users_buy_book, users_added_book_to_cart, users_postponed_book FROM books JOIN book2tag ON books.id = book_id JOIN tags ON tag_id = tags.id WHERE tag_id = ?1",
             nativeQuery = true, countQuery = "SELECT count(*) FROM book2tag WHERE tag_id = ?1")
     Page<Book> findBooksByTagId(Integer tagId, Pageable nextPage);
+
+    //2.4
+    @Query(value = "SELECT books.id AS id, pub_date, is_bestseller, books.slug AS slug, title, image, description, price, discount, author_id, users_buy_book, users_added_book_to_cart, users_postponed_book FROM books JOIN book2genre ON books.id = book_id JOIN genre ON genre_id = genre.id WHERE genre.slug = ?1",
+            nativeQuery = true, countQuery = "SELECT count(*) FROM book2genre JOIN genre ON genre_id = genre.id WHERE genre.slug = ?1")
+    Page<Book> findBooksByGenreSlug(String slugInd, Pageable nextPage);
 }

@@ -54,11 +54,6 @@ public class Book {
     @JsonIgnore
     private Author author;
 
-    //2.3
-    @OneToMany(mappedBy = "book")
-    @JsonIgnore
-    List<Book2Tag> book2Tag;
-
     //2.2
     @Column(name = "users_buy_book", columnDefinition = "INT NOT NULL DEFAULT 0")
     @ApiModelProperty("number of users bought this book")
@@ -71,6 +66,16 @@ public class Book {
     @Column(name = "users_postponed_book", columnDefinition = "INT NOT NULL DEFAULT 0")
     @ApiModelProperty("number of users postponed book")
     private Integer usersPostponedBook;
+
+    //2.3
+    @OneToMany(mappedBy = "book")
+    @JsonIgnore
+    List<Book2Tag> book2Tag;
+
+    //2.4
+    @OneToMany(mappedBy = "book")
+    @JsonIgnore
+    List<Book2Genre> book2Genres;
 
     public Integer getId() {
         return id;
@@ -182,5 +187,13 @@ public class Book {
 
     public void setBook2Tag(List<Book2Tag> book2Tag) {
         this.book2Tag = book2Tag;
+    }
+
+    public List<Book2Genre> getBook2Genres() {
+        return book2Genres;
+    }
+
+    public void setBook2Genres(List<Book2Genre> book2Genres) {
+        this.book2Genres = book2Genres;
     }
 }

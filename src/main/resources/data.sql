@@ -1,3 +1,4 @@
+--authors
 insert into authors (id, photo, slug, name, description) values (1, 'http://dummyimage.com/721x737.png/cc0000/ffffff', 'slug1', 'Aldwin Maddison', 'description1');
 insert into authors (id, photo, slug, name, description) values (2, 'http://dummyimage.com/721x737.png/cc0000/ffffff', 'slug2', 'Marlene Claydon', 'description2');
 insert into authors (id, photo, slug, name, description) values (3, 'http://dummyimage.com/721x737.png/cc0000/ffffff', 'slug3', 'Maurits Brende', 'description3');
@@ -20,6 +21,7 @@ insert into authors (id, photo, slug, name, description) values (19, 'http://dum
 insert into authors (id, photo, slug, name, description) values (20, 'http://dummyimage.com/721x737.png/cc0000/ffffff', 'slug20', 'Major Mattersley', 'description20');
 insert into authors (id, photo, slug, name, description) values (21, 'http://dummyimage.com/721x737.png/cc0000/ffffff', 'slug21', 'Hatti Skelbeck', 'description21');
 
+--books
 insert into books (id, pub_date, is_bestseller, slug, title, image, description, price, discount, author_id, users_buy_book, users_added_book_to_cart, users_postponed_book) values (1, '2020/03/20', 1, 'book-ilp-658', 'King of Kings', 'http://dummyimage.com/721x737.png/cc0000/ffffff', 'Etiam pretium iaculis justo. In hac habitasse platea dictumst. Etiam faucibus cursus urna. Ut tellus. Nulla ut erat id mauris vulputate elementum.', 1008, 4, 14, 15, 11, 32);
 insert into books (id, pub_date, is_bestseller, slug, title, image, description, price, discount, author_id, users_buy_book, users_added_book_to_cart, users_postponed_book) values (2, '2018/11/25', 0, 'book-jbr-125', 'Sunset Strip', 'http://dummyimage.com/355x343.png/cc0000/ffffff', 'Duis aliquam convallis nunc. Proin at turpis a pede posuere nonummy. Integer non velit. Donec diam neque, vestibulum eget, vulputate ut, ultrices vel, augue. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Donec pharetra, magna vestibulum aliquet ultrices, erat tortor sollicitudin mi, sit amet lobortis sapien sapien non mi.', 1668, 2, 21, 0, 0, 0);
 insert into books (id, pub_date, is_bestseller, slug, title, image, description, price, discount, author_id, users_buy_book, users_added_book_to_cart, users_postponed_book) values (3, '2015/10/26', 0, 'book-njr-794', 'Patton', 'http://dummyimage.com/303x315.png/dddddd/000000', 'Nullam varius. Nulla facilisi. Cras non velit nec nisi vulputate nonummy. Maecenas tincidunt lacus at velit. Vivamus vel nulla eget eros elementum pellentesque. Quisque porta volutpat erat.', 2452, 4, 14, 17, 18, 1);
@@ -71,6 +73,7 @@ insert into books (id, pub_date, is_bestseller, slug, title, image, description,
 insert into books (id, pub_date, is_bestseller, slug, title, image, description, price, discount, author_id, users_buy_book, users_added_book_to_cart, users_postponed_book) values (49, '2015/10/10', 1, 'book-tyh-547', 'See You in the Morning', 'http://dummyimage.com/298x269.png/ff4444/ffffff', 'Maecenas tristique, est et tempus semper, est quam pharetra magna, ac consequat metus sapien ut nunc. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Mauris viverra diam vitae quam. Suspendisse potenti. Nullam porttitor lacus at turpis. Donec posuere metus vitae ipsum. Aliquam non mauris.', 2197, 4, 16, 0, 0, 0);
 insert into books (id, pub_date, is_bestseller, slug, title, image, description, price, discount, author_id, users_buy_book, users_added_book_to_cart, users_postponed_book) values (50, '2011/02/23', 0, 'book-prj-306', 'Proposition, The', 'http://dummyimage.com/534x457.png/5fa2dd/ffffff', 'Pellentesque eget nunc. Donec quis orci eget orci vehicula condimentum. Curabitur in libero ut massa volutpat convallis. Morbi odio odio, elementum eu, interdum eu, tincidunt in, leo. Maecenas pulvinar lobortis est.', 1785, 5, 5, 16, 7, 8);
 
+--tags
 insert into tags (id, tag_name) values (1, 'cовременная литература');
 insert into tags (id, tag_name) values (2, 'классическая литература');
 insert into tags (id, tag_name) values (3, 'зарубежная литература');
@@ -121,6 +124,7 @@ insert into tags (id, tag_name) values (47, 'флэшмоб 2015');
 insert into tags (id, tag_name) values (48, 'биография');
 insert into tags (id, tag_name) values (49, 'english');
 
+--book2Tag
 insert into book2tag (id, book_id, tag_id) values (1, 1, 1);
 insert into book2tag (id, book_id, tag_id) values (2, 2, 2);
 insert into book2tag (id, book_id, tag_id) values (3, 3, 3);
@@ -170,3 +174,77 @@ insert into book2tag (id, book_id, tag_id) values (46, 46, 4);
 insert into book2tag (id, book_id, tag_id) values (47, 47, 4);
 insert into book2tag (id, book_id, tag_id) values (48, 48, 4);
 insert into book2tag (id, book_id, tag_id) values (49, 49, 4);
+
+--genre
+insert into genre (id, parent_id, slug, name) values (1, 0, '1', 'Легкое чтение');
+    insert into genre (id, parent_id, slug, name) values (2, 1, '21', 'Фантастика');
+    insert into genre (id, parent_id, slug, name) values (3, 1, '31', 'Боевики');
+    insert into genre (id, parent_id, slug, name) values (4, 1, '41', 'Детевтивы');
+        insert into genre (id, parent_id, slug, name) values (5, 4, '54', 'Триллер');
+        insert into genre (id, parent_id, slug, name) values (6, 4, '64', 'Крутой детектив');
+        insert into genre (id, parent_id, slug, name) values (7, 4, '74', 'Иронический детектив');
+        insert into genre (id, parent_id, slug, name) values (8, 4, '84', 'Про маньяков');
+        insert into genre (id, parent_id, slug, name) values (9, 4, '94', 'Шпионский детектив');
+        insert into genre (id, parent_id, slug, name) values (10, 4, '104', 'Криминальный детектив');
+        insert into genre (id, parent_id, slug, name) values (11, 4, '114', 'Классический детектив');
+        insert into genre (id, parent_id, slug, name) values (12, 4, '124', 'Политический детектив');
+    insert into genre (id, parent_id, slug, name) values (13, 1, '131', 'Фэнтези');
+    insert into genre (id, parent_id, slug, name) values (14, 1, '141', 'Романы');
+    insert into genre (id, parent_id, slug, name) values (15, 1, '151', 'Ужасы');
+    insert into genre (id, parent_id, slug, name) values (16, 1, '161', 'Приключения');
+insert into genre (id, parent_id, slug, name) values (17, 0 , '17', 'Серьезное чтение');
+    insert into genre (id, parent_id, slug, name) values (18, 17, '1817', 'Биографии');
+insert into genre (id, parent_id, slug, name) values (19, 0 , '19', 'Деловая литература');
+    insert into genre (id, parent_id, slug, name) values (20, 19, '2019', 'Деловая литература');
+    insert into genre (id, parent_id, slug, name) values (21, 19, '2119', 'Управление экономикой');
+    insert into genre (id, parent_id, slug, name) values (22, 19, '2219', 'Карьера');
+    insert into genre (id, parent_id, slug, name) values (23, 19, '2319', 'Маркетинг, PR, реклама');
+    insert into genre (id, parent_id, slug, name) values (24, 19, '2419', 'Финансы');
+    insert into genre (id, parent_id, slug, name) values (25, 19, '2519', 'Бизнес-справочники');
+    insert into genre (id, parent_id, slug, name) values (26, 19, '2619', 'Личные финансы');
+    insert into genre (id, parent_id, slug, name) values (27, 19, '2719', 'Менеджмент');
+    insert into genre (id, parent_id, slug, name) values (28, 19, '2819', 'Зарубежная деловая литература');
+    insert into genre (id, parent_id, slug, name) values (29, 19, '2919', 'Личная эффективность');
+    insert into genre (id, parent_id, slug, name) values (30, 19, '3019', 'Тайм-менеджмент');
+insert into genre (id, parent_id, slug, name) values (31, 0 , '31', 'Драматургия');
+    insert into genre (id, parent_id, slug, name) values (32, 31, '3231', 'Античная драма');
+    insert into genre (id, parent_id, slug, name) values (33, 31, '3331', 'Комедия');
+    insert into genre (id, parent_id, slug, name) values (34, 31, '3431', 'Сценарий');
+    insert into genre (id, parent_id, slug, name) values (35, 31, '3531', 'Драма, пьеса');
+
+--book2genre
+insert into book2genre (id, book_id, genre_id) values (1, 1, 1);
+insert into book2genre (id, book_id, genre_id) values (2, 2, 2);
+insert into book2genre (id, book_id, genre_id) values (3, 3, 3);
+insert into book2genre (id, book_id, genre_id) values (4, 4, 4);
+insert into book2genre (id, book_id, genre_id) values (5, 5, 6);
+insert into book2genre (id, book_id, genre_id) values (6, 6, 6);
+insert into book2genre (id, book_id, genre_id) values (7, 7, 6);
+insert into book2genre (id, book_id, genre_id) values (8, 8, 6);
+insert into book2genre (id, book_id, genre_id) values (9, 9, 6);
+insert into book2genre (id, book_id, genre_id) values (10, 10, 1);
+insert into book2genre (id, book_id, genre_id) values (11, 11, 1);
+insert into book2genre (id, book_id, genre_id) values (12, 12, 1);
+insert into book2genre (id, book_id, genre_id) values (13, 13, 1);
+insert into book2genre (id, book_id, genre_id) values (14, 14, 1);
+insert into book2genre (id, book_id, genre_id) values (15, 15, 1);
+insert into book2genre (id, book_id, genre_id) values (16, 16, 1);
+insert into book2genre (id, book_id, genre_id) values (17, 17, 1);
+insert into book2genre (id, book_id, genre_id) values (18, 18, 1);
+insert into book2genre (id, book_id, genre_id) values (19, 19, 1);
+insert into book2genre (id, book_id, genre_id) values (20, 20, 2);
+insert into book2genre (id, book_id, genre_id) values (21, 21, 2);
+insert into book2genre (id, book_id, genre_id) values (22, 22, 2);
+insert into book2genre (id, book_id, genre_id) values (23, 23, 2);
+insert into book2genre (id, book_id, genre_id) values (24, 24, 2);
+insert into book2genre (id, book_id, genre_id) values (25, 25, 2);
+insert into book2genre (id, book_id, genre_id) values (26, 26, 26);
+insert into book2genre (id, book_id, genre_id) values (27, 27, 27);
+insert into book2genre (id, book_id, genre_id) values (28, 28, 28);
+insert into book2genre (id, book_id, genre_id) values (29, 29, 29);
+insert into book2genre (id, book_id, genre_id) values (30, 30, 3);
+insert into book2genre (id, book_id, genre_id) values (31, 31, 3);
+insert into book2genre (id, book_id, genre_id) values (32, 32, 1);
+insert into book2genre (id, book_id, genre_id) values (33, 33, 1);
+insert into book2genre (id, book_id, genre_id) values (34, 34, 1);
+insert into book2genre (id, book_id, genre_id) values (35, 35, 35);
