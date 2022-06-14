@@ -36,7 +36,7 @@ public class TagController {
                                   Model model) {
         model.addAttribute("tagPhraseDto", tagDto);
         model.addAttribute("tagByTagId", tagService.getTagByTagId(tagDto.getIntId()));
-        model.addAttribute("searchResult", tagService.getBooksByTagId(tagDto.getIntId(), 0, 5).getContent());
+        model.addAttribute("searchResult", tagService.getBooksByTagId(tagDto.getIntId(), 0, 10).getContent());
 
         return "/tags/index";
     }
