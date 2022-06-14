@@ -29,7 +29,7 @@
                     <div class="Tags-title">
                         <div class="Tag">
                             <a th:href="@{/genres/slug/{slugInd}(slugInd=${#strings.toLowerCase(genre.slug)})}"
-                               th:text="${genre.name}">Название жанра<span class="undefined-amount">(15638)</span></a>
+                               th:text="${genre.name + ' (' + genre.genre2Books.size()+')'}">Название жанра<span class="undefined-amount">(15638)</span></a>
                         </div>
                     </div>
                 </div>
