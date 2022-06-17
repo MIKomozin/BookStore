@@ -1,5 +1,7 @@
 package com.example.MyBookShopApp.data.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.util.List;
 
@@ -22,8 +24,10 @@ public class Author {
     @Column(columnDefinition = "TEXT")
     private String description;
 
+    //3
     @OneToMany(mappedBy = "author")
-    List<Book> bookList;
+    @JsonIgnore
+    List<Book2Author> author2Books;
 
     public Integer getId() {
         return id;
@@ -65,11 +69,11 @@ public class Author {
         this.description = description;
     }
 
-    public List<Book> getBookList() {
-        return bookList;
+    public List<Book2Author> getAuthor2Books() {
+        return author2Books;
     }
 
-    public void setBookList(List<Book> bookList) {
-        this.bookList = bookList;
+    public void setAuthor2Books(List<Book2Author> author2Books) {
+        this.author2Books = author2Books;
     }
 }

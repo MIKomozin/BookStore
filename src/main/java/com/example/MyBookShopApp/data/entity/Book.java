@@ -49,11 +49,6 @@ public class Book {
     @ApiModelProperty("discount value for book")
     private byte discount;
 
-    @ManyToOne
-    @JoinColumn(name = "author_id", referencedColumnName = "id")
-    @JsonIgnore
-    private Author author;
-
     //2.2
     @Column(name = "users_buy_book", columnDefinition = "INT NOT NULL DEFAULT 0")
     @ApiModelProperty("number of users bought this book")
@@ -76,6 +71,11 @@ public class Book {
     @OneToMany(mappedBy = "book")
     @JsonIgnore
     List<Book2Genre> book2Genres;
+
+    //3
+    @OneToMany(mappedBy = "book")
+    @JsonIgnore
+    List<Book2Author> book2Authors;
 
     public Integer getId() {
         return id;
@@ -149,14 +149,6 @@ public class Book {
         this.discount = discount;
     }
 
-    public Author getAuthor() {
-        return author;
-    }
-
-    public void setAuthor(Author author) {
-        this.author = author;
-    }
-
     public Integer getUsersBuyBook() {
         return usersBuyBook;
     }
@@ -195,5 +187,13 @@ public class Book {
 
     public void setBook2Genres(List<Book2Genre> book2Genres) {
         this.book2Genres = book2Genres;
+    }
+
+    public List<Book2Author> getBook2Authors() {
+        return book2Authors;
+    }
+
+    public void setBook2Authors(List<Book2Author> book2Authors) {
+        this.book2Authors = book2Authors;
     }
 }

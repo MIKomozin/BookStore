@@ -25,17 +25,19 @@ public class BookService {
         return bookRepository.findAll();
     }
 
-//NEW BOOK SERVICE METHODS
+    //NEW BOOK SERVICE METHODS
 
     public List<Book> getBooksByAuthor(String authorName) {
-        return bookRepository.findBooksByAuthorNameContaining(authorName);
+        String container = "%"+authorName+"%";
+        return bookRepository.findBooksByAuthorNameContaining(container);
     }
+
 
     public List<Book> getBooksByTitle(String title) {
         return bookRepository.findBooksByTitleContaining(title);
     }
 
-    public List<Book> getBooksWithPriceBetween (Integer min, Integer max) {
+    public List<Book> getBooksWithPriceBetween(Integer min, Integer max) {
         return bookRepository.findBooksByPriceBetween(min, max);
     }
 
