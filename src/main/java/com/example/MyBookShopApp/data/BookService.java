@@ -93,4 +93,8 @@ public class BookService {
         return bookRepository.findBooksByPubDateBefore(to, nextPage);
     }
 
+    public Book getBookBySlug(String slug) {
+        return bookRepository.findBooksBySlug(slug);
+    }
+
 }

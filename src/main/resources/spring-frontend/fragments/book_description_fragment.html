@@ -2,10 +2,12 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <div class="ProductCard-desc" th:fragment="bookDesc">
     <div class="ProductCard-header">
-        <h1 class="ProductCard-title">Мара и морок
+        <h1 class="ProductCard-title" th:text="${slugBook.title}">Название книги
         </h1>
-        <div class="ProductCard-author"><span class="ProductCard-titleProp">Автор:</span>&#32;<a
-                href="#">Лия Арден</a>
+        <span class="ProductCard-titleProp">Автор(-ы):</span>&#32;
+        <div class="ProductCard-author" th:each="bta : ${slugBook.book2Authors}">
+            <a href="#"
+               th:text="${bta.author.name}">Имена автора(-ов)</a>
         </div>
         <div class="ProductCard-rating"><span class="ProductCard-titleProp">Рейтинг:</span>
             <button class="trigger trigger_dropdown" type="button">
@@ -324,12 +326,14 @@
         <div class="ProductCard-tags"><span class="ProductCard-titleProp">Тэги:</span><a
                 href="/tags/">Современные</a>,&#32;<a href="/tags/">Психологическая проза</a>
         </div>
-        <div class="ProductCard-cost"><span class="ProductCard-titleProp">Цена:</span><span
-                class="ProductCard-priceOld">₽300</span><span class="ProductCard-price">₽180</span>
+        <div class="ProductCard-cost">
+            <span class="ProductCard-titleProp">Цена:</span>
+            <span class="ProductCard-priceOld" th:text="${slugBook.price}">Обычная цена</span>
+            <span class="ProductCard-price" th:text="${slugBook.discountPrice()}">Цена со скидкой</span>
         </div>
     </div>
     <div class="ProductCard-text">
-        <p>Таких, как я, называют Марами - отмеченными самой богиней смерти Мораной. Когда-то у меня
+        <p th:text="${slugBook.description}">Таких, как я, называют Марами - отмеченными самой богиней смерти Мораной. Когда-то у меня
             и моих шести сестер был свой путь. Тогда люди нас уважали и просили о милосердии. Они
             приносили нам подношения и молились нам. Но 200 лет назад все изменилось, когда принц
             Серата осмелился поднять руку на одну из нас. Я пыталась отомстить, но погибли мы все.

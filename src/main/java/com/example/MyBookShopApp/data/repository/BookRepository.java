@@ -70,4 +70,7 @@ public interface BookRepository extends JpaRepository<Book, Integer> {
 
     @Query(value = "SELECT count(*) FROM book2author WHERE author_id = ?1", nativeQuery = true)
     Integer findNumberOfBooksByAuthorId(Integer authorId);
+
+    //modul7
+    Book findBooksBySlug(String slug);
 }

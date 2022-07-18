@@ -1,12 +1,15 @@
 package com.example.MyBookShopApp.data.entity;
 
+import com.fasterxml.jackson.annotation.JsonGetter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
 import javax.persistence.*;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Entity
 @Table(name = "books")
@@ -43,6 +46,7 @@ public class Book {
 
     @Column(columnDefinition = "INT NOT NULL")
     @ApiModelProperty("book price without discount")
+    @JsonProperty("price")
     private Integer price;
 
     @Column(columnDefinition = "SMALLINT NOT NULL DEFAULT 0")
@@ -76,6 +80,26 @@ public class Book {
     @OneToMany(mappedBy = "book")
     @JsonIgnore
     List<Book2Author> book2Authors;
+
+    //modul7
+
+    @JsonProperty
+    public Integer discountPrice() {
+        Integer discountPrice = price - Math.toIntExact(Math.round(price*discount/100));
+        return discountPrice;
+    }
+
+    @JsonProperty("authors")
+    public String authorsFullName() {
+        String authorsFullName = book2Authors.stream()
+                .map(Book2Author::getAuthor)
+                .map(Author::getName)
+                .collect(Collectors.joining("\n", "", ""));
+        if (authorsFullName.length()!=0) {
+            return authorsFullName;
+        } else
+            return "";
+    }
 
     public Integer getId() {
         return id;
