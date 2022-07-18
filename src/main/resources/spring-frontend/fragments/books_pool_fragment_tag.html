@@ -13,7 +13,7 @@
                 <strong class="Card-title">
                     <a href="#" th:text="${book.title}"></a>
                 </strong>
-                <div class="Card-description" th:each="bta : ${book.bookToAuthors}">
+                <div class="Card-description" th:each="bta : ${book.book2Authors}">
                     <span class="Card-description" th:text="${bta.author.name}">Имя и фамилия автора</span>
                 </div>
                 <div class="Card-cost" th:if="${book.discount != 0}">
