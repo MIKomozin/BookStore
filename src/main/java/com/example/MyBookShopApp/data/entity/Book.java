@@ -7,6 +7,7 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -82,7 +83,6 @@ public class Book {
     List<Book2Author> book2Authors;
 
     //modul7
-
     @JsonProperty
     public Integer discountPrice() {
         Integer discountPrice = price - Math.toIntExact(Math.round(price*discount/100));
@@ -100,6 +100,10 @@ public class Book {
         } else
             return "";
     }
+
+    @OneToMany(mappedBy = "book")
+    @JsonIgnore
+    private List<BookFile> bookFileList = new ArrayList<>();
 
     public Integer getId() {
         return id;
@@ -219,5 +223,13 @@ public class Book {
 
     public void setBook2Authors(List<Book2Author> book2Authors) {
         this.book2Authors = book2Authors;
+    }
+
+    public List<BookFile> getBookFileList() {
+        return bookFileList;
+    }
+
+    public void setBookFileList(List<BookFile> bookFileList) {
+        this.bookFileList = bookFileList;
     }
 }

@@ -34,5 +34,21 @@
             </button>
         </div>
     </div>
+
+    <div id="myPopup">
+        <p>Ссылки для скачивания</p>
+        <div th:each="bookFile : ${slugBook.getBookFileList()}">
+            <a href="#" th:href="'/books/download/' + ${bookFile.hash}"
+               th:text="${bookFile.getBookFileExtensionString()}"></a>
+        </div>
+        <span id="myPopup__close" class="close">х</span>
+    </div>
+
+    <div id="myOverlay"></div>
+    <!--+div.-cart-->
+    <!--    //+div.-cartElement.-cartElement_amount-->
+    <!--    //    +Amount._product-->
+    <!--    +div.-cartElement-->
+    <!--        +btn('button')(data-sendstatus='UNLINK' data-bookid="[1111]")._muted Вернуть из архива-->
 </div>
 </html>

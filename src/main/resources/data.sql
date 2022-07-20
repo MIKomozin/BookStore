@@ -282,3 +282,8 @@ insert into book2author (id, author_id, book_id, sort_index) values (29, 8, 29, 
 insert into book2author (id, author_id, book_id, sort_index) values (30, 20, 30, 30);
 insert into book2author (id, author_id, book_id, sort_index) values (31, 5, 10, 31);
 insert into book2author (id, author_id, book_id, sort_index) values (32, 18, 10, 32);
+
+--book_file
+insert into book_file (id, hash, type_id, path, book_id) values (1, 'fsdl342ladads76432', 1, '/King_of_Kings.pdf', 1);
+insert into book_file (id, hash, type_id, path, book_id) values (2, 'asdl35436dads34235', 2, '/King_of_Kings.epub', 1);
+insert into book_file (id, hash, type_id, path, book_id) values (3, 'qwer342lafdss34123', 3, '/King_of_Kings.fb2', 1);
