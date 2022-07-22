@@ -4,6 +4,7 @@ import com.example.MyBookShopApp.data.entity.Book;
 import com.example.MyBookShopApp.data.BookService;
 import com.example.MyBookShopApp.data.dto.BooksPageDto;
 import com.example.MyBookShopApp.data.dto.SearchWordDto;
+import com.example.MyBookShopApp.errs.EmptySearchException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -47,11 +48,15 @@ public class SearchController {
 
     @GetMapping(value = {"/search", "/search/{searchWord}"})
     public String getSearchResult(@PathVariable(value = "searchWord", required = false) SearchWordDto searchWordDto,
-                                  Model model) {
-        model.addAttribute("searchWordDto", searchWordDto);
-        model.addAttribute("searchResult",
-                bookService.getPageOfSearchResultBooks(searchWordDto.getExample(), 0, 5).getContent());
-        return "/search/index";
+                                  Model model) throws EmptySearchException {
+        if (searchWordDto != null) {
+            model.addAttribute("searchWordDto", searchWordDto);
+            model.addAttribute("searchResult",
+                    bookService.getPageOfSearchResultBooks(searchWordDto.getExample(), 0, 5).getContent());
+            return "/search/index";
+        } else {
+            throw new EmptySearchException("Поиск по пустой строке невозможен");
+        }
     }
 
     @GetMapping("/search/page/{searchWord}")
