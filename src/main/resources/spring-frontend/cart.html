@@ -24,7 +24,7 @@
         <main class="Middle-main">
             <h1 class="Middle-title">Корзина
             </h1>
-            <h3 th:if="${isCartEmpty}"> Cart is empty</h3>
+            <h3 th:if="${isCartEmpty}"> Корзина пуста</h3>
             <form class="form Cart" action="#" method="post">
                 <div class="Cart-product" th:each="book : ${bookCart}">
                     <div class="Cart-block Cart-block_row">
@@ -35,9 +35,9 @@
                         </div>
                         <div class="Cart-block Cart-block_row">
                             <div class="Cart-block Cart-block_info">
-                                <div class="Cart-author" th:each="bta : ${book.book2Authors}"><a href="#" th:text="${bta.author.name}">Борис Васильевич Бедный</a>
+                                <div class="Cart-author" th:each="bta : ${book.book2Authors}"><a href="#" th:text="${bta.author.name}">Имена авторов</a>
                                 </div>
-                                <div class="Cart-title"><a href="#" th:text="${book.title}">Жизнь</a>
+                                <div class="Cart-title"><a href="#" th:text="${book.title}">Название книги</a>
                                 </div>
                                 <div class="Cart-rating"><span class="Rating"><span class="Rating-stars"><span
                                         class="Rating-star Rating-star_view">
@@ -85,6 +85,7 @@
                                 <div class="Cart-buttons">
                                     <div class="Cart-btn">
                                         <button class="btn btn_primary btn_outline" data-sendstatus="KEPT"
+                                                th:attr="data-bookid = 'postponed/' + ${book.slug}"
                                                 data-bookid="[1122]"><span class="btn-icon"><img
                                                 src="/assets/img/icons/heart.svg" alt="heart.svg"/></span><span
                                                 class="btn-content">Отложить</span>
@@ -107,7 +108,7 @@
                                 </div>
                                 <div class="Cart-price" th:text="${book.discountPrice()} + '₽'">100 р.
                                 </div>
-                                <div class="Cart-sale" th:text="${book.discount} + '%'">-30%
+                                <div class="Cart-sale" th:text="'-' + ${book.discount} + '%'">-30%
                                 </div>
                             </div>
                         </div>
@@ -116,7 +117,8 @@
                 <div class="Cart-total">
                     <div class="Cart-block Cart-block_total">
                         <strong class="Cart-title">Итого:
-                        </strong><span class="Cart-price">534 р.</span><span class="Cart-price_old">658 р.</span>
+                        </strong><span class="Cart-price" th:text="${sumDiscountPrice} + '₽'">Цена со скидкой</span>
+                        <span class="Cart-price_old" th:text="${sumPrice} + '₽'">Цена без скидки</span>
                     </div>
                     <div class="Cart-block"><a class="btn btn_success btn_md" href="/order.html">Купить</a>
                     </div>

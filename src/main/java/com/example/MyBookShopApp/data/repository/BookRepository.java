@@ -11,11 +11,6 @@ import java.util.List;
 
 public interface BookRepository extends JpaRepository<Book, Integer> {
 
-    //NEW BOOK REST REPOSITORY
-    /*
-    List<Book> findBooksByAuthorNameContaining(String authorFullName);
-    */
-
     @Query(value = "SELECT books.id AS id, pub_date, is_bestseller, books.slug AS slug, title, image, books.description AS description, price, discount, users_buy_book, users_added_book_to_cart, users_postponed_book FROM books JOIN book2author ON books.id = book_id JOIN authors ON author_id = authors.id WHERE name LIKE ?1",
             nativeQuery = true)
     List<Book> findBooksByAuthorNameContaining(String authorFullName);
@@ -75,4 +70,7 @@ public interface BookRepository extends JpaRepository<Book, Integer> {
     Book findBooksBySlug(String slug);
 
     List<Book> findBooksBySlugIn(String[] slugs);
+
+
+
 }

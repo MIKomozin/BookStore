@@ -33,7 +33,6 @@ public class BookService {
         return bookRepository.findBooksByAuthorNameContaining(container);
     }
 
-
     public List<Book> getBooksByTitle(String title) throws BookStoreApiWrongParameterException {
         if (title.equals("") || title.length() <= 1) {
             throw new BookStoreApiWrongParameterException("Wrong values passed to one or more parameters");
@@ -107,4 +106,24 @@ public class BookService {
         return bookRepository.findBooksBySlug(slug);
     }
 
+    //modul7 task 1
+    public List<Book> getBooksBySlugIn(String[] slugs) {
+        return bookRepository.findBooksBySlugIn(slugs);
+    }
+
+    public Integer getPriceOfAllBooks(List<Book> books) {
+        Integer sumPrice = 0;
+        for (Book book:books) {
+            sumPrice = sumPrice + book.getPrice();
+        }
+        return sumPrice;
+    }
+
+    public Integer getDiscountPriceOfAllBooks(List<Book> books) {
+        Integer sumDiscountPrice = 0;
+        for (Book book:books) {
+            sumDiscountPrice = sumDiscountPrice + book.discountPrice();
+        }
+        return sumDiscountPrice;
+    }
 }

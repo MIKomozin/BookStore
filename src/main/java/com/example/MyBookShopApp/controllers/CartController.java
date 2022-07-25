@@ -1,7 +1,7 @@
 package com.example.MyBookShopApp.controllers;
 
+import com.example.MyBookShopApp.data.BookService;
 import com.example.MyBookShopApp.data.entity.Book;
-import com.example.MyBookShopApp.data.repository.BookRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -17,11 +17,11 @@ import java.util.StringJoiner;
 @Controller
 public class CartController {
 
-    private final BookRepository bookRepository;
+    private final BookService bookService;
 
     @Autowired
-    public CartController(BookRepository bookRepository) {
-        this.bookRepository = bookRepository;
+    public CartController(BookService bookService) {
+        this.bookService = bookService;
     }
 
     @ModelAttribute(name = "bookCart")
@@ -39,8 +39,10 @@ public class CartController {
             cartContents = cartContents.startsWith("/") ? cartContents.substring(1) : cartContents;
             cartContents = cartContents.endsWith("/") ? cartContents.substring(0, cartContents.length() - 1) : cartContents;
             String[] cookieSlugs = cartContents.split("/");
-            List<Book> booksFromCookiesSlug = bookRepository.findBooksBySlugIn(cookieSlugs);
+            List<Book> booksFromCookiesSlug = bookService.getBooksBySlugIn(cookieSlugs);
             model.addAttribute("bookCart", booksFromCookiesSlug);
+            model.addAttribute("sumPrice", bookService.getPriceOfAllBooks(booksFromCookiesSlug));
+            model.addAttribute("sumDiscountPrice", bookService.getDiscountPriceOfAllBooks(booksFromCookiesSlug));
         }
         return "cart";
     }
