@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.Date;
 import java.util.List;
+import java.util.logging.Logger;
 
 @Service
 public class BookService {
@@ -106,6 +107,10 @@ public class BookService {
         return bookRepository.findBooksBySlug(slug);
     }
 
+    public Book save(Book book) {
+        return bookRepository.save(book);
+    }
+
     //modul7 task 1
     public List<Book> getBooksBySlugIn(String[] slugs) {
         return bookRepository.findBooksBySlugIn(slugs);
@@ -125,5 +130,41 @@ public class BookService {
             sumDiscountPrice = sumDiscountPrice + book.discountPrice();
         }
         return sumDiscountPrice;
+    }
+
+    public Integer getRatingBookBySlug(String slug) {
+        Integer sumRating = bookRepository.findSumRatingBookBySlug(slug); //суммарный рейтинг книги как произведение кол-ва пользователей на кол-во выбранных звезд
+        Integer numberOfUsers = bookRepository.findNumberOfUsersGiveRatingBookBySlug(slug); //суммарное кол-во пользователей поставивших рейтинг
+        if (sumRating == null || numberOfUsers == null || numberOfUsers == 0) {
+            return 0;
+        } else {
+            Integer rating = Math.toIntExact(Math.round(Double.valueOf(sumRating) / numberOfUsers));
+            return rating;
+            //Logger.getLogger(this.getClass().getSimpleName()).info("суммарный рейтинг: " + sumRating);
+            //Logger.getLogger(this.getClass().getSimpleName()).info("число пользователей " + numberOfUsers);
+            //Logger.getLogger(this.getClass().getSimpleName()).info("рейтинг в звездах: " + rating);
+        }
+    }
+
+    public Integer getSumRatingBookBySlug(String slug) {
+        Integer sumRating = bookRepository.findSumRatingBookBySlug(slug); //суммарный рейтинг книги как произведение кол-ва пользователей на кол-во выбранных звезд
+        if (sumRating == null) {
+            return 0;
+        } else {
+            return sumRating;
+        }
+    }
+
+    public Integer getNumberOfUsersBookBySlugAndByNumberOfStars(String slug, Integer numberOfStars) {
+        Integer numberOfUsersByStars = bookRepository.findNumberOfUsersBookBySlugAndByNumberOfStars(slug, numberOfStars);
+        if (numberOfUsersByStars == null) {
+            return 0;
+        } else {
+            return numberOfUsersByStars;
+        }
+    }
+
+    public Book getBookById(Integer id) {
+        return bookRepository.findBooksById(id);
     }
 }

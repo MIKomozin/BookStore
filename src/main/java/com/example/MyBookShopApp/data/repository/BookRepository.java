@@ -71,6 +71,15 @@ public interface BookRepository extends JpaRepository<Book, Integer> {
 
     List<Book> findBooksBySlugIn(String[] slugs);
 
+    //modul7_task2
+    @Query(value = "SELECT SUM (rating_star*number_of_users) FROM book_rating JOIN books ON book_id = books.id WHERE books.slug=?1", nativeQuery = true)
+    Integer findSumRatingBookBySlug(String slug);
 
+    @Query(value = "SELECT SUM (number_of_users) FROM book_rating JOIN books ON book_id = books.id WHERE books.slug=?1", nativeQuery = true)
+    Integer findNumberOfUsersGiveRatingBookBySlug(String slug);
 
+    @Query(value = "SELECT number_of_users FROM book_rating JOIN books ON book_id = books.id WHERE books.slug=?1 AND rating_star=?2", nativeQuery = true)
+    Integer findNumberOfUsersBookBySlugAndByNumberOfStars(String slug, Integer NumberOfStars);
+
+    Book findBooksById(Integer id);
 }

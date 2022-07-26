@@ -9,7 +9,7 @@ public class Book2Genre {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Integer id;
 
     @Id
     @ManyToOne

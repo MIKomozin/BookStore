@@ -105,6 +105,10 @@ public class Book {
     @JsonIgnore
     private List<BookFile> bookFileList = new ArrayList<>();
 
+    //modul7_task2
+    @OneToMany(mappedBy = "book")
+    private List<BookRating> bookRatings;
+
     public Integer getId() {
         return id;
     }
@@ -231,5 +235,13 @@ public class Book {
 
     public void setBookFileList(List<BookFile> bookFileList) {
         this.bookFileList = bookFileList;
+    }
+
+    public List<BookRating> getBookRatings() {
+        return bookRatings;
+    }
+
+    public void setBookRatings(List<BookRating> bookRatings) {
+        this.bookRatings = bookRatings;
     }
 }

@@ -1,7 +1,11 @@
 package com.example.MyBookShopApp.controllers;
 
+import com.example.MyBookShopApp.data.BookRatingService;
+import com.example.MyBookShopApp.data.BookService;
 import com.example.MyBookShopApp.data.ResourceStorage;
 import com.example.MyBookShopApp.data.entity.Book;
+import com.example.MyBookShopApp.data.entity.BookRating;
+import com.example.MyBookShopApp.data.repository.BookRatingRepository;
 import com.example.MyBookShopApp.data.repository.BookRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ByteArrayResource;
@@ -15,26 +19,35 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.nio.file.Path;
+import java.util.List;
 import java.util.logging.Logger;
 
 @Controller
 @RequestMapping("/books")
 public class BooksController {
 
-    private final BookRepository bookRepository;
+    private final BookService bookService;
     private final ResourceStorage storage;
+    private final BookRatingService bookRatingService;
 
     @Autowired
-    public BooksController(BookRepository bookRepository, ResourceStorage storage) {
-        this.bookRepository = bookRepository;
+    public BooksController(BookService bookService, ResourceStorage storage, BookRatingService bookRatingService) {
+        this.bookService = bookService;
         this.storage = storage;
+        this.bookRatingService = bookRatingService;
     }
-
 
     @GetMapping("/{slug}")
     public String bookPage(@PathVariable("slug") String slug, Model model) {
-        Book book = bookRepository.findBooksBySlug(slug);
+        Book book = bookService.getBookBySlug(slug);
         model.addAttribute("slugBook", book);
+        model.addAttribute("bookRating", bookService.getRatingBookBySlug(slug));
+        model.addAttribute("sumRating", bookService.getSumRatingBookBySlug(slug));
+        model.addAttribute("oneStar", bookService.getNumberOfUsersBookBySlugAndByNumberOfStars(slug, 1));
+        model.addAttribute("twoStars", bookService.getNumberOfUsersBookBySlugAndByNumberOfStars(slug, 2));
+        model.addAttribute("threeStars", bookService.getNumberOfUsersBookBySlugAndByNumberOfStars(slug, 3));
+        model.addAttribute("fourStars", bookService.getNumberOfUsersBookBySlugAndByNumberOfStars(slug, 4));
+        model.addAttribute("fiveStars", bookService.getNumberOfUsersBookBySlugAndByNumberOfStars(slug, 5));
         return "/books/slug";
     }
 
@@ -42,9 +55,9 @@ public class BooksController {
     public String saveNewBooksImage(@RequestParam("file")MultipartFile file, @PathVariable("slug") String slug) throws IOException {
 
         String savePath = storage.saveNewBookImage(file, slug);
-        Book bookToUpdate = bookRepository.findBooksBySlug(slug);
+        Book bookToUpdate = bookService.getBookBySlug(slug);
         bookToUpdate.setImage(savePath);
-        bookRepository.save(bookToUpdate); //save new image for book in db
+        bookService.save(bookToUpdate); //save new image for book in db
 
         return "redirect:/books/" + slug;
     }
@@ -66,4 +79,18 @@ public class BooksController {
                 .contentLength(data.length)
                 .body(new ByteArrayResource(data));
     }
+
+    //modul7_task2
+    @PostMapping("/changeBookStatus")
+    public String changeRatingBook(@RequestParam("value") String value, @RequestParam("bookId") String bookId) {
+        Integer ratingStar = Integer.parseInt(value);
+        Integer bookIdInt= Integer.parseInt(bookId);
+        bookRatingService.changeDataBaseBookRating(ratingStar, bookIdInt);
+        String slug = bookService.getBookById(Integer.parseInt(bookId)).getSlug();
+        //Logger.getLogger(this.getClass().getSimpleName()).info("bookId: " + bookId);
+        //Logger.getLogger(this.getClass().getSimpleName()).info("value: " + value);
+        return "redirect:/books/" + slug;
+    }
+
+
 }
