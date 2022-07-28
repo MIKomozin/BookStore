@@ -1,13 +1,11 @@
 package com.example.MyBookShopApp.data;
 
-import com.example.MyBookShopApp.data.entity.Book;
 import com.example.MyBookShopApp.data.entity.BookRating;
 import com.example.MyBookShopApp.data.repository.BookRatingRepository;
 import com.example.MyBookShopApp.data.repository.BookRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 import java.util.logging.Logger;
 
 @Service

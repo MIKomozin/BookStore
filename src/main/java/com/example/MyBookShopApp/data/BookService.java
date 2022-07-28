@@ -167,4 +167,8 @@ public class BookService {
     public Book getBookById(Integer id) {
         return bookRepository.findBooksById(id);
     }
+
+    public Integer getBookIdByReviewId(Integer reviewId) {
+        return bookRepository.findBookIdByReviewId(reviewId);
+    }
 }

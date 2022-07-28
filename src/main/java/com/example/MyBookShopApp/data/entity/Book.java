@@ -107,7 +107,11 @@ public class Book {
 
     //modul7_task2
     @OneToMany(mappedBy = "book")
-    private List<BookRating> bookRatings;
+    private List<BookRating> bookRatingList;
+
+    //modul7_task3
+    @OneToMany(mappedBy = "book")
+    private List<BookReview> bookReviewList;
 
     public Integer getId() {
         return id;
@@ -237,11 +241,20 @@ public class Book {
         this.bookFileList = bookFileList;
     }
 
-    public List<BookRating> getBookRatings() {
-        return bookRatings;
+    public List<BookRating> getBookRatingList() {
+        return bookRatingList;
     }
 
-    public void setBookRatings(List<BookRating> bookRatings) {
-        this.bookRatings = bookRatings;
+    public void setBookRatingList(List<BookRating> bookRatingList) {
+        this.bookRatingList = bookRatingList;
     }
+
+    public List<BookReview> getBookReviewList() {
+        return bookReviewList;
+    }
+
+    public void setBookReviewList(List<BookReview> bookReviewList) {
+        this.bookReviewList = bookReviewList;
+    }
+
 }

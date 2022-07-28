@@ -1,8 +1,7 @@
 package com.example.MyBookShopApp.controllers;
 
-import com.example.MyBookShopApp.data.BookRatingService;
-import com.example.MyBookShopApp.data.BookService;
-import com.example.MyBookShopApp.data.ResourceStorage;
+import com.example.MyBookShopApp.data.*;
+import com.example.MyBookShopApp.data.entity.Author;
 import com.example.MyBookShopApp.data.entity.Book;
 import com.example.MyBookShopApp.data.entity.BookRating;
 import com.example.MyBookShopApp.data.repository.BookRatingRepository;
@@ -29,28 +28,37 @@ public class BooksController {
     private final BookService bookService;
     private final ResourceStorage storage;
     private final BookRatingService bookRatingService;
+    private final BookReviewService bookReviewService;
+    private final BookReviewLikeService bookReviewLikeService;
 
     @Autowired
-    public BooksController(BookService bookService, ResourceStorage storage, BookRatingService bookRatingService) {
+    public BooksController(BookService bookService,
+                           ResourceStorage storage,
+                           BookRatingService bookRatingService,
+                           BookReviewService bookReviewService,
+                           BookReviewLikeService bookReviewLikeService) {
         this.bookService = bookService;
         this.storage = storage;
         this.bookRatingService = bookRatingService;
+        this.bookReviewService = bookReviewService;
+        this.bookReviewLikeService = bookReviewLikeService;
     }
 
-    @GetMapping("/{slug}")
-    public String bookPage(@PathVariable("slug") String slug, Model model) {
-        Book book = bookService.getBookBySlug(slug);
-        model.addAttribute("slugBook", book);
-        model.addAttribute("bookRating", bookService.getRatingBookBySlug(slug));
-        model.addAttribute("sumRating", bookService.getSumRatingBookBySlug(slug));
-        model.addAttribute("oneStar", bookService.getNumberOfUsersBookBySlugAndByNumberOfStars(slug, 1));
-        model.addAttribute("twoStars", bookService.getNumberOfUsersBookBySlugAndByNumberOfStars(slug, 2));
-        model.addAttribute("threeStars", bookService.getNumberOfUsersBookBySlugAndByNumberOfStars(slug, 3));
-        model.addAttribute("fourStars", bookService.getNumberOfUsersBookBySlugAndByNumberOfStars(slug, 4));
-        model.addAttribute("fiveStars", bookService.getNumberOfUsersBookBySlugAndByNumberOfStars(slug, 5));
-        return "/books/slug";
-    }
-
+    /*
+        @GetMapping("/{slug}")
+        public String bookPage(@PathVariable("slug") String slug, Model model) {
+            Book book = bookService.getBookBySlug(slug);
+            model.addAttribute("slugBook", book);
+            model.addAttribute("bookRating", bookService.getRatingBookBySlug(slug));
+            model.addAttribute("sumRating", bookService.getSumRatingBookBySlug(slug));
+            model.addAttribute("oneStar", bookService.getNumberOfUsersBookBySlugAndByNumberOfStars(slug, 1));
+            model.addAttribute("twoStars", bookService.getNumberOfUsersBookBySlugAndByNumberOfStars(slug, 2));
+            model.addAttribute("threeStars", bookService.getNumberOfUsersBookBySlugAndByNumberOfStars(slug, 3));
+            model.addAttribute("fourStars", bookService.getNumberOfUsersBookBySlugAndByNumberOfStars(slug, 4));
+            model.addAttribute("fiveStars", bookService.getNumberOfUsersBookBySlugAndByNumberOfStars(slug, 5));
+            return "/books/slug";
+        }
+    */
     @PostMapping("/{slug}/img/save")
     public String saveNewBooksImage(@RequestParam("file")MultipartFile file, @PathVariable("slug") String slug) throws IOException {
 
@@ -92,5 +100,36 @@ public class BooksController {
         return "redirect:/books/" + slug;
     }
 
+    //modul7_task3
+    //так как авторизацию еще не проходили, то сделаю get-запрос возвращающий ссылку на slugmy
+    @GetMapping("/{slug}")
+    public String bookPage(@PathVariable("slug") String slug, Model model) {
+        Book book = bookService.getBookBySlug(slug);
+        model.addAttribute("slugBook", book);
+        model.addAttribute("bookRating", bookService.getRatingBookBySlug(slug));
+        model.addAttribute("sumRating", bookService.getSumRatingBookBySlug(slug));
+        model.addAttribute("oneStar", bookService.getNumberOfUsersBookBySlugAndByNumberOfStars(slug, 1));
+        model.addAttribute("twoStars", bookService.getNumberOfUsersBookBySlugAndByNumberOfStars(slug, 2));
+        model.addAttribute("threeStars", bookService.getNumberOfUsersBookBySlugAndByNumberOfStars(slug, 3));
+        model.addAttribute("fourStars", bookService.getNumberOfUsersBookBySlugAndByNumberOfStars(slug, 4));
+        model.addAttribute("fiveStars", bookService.getNumberOfUsersBookBySlugAndByNumberOfStars(slug, 5));
+        model.addAttribute("allReviews", bookReviewService.getAllBookReviewsByBookId(book.getId()));
+        return "/books/slugmy";
+    }
+
+    @PostMapping("/bookReview")
+    public String postNewReview(@RequestParam("text") String text, @RequestParam("bookId") String bookId) {
+        bookReviewService.addNewReviewIntoDataBase(text, bookId);
+        String slug = bookService.getBookById(Integer.parseInt(bookId)).getSlug();
+        return "redirect:/books/" + slug;
+    }
+
+    @PostMapping("/rateBookReview")
+    public String rateBookReview(@RequestParam("value") String value, @RequestParam("reviewid") String reviewId) {
+        bookReviewLikeService.addLikeOrDislike(value, reviewId);
+        Integer bookId = bookService.getBookIdByReviewId(Integer.parseInt(reviewId));
+        String slug = bookService.getBookById(bookId).getSlug();
+        return "redirect:/books/" + slug;
+    }
 
 }

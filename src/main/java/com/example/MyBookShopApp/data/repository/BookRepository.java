@@ -82,4 +82,7 @@ public interface BookRepository extends JpaRepository<Book, Integer> {
     Integer findNumberOfUsersBookBySlugAndByNumberOfStars(String slug, Integer NumberOfStars);
 
     Book findBooksById(Integer id);
+
+    @Query(value = "SELECT books.id FROM books JOIN book_review ON books.id=book_id WHERE  book_review.id=?1", nativeQuery = true)
+    Integer findBookIdByReviewId(Integer reviewId);
 }
