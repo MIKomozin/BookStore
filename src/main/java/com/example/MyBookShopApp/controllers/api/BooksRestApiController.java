@@ -64,6 +64,8 @@ public class BooksRestApiController {
         return ResponseEntity.ok(bookService.getBestsellers());
     }
 
+
+    //обработчики исключений для внешнего REST API
     @ExceptionHandler(MissingServletRequestParameterException.class)
     public ResponseEntity<ApiResponse<Book>> handleMissingServletRequestParameterException(Exception exception) {
         return new ResponseEntity<>(new ApiResponse<>(HttpStatus.BAD_REQUEST, "Missing required parameters", exception), HttpStatus.BAD_REQUEST);

@@ -36,7 +36,7 @@ public class AuthUserController {
         return "signup";
     }
 
-    //добавление в полезную нагрузку телефона или почты
+    //запрос подтверждения контакта
     @PostMapping("/requestContactConfirmation")
     @ResponseBody
     public ContactConfirmationResponse handleRequestContactConfirmation(@RequestBody ContactConfirmationPayload payload) {

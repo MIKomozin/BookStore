@@ -7,7 +7,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.logging.Logger;
 
-@ControllerAdvice
+@ControllerAdvice//методы данного компонента будут использоваться несколькими контроллерами
 public class GlobalExceptionHandlerController {
 
     @ExceptionHandler(EmptySearchException.class)
