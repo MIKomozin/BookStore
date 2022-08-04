@@ -84,6 +84,9 @@
                                     disabled="disabled">Зарегистрироваться
                             </button>
                         </div>
+                        <div class="form-group form-group_center" th:if="${UserExist}">
+                            <h3 th:text="${UserExist.getLocalizedMessage()}" style="color: red"></h3>
+                        </div>
                     </div>
                 </div>
             </form>

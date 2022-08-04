@@ -6,6 +6,8 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+import java.util.logging.Logger;
+
 @Service
 public class BookstoreUserDetailsService implements UserDetailsService {
 
@@ -18,11 +20,12 @@ public class BookstoreUserDetailsService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        BookstoreUser bookstoreUser = bookstoreUserRepository.findBookstoreUserByEmail(username);
+        BookstoreUser bookstoreUser = bookstoreUserRepository.findUserByEmail(username);
         if (bookstoreUser != null) {
             return new BookstoreUserDetails(bookstoreUser);
         } else {
-            throw new UsernameNotFoundException("user not found");
+            Logger.getLogger(UsernameNotFoundException.class.getSimpleName()).info("исключение " + UsernameNotFoundException.class.getSimpleName() + " поймано");
+            throw new UsernameNotFoundException("Пользователя c таким email не существует. Введите корректное имя пользователя или зарегистрируйтесь.");
         }
     }
 }

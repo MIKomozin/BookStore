@@ -3,7 +3,7 @@ package com.example.MyBookShopApp.security;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "unreg_users")
+@Table(name = "users")
 public class BookstoreUser {
 
     @Id

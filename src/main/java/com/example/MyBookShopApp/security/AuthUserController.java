@@ -1,18 +1,19 @@
 package com.example.MyBookShopApp.security;
 
+import com.example.MyBookShopApp.errs.NoUserException;
+import com.example.MyBookShopApp.errs.UserExistException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.util.logging.Logger;
 
 @Controller
 public class AuthUserController {
@@ -56,15 +57,15 @@ public class AuthUserController {
 
     //регистрация нового пользователя после нажатия кнопки зарегистрироватсья
     @PostMapping("/reg")
-    public String handleUserRegistration(RegistrationForm registrationForm, Model model) {
+    public String handleUserRegistration(RegistrationForm registrationForm, Model model) throws UserExistException {
         bookstoreUserRegister.registerNewUser(registrationForm);
         model.addAttribute("regOK", true);//добавляем в модель true если пользователь зарегистрирован
-        return "signin";
+        return "redirect:/signin";
     }
 
     @PostMapping("/login")
     @ResponseBody
-    public ContactConfirmationResponse handleLogin(@RequestBody ContactConfirmationPayload payload, HttpServletResponse httpServletResponse) {
+    public ContactConfirmationResponse handleLogin(@RequestBody ContactConfirmationPayload payload, HttpServletResponse httpServletResponse) throws UsernameNotFoundException {
         ContactConfirmationResponse loginResponse = bookstoreUserRegister.jwtlogin(payload);//при аутентификации создаем jwttoken
         Cookie cookie = new Cookie("token", loginResponse.getResult());//создаем куки под именем "token"
         httpServletResponse.addCookie(cookie);//передаем куки в ответе клиенту, теперь у вошедшео пользователя есть cookie по имени "token"
