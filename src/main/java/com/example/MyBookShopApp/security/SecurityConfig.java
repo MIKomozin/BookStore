@@ -53,8 +53,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/my", "/profile").hasRole("USER")//authenticated()
                 .antMatchers("/**").permitAll()
                 .and().formLogin()
-                .loginPage("/signin").failureUrl("/signin")
-                .and().logout().logoutUrl("/logout").logoutSuccessUrl("/signin").deleteCookies("token");
+                .loginPage("/signin").failureUrl("/signin");
+                //.and().logout().logoutUrl("/logout").logoutSuccessUrl("/signin").deleteCookies("token");
                 //.and().oauth2Login()
                 //.and().oauth2Client();
 

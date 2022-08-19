@@ -3,12 +3,14 @@ package com.example.MyBookShopApp.security;
 import com.example.MyBookShopApp.errs.NoUserException;
 import com.example.MyBookShopApp.errs.UserExistException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import javax.servlet.ServletException;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -86,18 +88,18 @@ public class AuthUserController {
     }
 
 
-//    @GetMapping("/logout")
-//    public String handleLogout(HttpServletRequest request){
-//        HttpSession session = request.getSession();//извлекаем текущий сеанс сессии
-//        SecurityContextHolder.clearContext();//удаляем значение контекста из текущего потока
+    @GetMapping("/logout")
+    public String handleLogout(HttpServletRequest request) {
+        bookstoreUserRegister.addTokenBlackList(request);//добавляем токен в блэклист
+        //HttpSession session = request.getSession();//извлекаем текущий сеанс сессии
+        SecurityContextHolder.clearContext();//удаляем значение контекста из текущего потока
 //        if (session != null) {
 //            session.invalidate(); //аннулируем данную сессию
 //        }
-//
-//        for (Cookie cookie: request.getCookies()) {
-//            cookie.setMaxAge(0);//обнуляем все куки ибо пользователь вышел
-//        }
-//
-//        return "redirect:/";
-//    }
+
+        for (Cookie cookie: request.getCookies()) {
+            cookie.setMaxAge(0);//обнуляем все куки ибо пользователь вышел
+        }
+        return "redirect:/signin";
+    }
 }
