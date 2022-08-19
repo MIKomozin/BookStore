@@ -2,6 +2,7 @@ package com.example.MyBookShopApp.security.jwt;
 
 import com.example.MyBookShopApp.security.BookstoreUserDetails;
 import com.example.MyBookShopApp.security.BookstoreUserDetailsService;
+import io.jsonwebtoken.ExpiredJwtException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -51,6 +52,9 @@ public class JWTRequestFilter extends OncePerRequestFilter {
                         authenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
                         SecurityContextHolder.getContext().setAuthentication(authenticationToken);//Spring Security хранит основную информацию о каждом аутентифицированном пользователе, поэтому воспользуемся фреймворком для хранения текущего вошедшего в систему пользователя
                     }
+//                    else {
+//                        throw new ExpiredJwtException();
+//                    }
                 }
             }
         }

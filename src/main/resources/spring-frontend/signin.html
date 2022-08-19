@@ -105,6 +105,10 @@
                                                                  th:href="@{/signup}"
                                                                  href="/signup.html">Зарегистрироваться</a>
                     </div>
+                    <span class="form-group form-group_center" th:if="${UserNotFound}">
+                        <h3 th:text="${UserNotFound.getLocalizedMessage()}" style="color: red"></h3>
+                    </span>
+
 <!--                    <div class="form-group form-group_center"><a class="Login-reg"-->
 <!--                                                                 th:href="@{/oauth2/authorization/facebook}"-->
 <!--                                                                 href="/signup.html">Войти через facebook</a>-->

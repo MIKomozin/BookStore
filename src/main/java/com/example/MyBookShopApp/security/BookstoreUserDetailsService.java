@@ -21,11 +21,11 @@ public class BookstoreUserDetailsService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         BookstoreUser bookstoreUser = bookstoreUserRepository.findUserByEmail(username);
-        if (bookstoreUser != null) {
-            return new BookstoreUserDetails(bookstoreUser);
-        } else {
+        if (bookstoreUser == null) {
             Logger.getLogger(UsernameNotFoundException.class.getSimpleName()).info("исключение " + UsernameNotFoundException.class.getSimpleName() + " поймано");
             throw new UsernameNotFoundException("Пользователя c таким email не существует. Введите корректное имя пользователя или зарегистрируйтесь.");
+        } else {
+            return new BookstoreUserDetails(bookstoreUser);
         }
     }
 }
