@@ -46,12 +46,14 @@ public class JWTRequestFilter extends OncePerRequestFilter {
                     username = jwtUtil.extractUsername(token);//извлекаем username из созданного jwttokena
                 }
 
-                //проверяем находится ли token в blackList, если да то не будем аутенфицировать вошедшего пользователся
-                Integer userId = tokenBlackListService.getUserByEmail(username).getId();
-                String tokenHash = tokenBlackListService.getHashFromToken(token);
-                TokenBlackList findTokenInBlackList = tokenBlackListService.getTokenBlackListByUserIdAndHash(userId, tokenHash);
-                if (findTokenInBlackList != null) {
-                    isBlackList = true;
+                //проверяем находится ли token в blackList, если да то не будем аутенфицировать пользователся
+                if (username != null) {
+                    Integer userId = tokenBlackListService.getUserByEmail(username).getId();
+                    String tokenHash = tokenBlackListService.getHashFromToken(token);
+                    TokenBlackList findTokenInBlackList = tokenBlackListService.getTokenBlackListByUserIdAndHash(userId, tokenHash);
+                    if (findTokenInBlackList != null) {
+                        isBlackList = true;
+                    }
                 }
 
                 if (username != null && SecurityContextHolder.getContext().getAuthentication() == null && !isBlackList) {

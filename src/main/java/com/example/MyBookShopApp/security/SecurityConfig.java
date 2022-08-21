@@ -20,11 +20,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     private final BookstoreUserDetailsService bookstoreUserDetailsService;
     private final JWTRequestFilter jwtRequestFilter;
+    private final TokenBlackListService tokenBlackListService;
 
     @Autowired
-    public SecurityConfig(BookstoreUserDetailsService bookstoreUserDetailsService, JWTRequestFilter jwtRequestFilter) {
+    public SecurityConfig(BookstoreUserDetailsService bookstoreUserDetailsService, JWTRequestFilter jwtRequestFilter, TokenBlackListService tokenBlackListService) {
         this.bookstoreUserDetailsService = bookstoreUserDetailsService;
         this.jwtRequestFilter = jwtRequestFilter;
+        this.tokenBlackListService = tokenBlackListService;
     }
 
     @Bean
@@ -53,12 +55,16 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/my", "/profile").hasRole("USER")//authenticated()
                 .antMatchers("/**").permitAll()
                 .and().formLogin()
-                .loginPage("/signin").failureUrl("/signin");
-                //.and().logout().logoutUrl("/logout").logoutSuccessUrl("/signin").deleteCookies("token");
+                .loginPage("/signin").failureUrl("/signin")
+                .and().logout().logoutUrl("/logout").addLogoutHandler(
+                        (request, response, authentication) -> {
+                            tokenBlackListService.addTokenBlackList(request);
+                        })
+                .logoutSuccessUrl("/signin").deleteCookies("token");
                 //.and().oauth2Login()
                 //.and().oauth2Client();
 
-        http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);//работаем без sessionId для Cookie, не создаем сессий короче
+        http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);//работаем без sessionId для Cookie
         http.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);//добавляем наш фильтр при работе с jwttokens
     }
 }

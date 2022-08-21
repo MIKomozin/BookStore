@@ -1,6 +1,5 @@
 package com.example.MyBookShopApp.security;
 
-import com.example.MyBookShopApp.data.entity.TokenBlackList;
 import com.example.MyBookShopApp.errs.UserExistException;
 import com.example.MyBookShopApp.security.jwt.JWTUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,25 +10,19 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServletRequest;
-import java.util.logging.Logger;
-
 //сервис для регистрации и логирования пользователя
 @Service
 public class BookstoreUserRegister {
 
     private final BookstoreUserRepository bookstoreUserRepository;
-    private final TokenBlackListService tokenBlackListService;
     private final PasswordEncoder passwordEncoder;
     private final AuthenticationManager authenticationManager;//проверка подлинности учетных данных клиента
     private final BookstoreUserDetailsService bookstoreUserDetailsService;
     private final JWTUtil jwtUtil;
 
     @Autowired
-    public BookstoreUserRegister(BookstoreUserRepository bookstoreUserRepository, TokenBlackListService tokenBlackListService, PasswordEncoder passwordEncoder, AuthenticationManager authenticationManager, BookstoreUserDetailsService bookstoreUserDetailsService, JWTUtil jwtUtil) {
+    public BookstoreUserRegister(BookstoreUserRepository bookstoreUserRepository, PasswordEncoder passwordEncoder, AuthenticationManager authenticationManager, BookstoreUserDetailsService bookstoreUserDetailsService, JWTUtil jwtUtil) {
         this.bookstoreUserRepository = bookstoreUserRepository;
-        this.tokenBlackListService = tokenBlackListService;
         this.passwordEncoder = passwordEncoder;
         this.authenticationManager = authenticationManager;
         this.bookstoreUserDetailsService = bookstoreUserDetailsService;
@@ -69,15 +62,6 @@ public class BookstoreUserRegister {
         BookstoreUserDetails userDetails = (BookstoreUserDetails) bookstoreUserDetailsService.loadUserByUsername(payload.getContact());//находим пользвателя из БД по email(из полезной нагрузки)
         authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(payload.getContact(), payload.getCode()));//аутентификация по логин/паролю
         String jwtToken = jwtUtil.generateToken(userDetails);//генерируем jwtToken для зарегистрированного пользователя, который зашел
-
-        //после того как прошли аутентификацию нужно добавить токен в blackList
-//        Integer userId = tokenBlackListService.getUserByEmail(payload.getContact()).getId();
-//        String hashToken = tokenBlackListService.getHashFromToken(jwtToken);//генерируем hash для нашего токена, так как токен в чистом виде хранить в БД не безопасно
-//        TokenBlackList tokenBlackList = new TokenBlackList();
-//        tokenBlackList.setUserId(userId);
-//        tokenBlackList.setHash(hashToken);
-//        tokenBlackListService.save(tokenBlackList); //добавляем наш токен в blackList
-
         ContactConfirmationResponse response = new ContactConfirmationResponse();
         response.setResult(jwtToken);
         return response;//возвращаем его строковое представление
@@ -89,31 +73,4 @@ public class BookstoreUserRegister {
         BookstoreUserDetails bookstoreUserDetails = (BookstoreUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         return bookstoreUserDetails.getBookstoreUser();
     }
-
-    //при выходе из системы добавляем токе в блэклист
-    public void addTokenBlackList(HttpServletRequest request) {
-        String token = null;
-        String username = null;
-
-        Cookie[] cookies = request.getCookies();
-        if (cookies != null) {
-            for (Cookie cookie : cookies) {
-                if (cookie.getName().equals("token")) {
-                    token = cookie.getValue();
-                    username = jwtUtil.extractUsername(token);//извлекаем username из созданного jwttokena
-                }
-            }
-        }
-
-        Integer userId = tokenBlackListService.getUserByEmail(username).getId();
-        String hashToken = tokenBlackListService.getHashFromToken(token);//генерируем hash для нашего токена, так как токен в чистом виде хранить в БД не безопасно
-        TokenBlackList tokenBlackList = new TokenBlackList();
-        tokenBlackList.setUserId(userId);
-        tokenBlackList.setHash(hashToken);
-        tokenBlackListService.save(tokenBlackList);//добавляем наш токен в blackList
-    }
 }
-
-/*
-
- */
