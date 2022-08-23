@@ -10,7 +10,6 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
@@ -21,12 +20,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private final BookstoreUserDetailsService bookstoreUserDetailsService;
     private final JWTRequestFilter jwtRequestFilter;
     private final TokenBlackListService tokenBlackListService;
+    private final CustomAuthenticationSuccessHandler customAuthenticationSuccessHandler;
 
     @Autowired
-    public SecurityConfig(BookstoreUserDetailsService bookstoreUserDetailsService, JWTRequestFilter jwtRequestFilter, TokenBlackListService tokenBlackListService) {
+    public SecurityConfig(BookstoreUserDetailsService bookstoreUserDetailsService, JWTRequestFilter jwtRequestFilter, TokenBlackListService tokenBlackListService, CustomAuthenticationSuccessHandler customAuthenticationSuccessHandler) {
         this.bookstoreUserDetailsService = bookstoreUserDetailsService;
         this.jwtRequestFilter = jwtRequestFilter;
         this.tokenBlackListService = tokenBlackListService;
+        this.customAuthenticationSuccessHandler = customAuthenticationSuccessHandler;
     }
 
     @Bean
@@ -52,7 +53,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http
                 .csrf().disable()
                 .authorizeRequests()
-                .antMatchers("/my", "/profile").hasRole("USER")//authenticated()
+                .antMatchers("/my", "/profile").authenticated()//hasRole("USER")
                 .antMatchers("/**").permitAll()
                 .and().formLogin()
                 .loginPage("/signin").failureUrl("/signin")
@@ -60,11 +61,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                         (request, response, authentication) -> {
                             tokenBlackListService.addTokenBlackList(request);
                         })
-                .logoutSuccessUrl("/signin").deleteCookies("token");
-                //.and().oauth2Login()
-                //.and().oauth2Client();
+                .logoutSuccessUrl("/signin").deleteCookies("token")
+                .and().oauth2Login().successHandler(customAuthenticationSuccessHandler)
+                .and().oauth2Client();
 
-        http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);//работаем без sessionId для Cookie
+        //http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);//работаем без sessionId для Cookie
         http.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);//добавляем наш фильтр при работе с jwttokens
     }
 }
