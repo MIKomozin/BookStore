@@ -1,8 +1,15 @@
 package com.example.MyBookShopApp.security;
 
+import com.example.MyBookShopApp.errs.UserExistException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.oauth2.core.user.DefaultOAuth2User;
 import org.springframework.stereotype.Service;
+
+import java.util.Map;
 
 @Service
 public class BookStoreUserFromOtherService {
@@ -15,21 +22,47 @@ public class BookStoreUserFromOtherService {
     }
 
     //регистрация нового пользователя при использовании REST API GitHub
-    public void registerNewUser(DefaultOAuth2User defaultOAuth2User) {
+    public BookstoreUser convertNewUserToBookstoreUser(DefaultOAuth2User defaultOAuth2User) {
         BookstoreUser bookstoreUser = new BookstoreUser();
-        bookstoreUser.setName(defaultOAuth2User.getName());
-        bookstoreUser.setEmail("укажите свой email");
-        bookstoreUser.setPhone("укажите свой номер телефона");
+        //вытаскиваем из аттрубутов имя и почту для добавления в БД, телефон и пароль пользователь придумает сам
+        Map<String, Object> attributes = defaultOAuth2User.getAttributes();
+        for (Map.Entry<String, Object> attribute : attributes.entrySet()) {
+            if ((attribute.getKey()).equals("name")) {
+                if (attribute.getValue() != null) {
+                    String userName = (String) attribute.getValue();
+                    bookstoreUser.setName(userName);
+                } else {
+                    //присвоим пользователю цифровой идентификатор
+                    bookstoreUser.setName(defaultOAuth2User.getName());
+                }
+            }
+            if ((attribute.getKey()).equals("email")) {
+                if (attribute.getValue() != null) {
+                    String userEmail = (String) attribute.getValue();
+                    bookstoreUser.setEmail(userEmail);
+                } else {
+                    //присвоим пользователю цифровой идентификатор
+                    bookstoreUser.setEmail(defaultOAuth2User.getName());
+                }
+            }
+        }
+        //пароль и телефон пустая строка
+        bookstoreUser.setPhone("");
         bookstoreUser.setPassword("");
-        bookstoreUserRepository.save(bookstoreUser);
+        return bookstoreUser;
     }
 
-    public BookstoreUser findUserByName(String name) {
-        return bookstoreUserRepository.findBookstoreUserByName(name);
+    public void registerNewUser(BookstoreUser bookstoreUser) throws UserExistException {
+        //проверка на уже существующего пользоватля с таким же адресом
+        if (bookstoreUserRepository.findUserByEmail(bookstoreUser.getEmail()) != null) {
+            throw new UserExistException("Пользователь с таким email уже существует");
+        } else {
+            bookstoreUserRepository.save(bookstoreUser);
+        }
     }
 
-//        public void authenticationNewUser(BookstoreUser bookstoreUser) {
-//        Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(bookstoreUser.getName(), bookstoreUser.getPassword()));
+//    public void authenticationNewUser(BookstoreUser bookstoreUser) {
+//        Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(bookstoreUser.getEmail(), bookstoreUser.getPassword()));
 //        SecurityContextHolder.getContext().setAuthentication(authentication);
 //    }
 

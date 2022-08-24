@@ -12,23 +12,28 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.core.user.DefaultOAuth2User;
 import org.springframework.stereotype.Service;
 
+import java.util.Map;
+import java.util.logging.Logger;
+
 //сервис для регистрации и логирования пользователя
 @Service
 public class BookstoreUserRegister {
 
     private final BookstoreUserRepository bookstoreUserRepository;
-    private final PasswordEncoder passwordEncoder;
-    private final AuthenticationManager authenticationManager;//проверка подлинности учетных данных клиента
     private final BookstoreUserDetailsService bookstoreUserDetailsService;
     private final JWTUtil jwtUtil;
+    private final PasswordEncoder passwordEncoder;
+    private final AuthenticationManager authenticationManager;//проверка подлинности учетных данных клиента
+    private final BookStoreUserFromOtherService bookStoreUserFromOtherService;
 
     @Autowired
-    public BookstoreUserRegister(BookstoreUserRepository bookstoreUserRepository, PasswordEncoder passwordEncoder, AuthenticationManager authenticationManager, BookstoreUserDetailsService bookstoreUserDetailsService, JWTUtil jwtUtil) {
+    public BookstoreUserRegister(BookstoreUserRepository bookstoreUserRepository, BookstoreUserDetailsService bookstoreUserDetailsService, JWTUtil jwtUtil, PasswordEncoder passwordEncoder, AuthenticationManager authenticationManager, BookStoreUserFromOtherService bookStoreUserFromOtherService) {
         this.bookstoreUserRepository = bookstoreUserRepository;
-        this.passwordEncoder = passwordEncoder;
-        this.authenticationManager = authenticationManager;
         this.bookstoreUserDetailsService = bookstoreUserDetailsService;
         this.jwtUtil = jwtUtil;
+        this.passwordEncoder = passwordEncoder;
+        this.authenticationManager = authenticationManager;
+        this.bookStoreUserFromOtherService = bookStoreUserFromOtherService;
     }
 
     public void registerNewUser(RegistrationForm registrationForm) throws UserExistException {
@@ -46,7 +51,7 @@ public class BookstoreUserRegister {
             user.setName(registrationForm.getName());
             user.setEmail(registrationForm.getEmail());
             user.setPhone(registrationForm.getPhone());
-            user.setPassword(passwordEncoder.encode(registrationForm.getPassword()));//шифруем пароль, в БД будут строка непонятный символов
+            user.setPassword(passwordEncoder.encode(registrationForm.getPassword()));//шифруем пароль, в БД будут строка непонятных символов
             bookstoreUserRepository.save(user);
         }
     }
@@ -72,7 +77,16 @@ public class BookstoreUserRegister {
     }
 
     public Object getCurrentUser() {
-        BookstoreUserDetails bookstoreUserDetails = (BookstoreUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        BookstoreUserDetails bookstoreUserDetails = null;
+        try {
+            bookstoreUserDetails = (BookstoreUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        } catch (Exception e) {
+            Logger.getLogger(this.getClass().getSimpleName()).info("не удалось преобразовать, значит объект класса DefaultOAuth2User");
+            DefaultOAuth2User user = (DefaultOAuth2User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+            BookstoreUser bookstoreUser = bookStoreUserFromOtherService.convertNewUserToBookstoreUser(user);
+            return bookstoreUser;
+        }
+
         return bookstoreUserDetails.getBookstoreUser();
     }
 }
