@@ -1,5 +1,7 @@
 package com.example.MyBookShopApp.data.entity;
 
+import com.example.MyBookShopApp.security.BookstoreUser;
+
 import javax.persistence.*;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -17,14 +19,9 @@ public class BookReview {
     @JoinColumn(name = "book_id", referencedColumnName = "id")
     private Book book;
 
-    /*
     @ManyToOne
     @JoinColumn(name = "user_id", referencedColumnName = "id")
-    private User user;
-    */
-
-    @Column(columnDefinition = "INT NOT NULL")
-    private Integer userId;
+    private BookstoreUser user;
 
     @Column(columnDefinition = "TIMESTAMP NOT NULL")
     private Date time;
@@ -35,21 +32,25 @@ public class BookReview {
     @OneToMany(mappedBy = "bookReview")
     private List<BookReviewLike> bookReviewLikeList;
 
+    //Date to String
     public String getDateByString(){
         SimpleDateFormat formater = new SimpleDateFormat("dd.MM.yyyy HH:mm");
         return formater.format(time);
     }
 
+    //количество лайков у данного отзыва
     public Long getSumLikes() {
         Long count = bookReviewLikeList.stream().filter(v -> v.getValue() == 1).count();
         return count;
     }
 
+    //количество дизлайков у данного отзыва
     public Long getSumDislikes() {
         Long count = bookReviewLikeList.stream().filter(v -> v.getValue() == -1).count();
         return count;
     }
 
+    //рейтинг отзыва = (сумма лайков) - (сумма дизлайков)
     public Long getRatingReview() {
         return getSumLikes() - getSumDislikes();
     }
@@ -70,6 +71,13 @@ public class BookReview {
         this.book = book;
     }
 
+    public BookstoreUser getUser() {
+        return user;
+    }
+
+    public void setUser(BookstoreUser user) {
+        this.user = user;
+    }
 
     public Date getTime() {
         return time;
@@ -93,13 +101,5 @@ public class BookReview {
 
     public void setBookReviewLikeList(List<BookReviewLike> bookReviewLikeList) {
         this.bookReviewLikeList = bookReviewLikeList;
-    }
-
-    public Integer getUserId() {
-        return userId;
-    }
-
-    public void setUserId(Integer userId) {
-        this.userId = userId;
     }
 }

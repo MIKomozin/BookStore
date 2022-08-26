@@ -1,6 +1,10 @@
 package com.example.MyBookShopApp.security;
 
+import com.example.MyBookShopApp.data.entity.BookReview;
+import com.example.MyBookShopApp.data.entity.BookReviewLike;
+
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Table(name = "users")
@@ -14,6 +18,12 @@ public class BookstoreUser {
     private String email;
     private String phone;
     private String password;
+
+    @OneToMany(mappedBy = "user")
+    private List<BookReview> bookReviewList;
+
+    @OneToMany(mappedBy = "user")
+    private List<BookReviewLike> bookReviewLikeList;
 
     public Integer getId() {
         return id;
@@ -53,5 +63,21 @@ public class BookstoreUser {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public List<BookReview> getBookReviewList() {
+        return bookReviewList;
+    }
+
+    public void setBookReviewList(List<BookReview> bookReviewList) {
+        this.bookReviewList = bookReviewList;
+    }
+
+    public List<BookReviewLike> getBookReviewLikeList() {
+        return bookReviewLikeList;
+    }
+
+    public void setBookReviewLikeList(List<BookReviewLike> bookReviewLikeList) {
+        this.bookReviewLikeList = bookReviewLikeList;
     }
 }

@@ -1,5 +1,6 @@
 package com.example.MyBookShopApp.data;
 
+import com.example.MyBookShopApp.data.dto.DtoRatingBook;
 import com.example.MyBookShopApp.data.entity.BookRating;
 import com.example.MyBookShopApp.data.repository.BookRatingRepository;
 import com.example.MyBookShopApp.data.repository.BookRepository;
@@ -20,7 +21,10 @@ public class BookRatingService {
         this.bookRepository = bookRepository;
     }
 
-    public void changeDataBaseBookRating(Integer ratingStar, Integer bookId) {
+    public void changeDataBaseBookRating(DtoRatingBook dtoRatingBook) {
+        Integer ratingStar = dtoRatingBook.getValue();
+        Integer bookId = dtoRatingBook.getBookId();
+
         //строка в БД, где нужно увеличить количество пользователей на 1
         BookRating bookRatingToUpdate = bookRatingRepository.findBookRatingListByRatingStarAndBookId(ratingStar, bookId);
         Logger.getLogger(this.getClass().getSimpleName()).info("bookRatingToUpdate: " + bookRatingToUpdate);
@@ -36,10 +40,8 @@ public class BookRatingService {
             Logger.getLogger(this.getClass().getSimpleName()).info("book_id: " + bookRating.getBook().getId());
             bookRatingRepository.save(bookRating);//и сохраняем ее в БД
         } else {
-            bookRatingToUpdate.setNumberOfUsers(bookRatingToUpdate.getNumberOfUsers()+1);//устанавливаем новое значения для пользователей
+            bookRatingToUpdate.setNumberOfUsers(bookRatingToUpdate.getNumberOfUsers() + 1);//устанавливаем новое значения для пользователей
             bookRatingRepository.save(bookRatingToUpdate);//сохраняем в БД
         }
     }
-
-
 }

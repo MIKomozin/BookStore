@@ -1,41 +1,41 @@
 package com.example.MyBookShopApp.data;
 
-import com.example.MyBookShopApp.data.entity.Author;
-import com.example.MyBookShopApp.data.entity.BookReview;
+import com.example.MyBookShopApp.data.dto.DtoRateBookReview;
 import com.example.MyBookShopApp.data.entity.BookReviewLike;
 import com.example.MyBookShopApp.data.repository.BookReviewLikeRepository;
 import com.example.MyBookShopApp.data.repository.BookReviewRepository;
+import com.example.MyBookShopApp.security.BookstoreUser;
+import com.example.MyBookShopApp.security.BookstoreUserRegister;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
-import java.util.List;
-import java.util.Map;
-import java.util.TreeMap;
-import java.util.stream.Collectors;
 
 @Service
 public class BookReviewLikeService {
 
     private final BookReviewLikeRepository bookReviewLikeRepository;
     private final BookReviewRepository bookReviewRepository;
+    private final BookstoreUserRegister bookstoreUserRegister;
 
     @Autowired
-    public BookReviewLikeService(BookReviewLikeRepository bookReviewLikeRepository, BookReviewRepository bookReviewRepository) {
+    public BookReviewLikeService(BookReviewLikeRepository bookReviewLikeRepository, BookReviewRepository bookReviewRepository, BookstoreUserRegister bookstoreUserRegister) {
         this.bookReviewLikeRepository = bookReviewLikeRepository;
         this.bookReviewRepository = bookReviewRepository;
+        this.bookstoreUserRegister = bookstoreUserRegister;
     }
 
-    public void addLikeOrDislike(String value, String reviewId) {
-        BookReviewLike bookReviewLike = new BookReviewLike();
-        bookReviewLike.setBookReview(bookReviewRepository.findBookReviewById(Integer.parseInt(reviewId)));
-        // с users еще не работали, поэтому буду генерировать id рандомно
-        Integer userId = Math.toIntExact(Math.round((Math.random() + 1)*10));
-        bookReviewLike.setUserId(userId);
+    public void addLikeOrDislike(DtoRateBookReview dtoRateBookReview) {
+        BookstoreUser bookstoreUser = (BookstoreUser) bookstoreUserRegister.getCurrentUser();
+        Integer reviewId = dtoRateBookReview.getReviewid();
+        Byte value = dtoRateBookReview.getValue();
 
+        //добавляем лайк/дизлайк в БД
+        BookReviewLike bookReviewLike = new BookReviewLike();
+        bookReviewLike.setBookReview(bookReviewRepository.findBookReviewById(reviewId));
+        bookReviewLike.setUser(bookstoreUser);
         bookReviewLike.setTime(new Date());
-        bookReviewLike.setValue(Byte.parseByte(value));
+        bookReviewLike.setValue(value);
         bookReviewLikeRepository.save(bookReviewLike);
     }
-
 }

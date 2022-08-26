@@ -1,11 +1,11 @@
 package com.example.MyBookShopApp.controllers;
 
 import com.example.MyBookShopApp.data.*;
-import com.example.MyBookShopApp.data.entity.Author;
+import com.example.MyBookShopApp.data.dto.DtoPostNewReview;
+import com.example.MyBookShopApp.data.dto.DtoRateBookReview;
+import com.example.MyBookShopApp.data.dto.DtoRatingBook;
 import com.example.MyBookShopApp.data.entity.Book;
-import com.example.MyBookShopApp.data.entity.BookRating;
-import com.example.MyBookShopApp.data.repository.BookRatingRepository;
-import com.example.MyBookShopApp.data.repository.BookRepository;
+import com.example.MyBookShopApp.security.BookstoreUserRegister;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.http.HttpHeaders;
@@ -18,7 +18,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.nio.file.Path;
-import java.util.List;
 import java.util.logging.Logger;
 
 @Controller
@@ -30,37 +29,25 @@ public class BooksController {
     private final BookRatingService bookRatingService;
     private final BookReviewService bookReviewService;
     private final BookReviewLikeService bookReviewLikeService;
+    private final BookstoreUserRegister bookstoreUserRegister;
 
     @Autowired
     public BooksController(BookService bookService,
                            ResourceStorage storage,
                            BookRatingService bookRatingService,
                            BookReviewService bookReviewService,
-                           BookReviewLikeService bookReviewLikeService) {
+                           BookReviewLikeService bookReviewLikeService,
+                           BookstoreUserRegister bookstoreUserRegister) {
         this.bookService = bookService;
         this.storage = storage;
         this.bookRatingService = bookRatingService;
         this.bookReviewService = bookReviewService;
         this.bookReviewLikeService = bookReviewLikeService;
+        this.bookstoreUserRegister = bookstoreUserRegister;
     }
 
-    /*
-        @GetMapping("/{slug}")
-        public String bookPage(@PathVariable("slug") String slug, Model model) {
-            Book book = bookService.getBookBySlug(slug);
-            model.addAttribute("slugBook", book);
-            model.addAttribute("bookRating", bookService.getRatingBookBySlug(slug));
-            model.addAttribute("sumRating", bookService.getSumRatingBookBySlug(slug));
-            model.addAttribute("oneStar", bookService.getNumberOfUsersBookBySlugAndByNumberOfStars(slug, 1));
-            model.addAttribute("twoStars", bookService.getNumberOfUsersBookBySlugAndByNumberOfStars(slug, 2));
-            model.addAttribute("threeStars", bookService.getNumberOfUsersBookBySlugAndByNumberOfStars(slug, 3));
-            model.addAttribute("fourStars", bookService.getNumberOfUsersBookBySlugAndByNumberOfStars(slug, 4));
-            model.addAttribute("fiveStars", bookService.getNumberOfUsersBookBySlugAndByNumberOfStars(slug, 5));
-            return "/books/slug";
-        }
-    */
     @PostMapping("/{slug}/img/save")
-    public String saveNewBooksImage(@RequestParam("file")MultipartFile file, @PathVariable("slug") String slug) throws IOException {
+    public String saveNewBooksImage(@RequestParam("file") MultipartFile file, @PathVariable("slug") String slug) throws IOException {
 
         String savePath = storage.saveNewBookImage(file, slug);
         Book bookToUpdate = bookService.getBookBySlug(slug);
@@ -88,20 +75,20 @@ public class BooksController {
                 .body(new ByteArrayResource(data));
     }
 
+    @ModelAttribute(name = "isAuthenticate")
+    public boolean isAuthenticate(){
+        return bookstoreUserRegister.userIsAuthenticate();
+    }
+
     //modul7_task2
     @PostMapping("/changeBookStatus")
-    public String changeRatingBook(@RequestParam("value") String value, @RequestParam("bookId") String bookId) {
-        Integer ratingStar = Integer.parseInt(value);
-        Integer bookIdInt= Integer.parseInt(bookId);
-        bookRatingService.changeDataBaseBookRating(ratingStar, bookIdInt);
-        String slug = bookService.getBookById(Integer.parseInt(bookId)).getSlug();
-        //Logger.getLogger(this.getClass().getSimpleName()).info("bookId: " + bookId);
-        //Logger.getLogger(this.getClass().getSimpleName()).info("value: " + value);
+    public String changeRatingBook(@RequestBody DtoRatingBook dtoRatingBook) {
+        bookRatingService.changeDataBaseBookRating(dtoRatingBook);
+        String slug = bookService.getBookById(dtoRatingBook.getBookId()).getSlug();
         return "redirect:/books/" + slug;
     }
 
     //modul7_task3
-    //так как авторизацию еще не проходили, то сделаю get-запрос возвращающий ссылку на slugmy
     @GetMapping("/{slug}")
     public String bookPage(@PathVariable("slug") String slug, Model model) {
         Book book = bookService.getBookBySlug(slug);
@@ -113,21 +100,23 @@ public class BooksController {
         model.addAttribute("threeStars", bookService.getNumberOfUsersBookBySlugAndByNumberOfStars(slug, 3));
         model.addAttribute("fourStars", bookService.getNumberOfUsersBookBySlugAndByNumberOfStars(slug, 4));
         model.addAttribute("fiveStars", bookService.getNumberOfUsersBookBySlugAndByNumberOfStars(slug, 5));
+        model.addAttribute("countReviews", bookService.getNumberOfReviewsForBook(slug));
         model.addAttribute("allReviews", bookReviewService.getAllBookReviewsByBookId(book.getId()));
         return "/books/slugmy";
     }
 
+    //сделать данные методы только для авторизованных пользователей
     @PostMapping("/bookReview")
-    public String postNewReview(@RequestParam("text") String text, @RequestParam("bookId") String bookId) {
-        bookReviewService.addNewReviewIntoDataBase(text, bookId);
-        String slug = bookService.getBookById(Integer.parseInt(bookId)).getSlug();
+    public String postNewReview(@RequestBody DtoPostNewReview dtoPostNewReview) {
+        bookReviewService.addNewReviewIntoDataBase(dtoPostNewReview);
+        String slug = bookService.getBookById(dtoPostNewReview.getBookId()).getSlug();
         return "redirect:/books/" + slug;
     }
 
     @PostMapping("/rateBookReview")
-    public String rateBookReview(@RequestParam("value") String value, @RequestParam("reviewid") String reviewId) {
-        bookReviewLikeService.addLikeOrDislike(value, reviewId);
-        Integer bookId = bookService.getBookIdByReviewId(Integer.parseInt(reviewId));
+    public String rateBookReview(@RequestBody DtoRateBookReview dtoRateBookReview) {
+        bookReviewLikeService.addLikeOrDislike(dtoRateBookReview);
+        Integer bookId = bookService.getBookIdByReviewId(dtoRateBookReview.getReviewid());
         String slug = bookService.getBookById(bookId).getSlug();
         return "redirect:/books/" + slug;
     }

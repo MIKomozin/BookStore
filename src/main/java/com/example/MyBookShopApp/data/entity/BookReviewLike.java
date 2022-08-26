@@ -1,6 +1,9 @@
 package com.example.MyBookShopApp.data.entity;
 
+import com.example.MyBookShopApp.security.BookstoreUser;
+
 import javax.persistence.*;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 @Entity
@@ -15,14 +18,9 @@ public class BookReviewLike {
     @JoinColumn(name = "review_id", referencedColumnName = "id")
     private BookReview bookReview;
 
-    /*
     @ManyToOne
     @JoinColumn(name = "user_id", referencedColumnName = "id")
-    private User user;
-    */
-
-    @Column(columnDefinition = "INT NOT NULL")
-    private Integer userId;
+    private BookstoreUser user;
 
     @Column(columnDefinition = "TIMESTAMP NOT NULL")
     private Date time;
@@ -46,6 +44,14 @@ public class BookReviewLike {
         this.bookReview = bookReview;
     }
 
+    public BookstoreUser getUser() {
+        return user;
+    }
+
+    public void setUser(BookstoreUser user) {
+        this.user = user;
+    }
+
     public Date getTime() {
         return time;
     }
@@ -60,13 +66,5 @@ public class BookReviewLike {
 
     public void setValue(Byte value) {
         this.value = value;
-    }
-
-    public Integer getUserId() {
-        return userId;
-    }
-
-    public void setUserId(Integer userId) {
-        this.userId = userId;
     }
 }

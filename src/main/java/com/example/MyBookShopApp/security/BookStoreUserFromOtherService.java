@@ -2,10 +2,7 @@ package com.example.MyBookShopApp.security;
 
 import com.example.MyBookShopApp.errs.UserExistException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.core.user.DefaultOAuth2User;
 import org.springframework.stereotype.Service;
 
@@ -24,7 +21,7 @@ public class BookStoreUserFromOtherService {
     //регистрация нового пользователя при использовании REST API GitHub
     public BookstoreUser convertNewUserToBookstoreUser(DefaultOAuth2User defaultOAuth2User) {
         BookstoreUser bookstoreUser = new BookstoreUser();
-        //вытаскиваем из аттрубутов имя и почту для добавления в БД, телефон и пароль пользователь придумает сам
+        //вытаскиваем из атрибутов имя и почту для добавления в БД, телефон и пароль пользователь придумает сам
         Map<String, Object> attributes = defaultOAuth2User.getAttributes();
         for (Map.Entry<String, Object> attribute : attributes.entrySet()) {
             if ((attribute.getKey()).equals("name")) {
@@ -48,12 +45,12 @@ public class BookStoreUserFromOtherService {
         }
         //пароль и телефон пустая строка
         bookstoreUser.setPhone("");
-        bookstoreUser.setPassword("");
+        bookstoreUser.setPassword("");//пока с паролем так
         return bookstoreUser;
     }
 
     public void registerNewUser(BookstoreUser bookstoreUser) throws UserExistException {
-        //проверка на уже существующего пользоватля с таким же адресом
+        //проверка на уже существующего пользователя с таким же адресом
         if (bookstoreUserRepository.findUserByEmail(bookstoreUser.getEmail()) != null) {
             throw new UserExistException("Пользователь с таким email уже существует");
         } else {

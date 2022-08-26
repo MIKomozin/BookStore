@@ -171,4 +171,9 @@ public class BookService {
     public Integer getBookIdByReviewId(Integer reviewId) {
         return bookRepository.findBookIdByReviewId(reviewId);
     }
+
+    public Integer getNumberOfReviewsForBook(String slug) {
+        Book book = getBookBySlug(slug);
+        return book.getBookReviewList().size();//размер массива и есть количетсов отзывов для каждой книги
+    }
 }

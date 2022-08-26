@@ -127,26 +127,40 @@
                                 d="M9.5 14.925L3.629 18l1.121-6.512L0 6.875l6.564-.95L9.5 0l2.936 5.925 6.564.95-4.75 4.613L15.371 18z"></path>
                         </g>
                       </g>
-                    </svg></span></span><span class="Rating-title">567 отзывов</span></span>
+                    </svg></span></span><span class="Rating-title" th:text="${countReviews}">Количество отзывов отзывов</span></span>
                     </div>
                 </div>
-                <strong class="Comments-title">Написать отзыв
-                </strong>
-                <div class="Comments-addComment">
-                    <form class="form" action="#" method="post"
-                          th:attr="data-bookid = ${slugBook.id}"
-                          data-bookid="1111">
-                        <div class="form-group">
+                <div th:replace="~{fragments/book_reviews_fragment :: reviewBlock}"></div>
+
+                <strong class="Comments-title">Написать отзыв</strong>
+
+                <div th:if="${isAuthenticate}">
+                    <div class="Comments-addComment">
+                        <form class="form" action="#" method="post"
+                              th:attr="data-bookid = ${slugBook.id}"
+                              data-bookid="1111">
+                            <div class="form-group">
                                 <textarea class="form-textarea Comments-review" name="review" id="review"
                                           placeholder="Текст отзыва" data-validate="require"></textarea>
-                        </div>
-                        <div class="form-group Comments-sendReview">
-                            <button class="btn btn_warning" type="submit">Отправить отзыв
-                            </button>
-                        </div>
-                    </form>
+                            </div>
+                            <div class="form-group Comments-sendReview">
+                                <button class="btn btn_warning" type="submit">Отправить отзыв
+                                </button>
+                            </div>
+                        </form>
+                    </div>
                 </div>
-                <div th:replace="~{fragments/book_reviews_fragment :: reviewBlock}"></div>
+
+                <div th:if="${isAuthenticate == false}">
+                    <h3 class="form-group form-group_center">Отзывы могут оставлять только авторизованные пользователи</h3>
+                    <div class="form-group form-group_center">
+                        <a class="Login-reg" th:href="@{/signin}">Войти</a>
+                    </div>
+                    <div class="form-group form-group_center">
+                        <a class="Login-reg" th:href="@{/signup}">Зарегистрироваться</a>
+                    </div>
+                </div>
+
             </div>
         </main>
     </div>

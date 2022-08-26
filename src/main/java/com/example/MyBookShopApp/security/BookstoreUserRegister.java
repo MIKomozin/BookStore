@@ -5,14 +5,12 @@ import com.example.MyBookShopApp.security.jwt.JWTUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.core.user.DefaultOAuth2User;
 import org.springframework.stereotype.Service;
 
-import java.util.Map;
 import java.util.logging.Logger;
 
 //сервис для регистрации и логирования пользователя
@@ -78,15 +76,28 @@ public class BookstoreUserRegister {
 
     public Object getCurrentUser() {
         BookstoreUserDetails bookstoreUserDetails = null;
+        BookstoreUser bookstoreUser = null;
         try {
             bookstoreUserDetails = (BookstoreUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+            bookstoreUser = bookstoreUserDetails.getBookstoreUser();
         } catch (Exception e) {
             Logger.getLogger(this.getClass().getSimpleName()).info("не удалось преобразовать, значит объект класса DefaultOAuth2User");
             DefaultOAuth2User user = (DefaultOAuth2User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-            BookstoreUser bookstoreUser = bookStoreUserFromOtherService.convertNewUserToBookstoreUser(user);
+            bookstoreUser = bookStoreUserFromOtherService.convertNewUserToBookstoreUser(user);
             return bookstoreUser;
         }
 
-        return bookstoreUserDetails.getBookstoreUser();
+        return bookstoreUser;
+    }
+
+    //проверка аутентификации пользователя (анонимный или зарегистрированный)
+    public boolean userIsAuthenticate(){
+        String auth = SecurityContextHolder.getContext().getAuthentication().getName();
+        Logger.getLogger(this.getClass().getSimpleName()).info("Authenticate name: " + auth);
+        if (auth.equals("anonymousUser")) {
+            return false;
+        } else {
+            return true;
+        }
     }
 }
