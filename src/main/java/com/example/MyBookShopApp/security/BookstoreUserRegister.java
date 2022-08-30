@@ -34,23 +34,26 @@ public class BookstoreUserRegister {
         this.bookStoreUserFromOtherService = bookStoreUserFromOtherService;
     }
 
-    public void registerNewUser(RegistrationForm registrationForm) throws UserExistException {
+    public BookstoreUser registerNewUser(RegistrationForm registrationForm) {
     //добавление нового пользователя в БД, но сначала проверяем есть ли пользователь с таким email в БД
         BookstoreUser bookstoreUserByEmail = bookstoreUserRepository.findUserByEmail(registrationForm.getEmail());
         BookstoreUser bookstoreUserByPnone = bookstoreUserRepository.findUserByPhone(registrationForm.getPhone());
-        if (bookstoreUserByEmail != null && bookstoreUserByPnone != null) {
-            throw new UserExistException("пользователь с таким email и телефоном существует. Введите другие данные");
-        } else if (bookstoreUserByEmail != null) {
-            throw new UserExistException("пользователь с таким email существует. Введите другой email");
-        } else if (bookstoreUserByPnone != null) {
-            throw new UserExistException("пользователь с таким телефоном существует. Введите другой телефон.");
-        } else {
+        if (bookstoreUserByEmail == null && bookstoreUserByPnone == null) {
+//            throw new UserExistException("пользователь с таким email и телефоном существует. Введите другие данные");
+//        } else if (bookstoreUserByEmail != null) {
+//            throw new UserExistException("пользователь с таким email существует. Введите другой email");
+//        } else if (bookstoreUserByPnone != null) {
+//            throw new UserExistException("пользователь с таким телефоном существует. Введите другой телефон.");
+//        } else {
             BookstoreUser user = new BookstoreUser();
             user.setName(registrationForm.getName());
             user.setEmail(registrationForm.getEmail());
             user.setPhone(registrationForm.getPhone());
             user.setPassword(passwordEncoder.encode(registrationForm.getPassword()));//шифруем пароль, в БД будут строка непонятных символов
             bookstoreUserRepository.save(user);
+            return user;
+        } else {
+            return null;
         }
     }
 
