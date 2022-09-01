@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class BooksRatingAndPopulatityService {
 
-    private BookRepository bookRepository;
+    private final BookRepository bookRepository;
 
     @Autowired
     public BooksRatingAndPopulatityService(BookRepository bookRepository) {
@@ -19,6 +19,7 @@ public class BooksRatingAndPopulatityService {
     }
 
     //METHOD for search popular book
+    //метод изменится при внесении изменений в БД
     public Page<Book> getMostPopularBook(Integer offset, Integer limit) {
         Pageable nextPage = PageRequest.of(offset, limit);
         return bookRepository.findBooksByPopIndex(nextPage);

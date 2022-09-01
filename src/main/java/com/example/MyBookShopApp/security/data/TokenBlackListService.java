@@ -1,7 +1,10 @@
-package com.example.MyBookShopApp.security;
+package com.example.MyBookShopApp.security.data;
 
 import com.example.MyBookShopApp.data.entity.TokenBlackList;
-import com.example.MyBookShopApp.security.jwt.JWTUtil;
+import com.example.MyBookShopApp.security.data.entity.BookstoreUser;
+import com.example.MyBookShopApp.security.data.jwt.JWTUtil;
+import com.example.MyBookShopApp.security.data.repository.BookstoreUserRepository;
+import com.example.MyBookShopApp.security.data.repository.TokenBlackListRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -51,7 +54,7 @@ public class TokenBlackListService {
                 if (cookie.getName().equals("token")) {
                     token = cookie.getValue();
                     username = jwtUtil.extractUsername(token);//извлекаем username из созданного jwttokena
-                    Logger.getLogger(this.getClass().getSimpleName()).info("token: " + token);
+                    Logger.getLogger(this.getClass().getSimpleName()).info("Added in BlackList next token: " + token);
                 }
             }
         }

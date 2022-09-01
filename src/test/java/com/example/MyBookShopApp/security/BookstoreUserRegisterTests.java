@@ -1,6 +1,10 @@
 package com.example.MyBookShopApp.security;
 
 import com.example.MyBookShopApp.errs.UserExistException;
+import com.example.MyBookShopApp.security.data.BookstoreUserRegister;
+import com.example.MyBookShopApp.security.data.dto.RegistrationForm;
+import com.example.MyBookShopApp.security.data.entity.BookstoreUser;
+import com.example.MyBookShopApp.security.data.repository.BookstoreUserRepository;
 import org.hamcrest.CoreMatchers;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;

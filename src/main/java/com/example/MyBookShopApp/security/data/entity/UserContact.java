@@ -1,20 +1,19 @@
-package skbx.example.struct.user;
-
-import com.example.MyBookShopApp.security.data.entity.ContactType;
+package com.example.MyBookShopApp.security.data.entity;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "user_contact")
-public class UserContactEntity {
+public class UserContact {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Integer id;
 
-    @Column(columnDefinition = "INT NOT NULL")
-    private int userId;
+    @OneToOne
+    @JoinColumn(name = "user_id", referencedColumnName = "id")
+    private BookstoreUser user;
 
     private ContactType type;
 
@@ -24,29 +23,29 @@ public class UserContactEntity {
     @Column(columnDefinition = "VARCHAR(255) NOT NULL")
     private String code;
 
-    @Column(columnDefinition = "INT")
+    @Column(name = "code_trails", columnDefinition = "INT")
     private int codeTrails;
 
-    @Column(columnDefinition = "TIMESTAMP")
+    @Column(name = "code_time",columnDefinition = "TIMESTAMP")
     private LocalDateTime codeTime;
 
     @Column(columnDefinition = "VARCHAR(255) NOT NULL")
     private String contact;
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
-    public int getUserId() {
-        return userId;
+    public BookstoreUser getUser() {
+        return user;
     }
 
-    public void setUserId(int userId) {
-        this.userId = userId;
+    public void setUser(BookstoreUser user) {
+        this.user = user;
     }
 
     public ContactType getType() {

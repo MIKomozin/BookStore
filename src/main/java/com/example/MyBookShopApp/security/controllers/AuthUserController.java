@@ -1,6 +1,10 @@
-package com.example.MyBookShopApp.security;
+package com.example.MyBookShopApp.security.controllers;
 
 import com.example.MyBookShopApp.errs.UserExistException;
+import com.example.MyBookShopApp.security.data.BookstoreUserRegister;
+import com.example.MyBookShopApp.security.data.dto.ContactConfirmationPayload;
+import com.example.MyBookShopApp.security.data.dto.ContactConfirmationResponse;
+import com.example.MyBookShopApp.security.data.dto.RegistrationForm;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Controller;
@@ -8,9 +12,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.logging.Logger;
 
 @Controller
 public class AuthUserController {

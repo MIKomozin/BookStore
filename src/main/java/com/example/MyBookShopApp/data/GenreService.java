@@ -2,7 +2,6 @@ package com.example.MyBookShopApp.data;
 
 import com.example.MyBookShopApp.data.entity.Book;
 import com.example.MyBookShopApp.data.entity.Genre;
-import com.example.MyBookShopApp.data.entity.Tag;
 import com.example.MyBookShopApp.data.repository.BookRepository;
 import com.example.MyBookShopApp.data.repository.GenreRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,8 +15,8 @@ import java.util.List;
 @Service
 public class GenreService {
 
-    private GenreRepository genreRepository;
-    private BookRepository bookRepository;
+    private final GenreRepository genreRepository;
+    private final BookRepository bookRepository;
 
     @Autowired
     public GenreService(GenreRepository genreRepository, BookRepository bookRepository) {

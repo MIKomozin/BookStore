@@ -1,4 +1,4 @@
-package com.example.MyBookShopApp.security;
+package com.example.MyBookShopApp.security.data.dto;
 
 public class ContactConfirmationPayload {
 

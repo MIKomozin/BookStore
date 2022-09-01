@@ -1,10 +1,14 @@
-package com.example.MyBookShopApp.security;
+package com.example.MyBookShopApp.security.config;
 
-import com.example.MyBookShopApp.security.jwt.JWTRequestFilter;
+import com.example.MyBookShopApp.security.data.BookstoreUserDetailsService;
+import com.example.MyBookShopApp.security.data.CustomAuthenticationSuccessHandler;
+import com.example.MyBookShopApp.security.data.TokenBlackListService;
+import com.example.MyBookShopApp.security.data.jwt.JWTRequestFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -20,14 +24,18 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private final BookstoreUserDetailsService bookstoreUserDetailsService;
     private final JWTRequestFilter jwtRequestFilter;
     private final TokenBlackListService tokenBlackListService;
-    private final CustomAuthenticationSuccessHandler customAuthenticationSuccessHandler;
+    //private final CustomAuthenticationSuccessHandler customAuthenticationSuccessHandler;
 
     @Autowired
-    public SecurityConfig(BookstoreUserDetailsService bookstoreUserDetailsService, JWTRequestFilter jwtRequestFilter, TokenBlackListService tokenBlackListService, CustomAuthenticationSuccessHandler customAuthenticationSuccessHandler) {
+    public SecurityConfig(BookstoreUserDetailsService bookstoreUserDetailsService,
+                          JWTRequestFilter jwtRequestFilter,
+                          TokenBlackListService tokenBlackListService
+                          //CustomAuthenticationSuccessHandler customAuthenticationSuccessHandler
+    ) {
         this.bookstoreUserDetailsService = bookstoreUserDetailsService;
         this.jwtRequestFilter = jwtRequestFilter;
         this.tokenBlackListService = tokenBlackListService;
-        this.customAuthenticationSuccessHandler = customAuthenticationSuccessHandler;
+        //this.customAuthenticationSuccessHandler = customAuthenticationSuccessHandler;
     }
 
     @Bean
@@ -61,11 +69,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                         (request, response, authentication) -> {
                             tokenBlackListService.addTokenBlackList(request);
                         })
-                .logoutSuccessUrl("/signin").deleteCookies("token")
-                .and().oauth2Login().successHandler(customAuthenticationSuccessHandler)
-                .and().oauth2Client();
+                .logoutSuccessUrl("/signin").deleteCookies("token");
+                //далее проект ведем без функционала Oauth
+                //.and().oauth2Login().successHandler(customAuthenticationSuccessHandler)
+                //.and().oauth2Client();
 
-        //http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);//работаем без sessionId для Cookie
+        http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);//работаем без sessionId для Cookie
         http.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);//добавляем наш фильтр при работе с jwttokens
     }
 }

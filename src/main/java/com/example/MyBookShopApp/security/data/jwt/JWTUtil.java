@@ -1,4 +1,4 @@
-package com.example.MyBookShopApp.security.jwt;
+package com.example.MyBookShopApp.security.data.jwt;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;

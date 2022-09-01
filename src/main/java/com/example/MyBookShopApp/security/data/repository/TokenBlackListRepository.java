@@ -1,4 +1,4 @@
-package com.example.MyBookShopApp.security;
+package com.example.MyBookShopApp.security.data.repository;
 
 import com.example.MyBookShopApp.data.entity.TokenBlackList;
 import org.springframework.data.jpa.repository.JpaRepository;

@@ -1,4 +1,4 @@
-package com.example.MyBookShopApp.security;
+package com.example.MyBookShopApp.security.data.dto;
 
 //POJO класс для получения данных зарегистрированного пользователя из формы для регистрации
 public class RegistrationForm {

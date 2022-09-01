@@ -11,31 +11,23 @@ import org.springframework.stereotype.Service;
 
 import java.util.Date;
 import java.util.List;
-import java.util.logging.Logger;
 
 @Service
 public class BookService {
 
-    private BookRepository bookRepository;
+    private final BookRepository bookRepository;
 
     @Autowired
     public BookService(BookRepository bookRepository) {
         this.bookRepository = bookRepository;
     }
 
-    public List<Book> getBookData() {
-        return bookRepository.findAll();
-    }
-
-    //NEW BOOK SERVICE METHODS
-
     public List<Book> getBooksByAuthor(String authorName) {
-        String container = "%"+authorName+"%";
-        return bookRepository.findBooksByAuthorNameContaining(container);
+        return bookRepository.findBooksByAuthorNameContaining(authorName);
     }
 
     public List<Book> getBooksByTitle(String title) throws BookStoreApiWrongParameterException {
-        if (title.equals("") || title.length() <= 1) {
+        if (title.length() <= 1) {
             throw new BookStoreApiWrongParameterException("Wrong values passed to one or more parameters");
         } else {
             List<Book> data = bookRepository.findBooksByTitleContaining(title);
@@ -49,10 +41,6 @@ public class BookService {
 
     public List<Book> getBooksWithPriceBetween(Integer min, Integer max) {
         return bookRepository.findBooksByPriceBetween(min, max);
-    }
-
-    public List<Book> getBooksWithPrise(Integer price) {
-        return bookRepository.findBooksByPriceIs(price);
     }
 
     public List<Book> getBooksWithMaxDiscount() {
@@ -78,7 +66,6 @@ public class BookService {
         return bookRepository.findBooksByTitleContaining(searchWord, nextPage);
     }
 
-    //RECENT
     //without pubDate
     public Page<Book> getPageRecentBooks(Integer offset, Integer limit) {
         Pageable nextPage = PageRequest.of(offset, limit);
@@ -91,18 +78,6 @@ public class BookService {
         return bookRepository.findBooksByPubDateBetween(from, to, nextPage);
     }
 
-    //only with pubDate from
-    public Page<Book> getPageRecentBooksByPubDateAfter(Date from, Integer offset, Integer limit) {
-        Pageable nextPage = PageRequest.of(offset, limit);
-        return bookRepository.findBooksByPubDateAfter(from, nextPage);
-    }
-
-    //only with pubDate to
-    public Page<Book> getPageRecentBooksByPubDateBefore(Date to, Integer offset, Integer limit) {
-        Pageable nextPage = PageRequest.of(offset, limit);
-        return bookRepository.findBooksByPubDateBefore(to, nextPage);
-    }
-
     public Book getBookBySlug(String slug) {
         return bookRepository.findBooksBySlug(slug);
     }
@@ -111,41 +86,40 @@ public class BookService {
         return bookRepository.save(book);
     }
 
-    //modul7 task 1
     public List<Book> getBooksBySlugIn(String[] slugs) {
         return bookRepository.findBooksBySlugIn(slugs);
     }
 
-    public Integer getPriceOfAllBooks(List<Book> books) {
-        Integer sumPrice = 0;
+    //цена всех выбранных книг без учета скидки
+    public int getPriceOfAllBooks(List<Book> books) {
+        int sumPrice = 0;
         for (Book book:books) {
             sumPrice = sumPrice + book.getPrice();
         }
         return sumPrice;
     }
 
-    public Integer getDiscountPriceOfAllBooks(List<Book> books) {
-        Integer sumDiscountPrice = 0;
+    //сумма скидки для всех выбранных
+    public int getDiscountPriceOfAllBooks(List<Book> books) {
+        int sumDiscountPrice = 0;
         for (Book book:books) {
             sumDiscountPrice = sumDiscountPrice + book.discountPrice();
         }
         return sumDiscountPrice;
     }
 
+    //рейтинг книги на основании голосов (от 1 до 5 включительно)
     public Integer getRatingBookBySlug(String slug) {
         Integer sumRating = bookRepository.findSumRatingBookBySlug(slug); //суммарный рейтинг книги как произведение кол-ва пользователей на кол-во выбранных звезд
         Integer numberOfUsers = bookRepository.findNumberOfUsersGiveRatingBookBySlug(slug); //суммарное кол-во пользователей поставивших рейтинг
         if (sumRating == null || numberOfUsers == null || numberOfUsers == 0) {
             return 0;
         } else {
-            Integer rating = Math.toIntExact(Math.round(Double.valueOf(sumRating) / numberOfUsers));
-            return rating;
-            //Logger.getLogger(this.getClass().getSimpleName()).info("суммарный рейтинг: " + sumRating);
-            //Logger.getLogger(this.getClass().getSimpleName()).info("число пользователей " + numberOfUsers);
-            //Logger.getLogger(this.getClass().getSimpleName()).info("рейтинг в звездах: " + rating);
+            return Math.toIntExact(Math.round(Double.valueOf(sumRating) / numberOfUsers));
         }
     }
 
+    //суммарное количество звезд у книги
     public Integer getSumRatingBookBySlug(String slug) {
         Integer sumRating = bookRepository.findSumRatingBookBySlug(slug); //суммарный рейтинг книги как произведение кол-ва пользователей на кол-во выбранных звезд
         if (sumRating == null) {
@@ -155,6 +129,7 @@ public class BookService {
         }
     }
 
+    //колличество пользователей выбравших определенный рейтинг для книги (1, 2, 3, 4 или 5 звезд)
     public Integer getNumberOfUsersBookBySlugAndByNumberOfStars(String slug, Integer numberOfStars) {
         Integer numberOfUsersByStars = bookRepository.findNumberOfUsersBookBySlugAndByNumberOfStars(slug, numberOfStars);
         if (numberOfUsersByStars == null) {
@@ -172,6 +147,7 @@ public class BookService {
         return bookRepository.findBookIdByReviewId(reviewId);
     }
 
+    //количество оставленных отзывов для определенной книги
     public Integer getNumberOfReviewsForBook(String slug) {
         Book book = getBookBySlug(slug);
         return book.getBookReviewList().size();//размер массива и есть количетсов отзывов для каждой книги

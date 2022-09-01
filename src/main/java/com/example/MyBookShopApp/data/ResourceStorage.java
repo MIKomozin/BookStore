@@ -27,7 +27,7 @@ public class ResourceStorage {
     String downloadPath;
 
 
-    private BookFileRepository bookFileRepository;
+    private final BookFileRepository bookFileRepository;
 
     @Autowired
     public ResourceStorage(BookFileRepository bookFileRepository) {

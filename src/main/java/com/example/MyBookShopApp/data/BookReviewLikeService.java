@@ -4,8 +4,8 @@ import com.example.MyBookShopApp.data.dto.DtoRateBookReview;
 import com.example.MyBookShopApp.data.entity.BookReviewLike;
 import com.example.MyBookShopApp.data.repository.BookReviewLikeRepository;
 import com.example.MyBookShopApp.data.repository.BookReviewRepository;
-import com.example.MyBookShopApp.security.BookstoreUser;
-import com.example.MyBookShopApp.security.BookstoreUserRegister;
+import com.example.MyBookShopApp.security.data.entity.BookstoreUser;
+import com.example.MyBookShopApp.security.data.BookstoreUserRegister;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

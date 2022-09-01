@@ -27,7 +27,7 @@ class BookRepositoryTests {
     @Test
     void findBooksByAuthorNameContaining() {
         String token = "Cristiano";
-        List<Book> bookListByAuthorFirstName = bookRepository.findBooksByAuthorNameContaining("%" + token + "%");
+        List<Book> bookListByAuthorFirstName = bookRepository.findBooksByAuthorNameContaining(token);
 
         assertNotNull(bookListByAuthorFirstName);
         assertFalse(bookListByAuthorFirstName.isEmpty());

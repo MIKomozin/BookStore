@@ -1,5 +1,6 @@
 package com.example.MyBookShopApp.data.entity;
 
+import com.example.MyBookShopApp.security.data.entity.Book2User;
 import com.fasterxml.jackson.annotation.JsonGetter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -54,7 +55,6 @@ public class Book {
     @ApiModelProperty("discount value for book")
     private byte discount;
 
-    //2.2
     @Column(name = "users_buy_book", columnDefinition = "INT NOT NULL DEFAULT 0")
     @ApiModelProperty("number of users bought this book")
     private Integer usersBuyBook;
@@ -67,22 +67,18 @@ public class Book {
     @ApiModelProperty("number of users postponed book")
     private Integer usersPostponedBook;
 
-    //2.3
     @OneToMany(mappedBy = "book")
     @JsonIgnore
     List<Book2Tag> book2Tag;
 
-    //2.4
     @OneToMany(mappedBy = "book")
     @JsonIgnore
     List<Book2Genre> book2Genres;
 
-    //3
     @OneToMany(mappedBy = "book")
     @JsonIgnore
     List<Book2Author> book2Authors;
 
-    //modul7
     @JsonProperty
     public Integer discountPrice() {
         Integer discountPrice = price - Math.toIntExact(Math.round(price*discount/100));
@@ -105,13 +101,14 @@ public class Book {
     @JsonIgnore
     private List<BookFile> bookFileList = new ArrayList<>();
 
-    //modul7_task2
     @OneToMany(mappedBy = "book")
     private List<BookRating> bookRatingList;
 
-    //modul7_task3
     @OneToMany(mappedBy = "book")
     private List<BookReview> bookReviewList;
+
+    @OneToMany(mappedBy = "book")
+    private List<Book2User> book2UserList;
 
     public Integer getId() {
         return id;
@@ -257,4 +254,11 @@ public class Book {
         this.bookReviewList = bookReviewList;
     }
 
+    public List<Book2User> getBook2UserList() {
+        return book2UserList;
+    }
+
+    public void setBook2UserList(List<Book2User> book2UserList) {
+        this.book2UserList = book2UserList;
+    }
 }

@@ -1,8 +1,9 @@
-package com.example.MyBookShopApp.security;
+package com.example.MyBookShopApp.security.data;
 
 import com.example.MyBookShopApp.errs.UserExistException;
+import com.example.MyBookShopApp.security.data.entity.BookstoreUser;
+import com.example.MyBookShopApp.security.data.repository.BookstoreUserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.core.user.DefaultOAuth2User;
 import org.springframework.stereotype.Service;
 

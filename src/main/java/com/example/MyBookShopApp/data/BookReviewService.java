@@ -4,8 +4,8 @@ import com.example.MyBookShopApp.data.dto.DtoPostNewReview;
 import com.example.MyBookShopApp.data.entity.BookReview;
 import com.example.MyBookShopApp.data.repository.BookRepository;
 import com.example.MyBookShopApp.data.repository.BookReviewRepository;
-import com.example.MyBookShopApp.security.BookstoreUser;
-import com.example.MyBookShopApp.security.BookstoreUserRegister;
+import com.example.MyBookShopApp.security.data.entity.BookstoreUser;
+import com.example.MyBookShopApp.security.data.BookstoreUserRegister;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -48,6 +48,6 @@ public class BookReviewService {
             return bookReviewList.stream()
                     .sorted(Comparator.comparingLong(BookReview::getRatingReview).reversed())
                     .collect(Collectors.toList());
-        } return new ArrayList<>();
+        } return new ArrayList<>();//если нечего сортировать, то возвращаем пустой список
     }
 }

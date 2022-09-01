@@ -1,7 +1,9 @@
-package com.example.MyBookShopApp.security.jwt;
+package com.example.MyBookShopApp.security.data.jwt;
 
 import com.example.MyBookShopApp.data.entity.TokenBlackList;
-import com.example.MyBookShopApp.security.*;
+import com.example.MyBookShopApp.security.data.BookstoreUserDetails;
+import com.example.MyBookShopApp.security.data.BookstoreUserDetailsService;
+import com.example.MyBookShopApp.security.data.TokenBlackListService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;

@@ -17,8 +17,8 @@ import java.util.List;
 @Service
 public class TagService {
 
-    private TagRepository tagRepository;
-    private BookRepository bookRepository;
+    private final TagRepository tagRepository;
+    private final BookRepository bookRepository;
 
     @Autowired
     public TagService(TagRepository tagRepository, BookRepository bookRepository) {
@@ -26,17 +26,17 @@ public class TagService {
         this.bookRepository = bookRepository;
     }
 
-    //для отображения всех тегов из БД
+    //метод для отображения всех тегов из БД
     public List<Tag> getTagData() {
         return tagRepository.findAll();
     }
 
-    //2.3
-    //для тэга находить его имя по ID
+    //метод для нахождения тэга по ID
     public Tag getTagByTagId(Integer tagId) {
         return tagRepository.findTagByTagId(tagId);
     }
 
+    //список книг для определенного тэга
     public Page<Book> getBooksByTagId(Integer tagId, Integer offset, Integer limit) {
         Pageable nextPage = PageRequest.of(offset, limit);
         return  bookRepository.findBooksByTagId(getTagByTagId(tagId).getId(),nextPage);

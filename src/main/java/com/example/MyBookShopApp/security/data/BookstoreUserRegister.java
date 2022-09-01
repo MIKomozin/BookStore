@@ -1,14 +1,18 @@
-package com.example.MyBookShopApp.security;
+package com.example.MyBookShopApp.security.data;
 
 import com.example.MyBookShopApp.errs.UserExistException;
-import com.example.MyBookShopApp.security.jwt.JWTUtil;
+import com.example.MyBookShopApp.security.data.dto.ContactConfirmationPayload;
+import com.example.MyBookShopApp.security.data.dto.ContactConfirmationResponse;
+import com.example.MyBookShopApp.security.data.dto.RegistrationForm;
+import com.example.MyBookShopApp.security.data.entity.BookstoreUser;
+import com.example.MyBookShopApp.security.data.jwt.JWTUtil;
+import com.example.MyBookShopApp.security.data.repository.BookstoreUserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.oauth2.core.user.DefaultOAuth2User;
 import org.springframework.stereotype.Service;
 
 import java.util.logging.Logger;
@@ -34,17 +38,17 @@ public class BookstoreUserRegister {
         this.bookStoreUserFromOtherService = bookStoreUserFromOtherService;
     }
 
-    public BookstoreUser registerNewUser(RegistrationForm registrationForm) {
+    public BookstoreUser registerNewUser(RegistrationForm registrationForm) throws UserExistException{
     //добавление нового пользователя в БД, но сначала проверяем есть ли пользователь с таким email в БД
         BookstoreUser bookstoreUserByEmail = bookstoreUserRepository.findUserByEmail(registrationForm.getEmail());
-        BookstoreUser bookstoreUserByPnone = bookstoreUserRepository.findUserByPhone(registrationForm.getPhone());
-        if (bookstoreUserByEmail == null && bookstoreUserByPnone == null) {
-//            throw new UserExistException("пользователь с таким email и телефоном существует. Введите другие данные");
-//        } else if (bookstoreUserByEmail != null) {
-//            throw new UserExistException("пользователь с таким email существует. Введите другой email");
-//        } else if (bookstoreUserByPnone != null) {
-//            throw new UserExistException("пользователь с таким телефоном существует. Введите другой телефон.");
-//        } else {
+        BookstoreUser bookstoreUserByPhone = bookstoreUserRepository.findUserByPhone(registrationForm.getPhone());
+        if (bookstoreUserByEmail != null && bookstoreUserByPhone != null) {
+            throw new UserExistException("пользователь с таким email и телефоном существует. Введите другие данные");
+        } else if (bookstoreUserByEmail != null) {
+            throw new UserExistException("пользователь с таким email существует. Введите другой email");
+        } else if (bookstoreUserByPhone != null) {
+            throw new UserExistException("пользователь с таким телефоном существует. Введите другой телефон.");
+        } else {
             BookstoreUser user = new BookstoreUser();
             user.setName(registrationForm.getName());
             user.setEmail(registrationForm.getEmail());
@@ -52,8 +56,6 @@ public class BookstoreUserRegister {
             user.setPassword(passwordEncoder.encode(registrationForm.getPassword()));//шифруем пароль, в БД будут строка непонятных символов
             bookstoreUserRepository.save(user);
             return user;
-        } else {
-            return null;
         }
     }
 
@@ -78,8 +80,12 @@ public class BookstoreUserRegister {
     }
 
     public Object getCurrentUser() {
-        BookstoreUserDetails bookstoreUserDetails = null;
-        BookstoreUser bookstoreUser = null;
+        BookstoreUserDetails bookstoreUserDetails = (BookstoreUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        BookstoreUser bookstoreUser = bookstoreUserDetails.getBookstoreUser();
+        return bookstoreUser;
+        //Так как функционал без Oauth, то в коде ниже нет необходимсоти
+        /*
+                BookstoreUser bookstoreUser = null;
         try {
             bookstoreUserDetails = (BookstoreUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
             bookstoreUser = bookstoreUserDetails.getBookstoreUser();
@@ -89,8 +95,7 @@ public class BookstoreUserRegister {
             bookstoreUser = bookStoreUserFromOtherService.convertNewUserToBookstoreUser(user);
             return bookstoreUser;
         }
-
-        return bookstoreUser;
+         */
     }
 
     //проверка аутентификации пользователя (анонимный или зарегистрированный)

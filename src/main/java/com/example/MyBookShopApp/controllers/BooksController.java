@@ -5,7 +5,7 @@ import com.example.MyBookShopApp.data.dto.DtoPostNewReview;
 import com.example.MyBookShopApp.data.dto.DtoRateBookReview;
 import com.example.MyBookShopApp.data.dto.DtoRatingBook;
 import com.example.MyBookShopApp.data.entity.Book;
-import com.example.MyBookShopApp.security.BookstoreUserRegister;
+import com.example.MyBookShopApp.security.data.BookstoreUserRegister;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.http.HttpHeaders;

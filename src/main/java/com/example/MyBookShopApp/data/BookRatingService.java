@@ -34,10 +34,6 @@ public class BookRatingService {
             bookRating.setRatingStar(ratingStar);
             bookRating.setNumberOfUsers(1);
             bookRating.setBook(bookRepository.findBooksById(bookId));
-            Logger.getLogger(this.getClass().getSimpleName()).info("id: " + bookRating.getId());
-            Logger.getLogger(this.getClass().getSimpleName()).info("rating star: " + bookRating.getRatingStar());
-            Logger.getLogger(this.getClass().getSimpleName()).info("NumberOfUsers: " + bookRating.getNumberOfUsers());
-            Logger.getLogger(this.getClass().getSimpleName()).info("book_id: " + bookRating.getBook().getId());
             bookRatingRepository.save(bookRating);//и сохраняем ее в БД
         } else {
             bookRatingToUpdate.setNumberOfUsers(bookRatingToUpdate.getNumberOfUsers() + 1);//устанавливаем новое значения для пользователей

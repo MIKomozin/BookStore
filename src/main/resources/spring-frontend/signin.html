@@ -108,10 +108,10 @@
                     <span class="form-group form-group_center" th:if="${UserNotFound}">
                         <h3 th:text="${UserNotFound.getLocalizedMessage()}" style="color: red"></h3>
                     </span>
-
-                    <div class="form-group form-group_center">
-                        <a class="Login-reg" th:href="@{/oauth2/authorization/github}">Войти через GitHub</a>
-                    </div>
+<!--Далее работаем без Oauth-->
+<!--                    <div class="form-group form-group_center">-->
+<!--                        <a class="Login-reg" th:href="@{/oauth2/authorization/github}">Войти через GitHub</a>-->
+<!--                    </div>-->
                 </div>
             </form>
         </main>

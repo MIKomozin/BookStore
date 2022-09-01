@@ -1,9 +1,8 @@
 package com.example.MyBookShopApp.data.entity;
 
-import com.example.MyBookShopApp.security.BookstoreUser;
+import com.example.MyBookShopApp.security.data.entity.BookstoreUser;
 
 import javax.persistence.*;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 
 @Entity
