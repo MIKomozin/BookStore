@@ -307,6 +307,138 @@ insert into book_rating (rating_star, number_of_users, book_id) values (3, 0, 3)
 insert into book_rating (rating_star, number_of_users, book_id) values (4, 1, 3);
 insert into book_rating (rating_star, number_of_users, book_id) values (5, 8, 3);
 
+insert into book_rating (rating_star, number_of_users, book_id) values (1, 5, 4);
+insert into book_rating (rating_star, number_of_users, book_id) values (2, 2, 4);
+insert into book_rating (rating_star, number_of_users, book_id) values (3, 3, 4);
+insert into book_rating (rating_star, number_of_users, book_id) values (4, 1, 4);
+insert into book_rating (rating_star, number_of_users, book_id) values (5, 5, 4);
+
+insert into book_rating (rating_star, number_of_users, book_id) values (1, 0, 5);
+insert into book_rating (rating_star, number_of_users, book_id) values (2, 0, 5);
+insert into book_rating (rating_star, number_of_users, book_id) values (3, 2, 5);
+insert into book_rating (rating_star, number_of_users, book_id) values (4, 1, 5);
+insert into book_rating (rating_star, number_of_users, book_id) values (5, 5, 5);
+
+insert into book_rating (rating_star, number_of_users, book_id) values (1, 0, 6);
+insert into book_rating (rating_star, number_of_users, book_id) values (2, 0, 6);
+insert into book_rating (rating_star, number_of_users, book_id) values (3, 7, 6);
+insert into book_rating (rating_star, number_of_users, book_id) values (4, 7, 6);
+insert into book_rating (rating_star, number_of_users, book_id) values (5, 8, 6);
+
+insert into book_rating (rating_star, number_of_users, book_id) values (1, 0, 7);
+insert into book_rating (rating_star, number_of_users, book_id) values (2, 3, 7);
+insert into book_rating (rating_star, number_of_users, book_id) values (3, 3, 7);
+insert into book_rating (rating_star, number_of_users, book_id) values (4, 5, 7);
+insert into book_rating (rating_star, number_of_users, book_id) values (5, 7, 7);
+
+insert into book_rating (rating_star, number_of_users, book_id) values (1, 5, 8);
+insert into book_rating (rating_star, number_of_users, book_id) values (2, 7, 8);
+insert into book_rating (rating_star, number_of_users, book_id) values (3, 8, 8);
+insert into book_rating (rating_star, number_of_users, book_id) values (4, 4, 8);
+insert into book_rating (rating_star, number_of_users, book_id) values (5, 1, 8);
+
+insert into book_rating (rating_star, number_of_users, book_id) values (1, 1, 9);
+insert into book_rating (rating_star, number_of_users, book_id) values (2, 1, 9);
+insert into book_rating (rating_star, number_of_users, book_id) values (3, 1, 9);
+insert into book_rating (rating_star, number_of_users, book_id) values (4, 5, 9);
+insert into book_rating (rating_star, number_of_users, book_id) values (5, 4, 9);
+
+insert into book_rating (rating_star, number_of_users, book_id) values (1, 1, 10);
+insert into book_rating (rating_star, number_of_users, book_id) values (2, 1, 10);
+insert into book_rating (rating_star, number_of_users, book_id) values (3, 2, 10);
+insert into book_rating (rating_star, number_of_users, book_id) values (4, 4, 10);
+insert into book_rating (rating_star, number_of_users, book_id) values (5, 3, 10);
+
+insert into book_rating (rating_star, number_of_users, book_id) values (1, 0, 11);
+insert into book_rating (rating_star, number_of_users, book_id) values (2, 0, 11);
+insert into book_rating (rating_star, number_of_users, book_id) values (3, 0, 11);
+insert into book_rating (rating_star, number_of_users, book_id) values (4, 2, 11);
+insert into book_rating (rating_star, number_of_users, book_id) values (5, 3, 11);
+
+insert into book_rating (rating_star, number_of_users, book_id) values (1, 0, 12);
+insert into book_rating (rating_star, number_of_users, book_id) values (2, 0, 12);
+insert into book_rating (rating_star, number_of_users, book_id) values (3, 4, 12);
+insert into book_rating (rating_star, number_of_users, book_id) values (4, 2, 12);
+insert into book_rating (rating_star, number_of_users, book_id) values (5, 3, 12);
+
+insert into book_rating (rating_star, number_of_users, book_id) values (1, 1, 13);
+insert into book_rating (rating_star, number_of_users, book_id) values (2, 3, 13);
+insert into book_rating (rating_star, number_of_users, book_id) values (3, 5, 13);
+insert into book_rating (rating_star, number_of_users, book_id) values (4, 4, 13);
+insert into book_rating (rating_star, number_of_users, book_id) values (5, 5, 13);
+
+insert into book_rating (rating_star, number_of_users, book_id) values (1, 2, 14);
+insert into book_rating (rating_star, number_of_users, book_id) values (2, 2, 14);
+insert into book_rating (rating_star, number_of_users, book_id) values (3, 2, 14);
+insert into book_rating (rating_star, number_of_users, book_id) values (4, 2, 14);
+insert into book_rating (rating_star, number_of_users, book_id) values (5, 3, 14);
+
+insert into book_rating (rating_star, number_of_users, book_id) values (1, 3, 15);
+insert into book_rating (rating_star, number_of_users, book_id) values (2, 3, 15);
+insert into book_rating (rating_star, number_of_users, book_id) values (3, 5, 15);
+insert into book_rating (rating_star, number_of_users, book_id) values (4, 12, 15);
+insert into book_rating (rating_star, number_of_users, book_id) values (5, 13, 15);
+
+insert into book_rating (rating_star, number_of_users, book_id) values (1, 1, 16);
+insert into book_rating (rating_star, number_of_users, book_id) values (2, 3, 16);
+insert into book_rating (rating_star, number_of_users, book_id) values (3, 3, 16);
+insert into book_rating (rating_star, number_of_users, book_id) values (4, 5, 16);
+insert into book_rating (rating_star, number_of_users, book_id) values (5, 7, 16);
+
+insert into book_rating (rating_star, number_of_users, book_id) values (1, 2, 17);
+insert into book_rating (rating_star, number_of_users, book_id) values (2, 3, 17);
+insert into book_rating (rating_star, number_of_users, book_id) values (3, 3, 17);
+insert into book_rating (rating_star, number_of_users, book_id) values (4, 4, 17);
+insert into book_rating (rating_star, number_of_users, book_id) values (5, 2, 17);
+
+insert into book_rating (rating_star, number_of_users, book_id) values (1, 2, 18);
+insert into book_rating (rating_star, number_of_users, book_id) values (2, 3, 18);
+insert into book_rating (rating_star, number_of_users, book_id) values (3, 3, 18);
+insert into book_rating (rating_star, number_of_users, book_id) values (4, 4, 18);
+insert into book_rating (rating_star, number_of_users, book_id) values (5, 5, 18);
+
+insert into book_rating (rating_star, number_of_users, book_id) values (1, 0, 19);
+insert into book_rating (rating_star, number_of_users, book_id) values (2, 0, 19);
+insert into book_rating (rating_star, number_of_users, book_id) values (3, 2, 19);
+insert into book_rating (rating_star, number_of_users, book_id) values (4, 5, 19);
+insert into book_rating (rating_star, number_of_users, book_id) values (5, 7, 19);
+
+insert into book_rating (rating_star, number_of_users, book_id) values (1, 0, 20);
+insert into book_rating (rating_star, number_of_users, book_id) values (2, 2, 20);
+insert into book_rating (rating_star, number_of_users, book_id) values (3, 4, 20);
+insert into book_rating (rating_star, number_of_users, book_id) values (4, 5, 20);
+insert into book_rating (rating_star, number_of_users, book_id) values (5, 7, 20);
+
+insert into book_rating (rating_star, number_of_users, book_id) values (1, 2, 21);
+insert into book_rating (rating_star, number_of_users, book_id) values (2, 3, 21);
+insert into book_rating (rating_star, number_of_users, book_id) values (3, 8, 21);
+insert into book_rating (rating_star, number_of_users, book_id) values (4, 7, 21);
+insert into book_rating (rating_star, number_of_users, book_id) values (5, 6, 21);
+
+insert into book_rating (rating_star, number_of_users, book_id) values (1, 0, 22);
+insert into book_rating (rating_star, number_of_users, book_id) values (2, 2, 22);
+insert into book_rating (rating_star, number_of_users, book_id) values (3, 4, 22);
+insert into book_rating (rating_star, number_of_users, book_id) values (4, 5, 22);
+insert into book_rating (rating_star, number_of_users, book_id) values (5, 7, 22);
+
+insert into book_rating (rating_star, number_of_users, book_id) values (1, 5, 23);
+insert into book_rating (rating_star, number_of_users, book_id) values (2, 4, 23);
+insert into book_rating (rating_star, number_of_users, book_id) values (3, 3, 23);
+insert into book_rating (rating_star, number_of_users, book_id) values (4, 2, 23);
+insert into book_rating (rating_star, number_of_users, book_id) values (5, 1, 23);
+
+insert into book_rating (rating_star, number_of_users, book_id) values (1, 5, 24);
+insert into book_rating (rating_star, number_of_users, book_id) values (2, 4, 24);
+insert into book_rating (rating_star, number_of_users, book_id) values (3, 3, 24);
+insert into book_rating (rating_star, number_of_users, book_id) values (4, 2, 24);
+insert into book_rating (rating_star, number_of_users, book_id) values (5, 1, 24);
+
+insert into book_rating (rating_star, number_of_users, book_id) values (1, 0, 25);
+insert into book_rating (rating_star, number_of_users, book_id) values (2, 1, 25);
+insert into book_rating (rating_star, number_of_users, book_id) values (3, 3, 25);
+insert into book_rating (rating_star, number_of_users, book_id) values (4, 8, 25);
+insert into book_rating (rating_star, number_of_users, book_id) values (5, 12, 25);
+
 --users
 insert into users (name, email, phone, password) values ('Max', 'm.i.komozin@gmail.com', '+7 (222) 222-22-22', '$2a$10$/UzpCCPv.63ZYMg3FYtaG.uzlDkX96Q05MrW.O.3QZL10B3PXjm2S');
 insert into users (name, email, phone, password) values ('Nadi', 'nadi@gmail.com', '+7 (333) 333-33-33', '$2a$10$cnvyfUSR6THizzCHH4dFFuscg8OMUay94KvJ0j.FDyO53SBdTgCOa');

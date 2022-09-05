@@ -53,7 +53,7 @@ public class BookService {
 
     public Page<Book> getPageRecommendedBooks(Integer offset, Integer limit) {
         Pageable nextPage = PageRequest.of(offset, limit);
-        return bookRepository.findAll(nextPage);
+        return bookRepository.findRecommendedBookAndSort(nextPage);
     }
 
     public Page<Book> getPagePopularBooks(Integer offset, Integer limit) {

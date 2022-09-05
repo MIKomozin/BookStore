@@ -48,6 +48,7 @@ public interface BookRepository extends JpaRepository<Book, Integer> {
     @Query(value = "SELECT * FROM books ORDER BY pub_date DESC", nativeQuery = true)
     Page<Book> findAllBooksAndSortByPubDate(Pageable nextPage);
 
+    //POPULAR
     @Query(value = "WITH sort_book_by_pop AS " +
             "(SELECT books.id AS id, pub_date, is_bestseller, slug, title, image, description, price, discount, SUM(point) AS pop_index FROM books " +
             "LEFT JOIN book2user ON books.id = book_id " +
@@ -58,6 +59,17 @@ public interface BookRepository extends JpaRepository<Book, Integer> {
             countQuery = "SELECT count(*) FROM books",
             nativeQuery = true)
     Page<Book> findPopularBookAndSort(Pageable nextPage);
+
+    //RECOMMENDED
+    @Query(value = "WITH sort_book_by_rating AS " +
+            "(SELECT books.id AS id, pub_date, is_bestseller, slug, title, image, description, price, discount, SUM(rating_star * number_of_users) AS rating FROM books " +
+            "LEFT JOIN book_rating ON books.id = book_id " +
+            "GROUP BY (books.id) " +
+            "ORDER BY rating DESC NULLS LAST) " +
+            "SELECT id, pub_date, is_bestseller, slug, title, image, description, price, discount FROM sort_book_by_rating",
+            countQuery = "SELECT count(*) FROM books",
+            nativeQuery = true)
+    Page<Book> findRecommendedBookAndSort(Pageable nextPage);
 
     @Query(value = "SELECT books.id AS id, pub_date, is_bestseller, slug, title, image, description, price, discount FROM books JOIN book2tag ON books.id = book_id JOIN tags ON tag_id = tags.id WHERE tag_id = ?1",
             nativeQuery = true, countQuery = "SELECT count(*) FROM book2tag WHERE tag_id = ?1")

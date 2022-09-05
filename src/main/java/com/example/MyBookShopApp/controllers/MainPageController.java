@@ -49,6 +49,7 @@ public class MainPageController {
     }
 
     //данный метод необходимо будет изменить после настройки функционала оплаты!!!
+    //сделаю пока функционал на основе сортировки по рейтингу для неавторизованных пользователей
     @GetMapping("/books/recommended")
     @ResponseBody
     public BooksPageDto getRecommendedBooksPage(@RequestParam("offset") Integer offset,
