@@ -13,6 +13,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.logging.Logger;
 
 @Controller
 public class BooksRecentController {
@@ -41,19 +42,19 @@ public class BooksRecentController {
     public BooksPageDto getNextSearchPage(@RequestParam("from") String from,
                                           @RequestParam("to") String to,
                                           @RequestParam("offset") Integer offset,
-                                          @RequestParam("limit") Integer limit) throws ParseException {
-        Date dateFrom = new SimpleDateFormat("dd.MM.yyyy").parse(from);
-        Date dateTo = new SimpleDateFormat("dd.MM.yyyy").parse(to);
+                                          @RequestParam("limit") Integer limit) {
+        Date dateFrom = null;
+        Date dateTo = null;
+        try {
+            dateFrom = new SimpleDateFormat("dd.MM.yyyy").parse(from);
+        } catch (ParseException parseException1) {
+            Logger.getLogger(this.getClass().getSimpleName()).info("dateFrom do not parse, dateFrom is null");
+            try {
+                dateTo = new SimpleDateFormat("dd.MM.yyyy").parse(to);
+            } catch (ParseException parseException2) {
+                Logger.getLogger(this.getClass().getSimpleName()).info("dateTo do not parse, dateTo is null");
+            }
+        }
         return new BooksPageDto(bookService.getPageRecentBooksByPubDateBetween(dateFrom, dateTo, offset, limit).getContent());
     }
 }
-
-/*
-if (from.isEmpty() && to.isEmpty()) {
-            return new BooksPageDto(bookService.getPageRecentBooks(offset, limit).getContent());
-        } else if (to.isEmpty()) {
-            return new BooksPageDto(bookService.getPageRecentBooksByPubDateAfter(dateFrom, offset, limit).getContent());
-        } else if (from.isEmpty()) {
-            return new BooksPageDto(bookService.getPageRecentBooksByPubDateBefore(dateTo, offset, limit).getContent());
-        } else {
- */

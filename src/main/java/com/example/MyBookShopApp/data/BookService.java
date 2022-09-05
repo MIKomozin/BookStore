@@ -58,24 +58,33 @@ public class BookService {
 
     public Page<Book> getPagePopularBooks(Integer offset, Integer limit) {
         Pageable nextPage = PageRequest.of(offset, limit);
-        return bookRepository.findAll(nextPage);
+        return bookRepository.findPopularBookAndSort(nextPage);
+    }
+
+    //без даты публикации. Метод подходит для слайдера новинок на главной странице
+    //и для начальной страницы новинок, так как параметры from и to null
+    public Page<Book> getPageRecentBooks(Integer offset, Integer limit) {
+        Pageable nextPage = PageRequest.of(offset, limit);
+        return bookRepository.findAllBooksAndSortByPubDate(nextPage);
+    }
+
+    //с датой публикации или без нее
+    public Page<Book> getPageRecentBooksByPubDateBetween(Date from, Date to, Integer offset, Integer limit) {
+        Pageable nextPage = PageRequest.of(offset, limit);
+        if (from != null && to != null) {
+        return bookRepository.findBooksByPubDateBetween(from, to, nextPage);
+        } else if (from != null) {
+            return bookRepository.findBooksByPubDateAfter(from, nextPage);
+        } else if (to != null) {
+            return bookRepository.findBooksByPubDateBefore(to, nextPage);
+        } else {
+            return bookRepository.findAllBooksAndSortByPubDate(nextPage);
+        }
     }
 
     public Page<Book> getPageOfSearchResultBooks(String searchWord, Integer offset, Integer limit) {
         Pageable nextPage = PageRequest.of(offset, limit);
         return bookRepository.findBooksByTitleContaining(searchWord, nextPage);
-    }
-
-    //without pubDate
-    public Page<Book> getPageRecentBooks(Integer offset, Integer limit) {
-        Pageable nextPage = PageRequest.of(offset, limit);
-        return bookRepository.findAll(nextPage);
-    }
-
-    //with pubDate
-    public Page<Book> getPageRecentBooksByPubDateBetween(Date from, Date to, Integer offset, Integer limit) {
-        Pageable nextPage = PageRequest.of(offset, limit);
-        return bookRepository.findBooksByPubDateBetween(from, to, nextPage);
     }
 
     public Book getBookBySlug(String slug) {

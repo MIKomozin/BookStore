@@ -44,21 +44,30 @@ public interface BookRepository extends JpaRepository<Book, Integer> {
     @Query(value = "SELECT * FROM books WHERE pub_date <= ?1 ORDER BY pub_date DESC", nativeQuery = true)
     Page<Book> findBooksByPubDateBefore(Date to, Pageable nextPage);
 
-    //POPULAR
-    //метод изменится при внесении изменений в БД
-    @Query(value = "SELECT * FROM books ORDER BY (users_buy_book+0.7*users_added_book_to_cart+0.4*users_postponed_book) DESC",
-            nativeQuery = true, countQuery = "SELECT count(*) FROM books")
-    Page<Book> findBooksByPopIndex(Pageable nextPage);
+    //without pubDate
+    @Query(value = "SELECT * FROM books ORDER BY pub_date DESC", nativeQuery = true)
+    Page<Book> findAllBooksAndSortByPubDate(Pageable nextPage);
 
-    @Query(value = "SELECT books.id AS id, pub_date, is_bestseller, slug, title, image, description, price, discount, users_buy_book, users_added_book_to_cart, users_postponed_book FROM books JOIN book2tag ON books.id = book_id JOIN tags ON tag_id = tags.id WHERE tag_id = ?1",
+    @Query(value = "WITH sort_book_by_pop AS " +
+            "(SELECT books.id AS id, pub_date, is_bestseller, slug, title, image, description, price, discount, SUM(point) AS pop_index FROM books " +
+            "LEFT JOIN book2user ON books.id = book_id " +
+            "LEFT JOIN book2user_type ON book2user_type.id = type_id " +
+            "GROUP BY (books.id) " +
+            "ORDER BY pop_index DESC NULLS LAST) " +
+            "SELECT id, pub_date, is_bestseller, slug, title, image, description, price, discount FROM sort_book_by_pop",
+            countQuery = "SELECT count(*) FROM books",
+            nativeQuery = true)
+    Page<Book> findPopularBookAndSort(Pageable nextPage);
+
+    @Query(value = "SELECT books.id AS id, pub_date, is_bestseller, slug, title, image, description, price, discount FROM books JOIN book2tag ON books.id = book_id JOIN tags ON tag_id = tags.id WHERE tag_id = ?1",
             nativeQuery = true, countQuery = "SELECT count(*) FROM book2tag WHERE tag_id = ?1")
     Page<Book> findBooksByTagId(Integer tagId, Pageable nextPage);
 
-    @Query(value = "SELECT books.id AS id, pub_date, is_bestseller, books.slug AS slug, title, image, description, price, discount, users_buy_book, users_added_book_to_cart, users_postponed_book FROM books JOIN book2genre ON books.id = book_id JOIN genre ON genre_id = genre.id WHERE genre.slug = ?1",
+    @Query(value = "SELECT books.id AS id, pub_date, is_bestseller, books.slug AS slug, title, image, description, price, discount FROM books JOIN book2genre ON books.id = book_id JOIN genre ON genre_id = genre.id WHERE genre.slug = ?1",
             nativeQuery = true, countQuery = "SELECT count(*) FROM book2genre JOIN genre ON genre_id = genre.id WHERE genre.slug = ?1")
     Page<Book> findBooksByGenreSlug(String slugInd, Pageable nextPage);
 
-    @Query(value = "SELECT books.id AS id, pub_date, is_bestseller, books.slug AS slug, title, image, books.description AS description, price, discount, users_buy_book, users_added_book_to_cart, users_postponed_book FROM books JOIN book2author ON books.id = book_id JOIN authors ON author_id = authors.id WHERE author_id = ?1",
+    @Query(value = "SELECT books.id AS id, pub_date, is_bestseller, books.slug AS slug, title, image, books.description AS description, price, discount FROM books JOIN book2author ON books.id = book_id JOIN authors ON author_id = authors.id WHERE author_id = ?1",
             nativeQuery = true, countQuery = "SELECT count(*) FROM book2author WHERE author_id = ?1")
     Page<Book> findBooksByAuthorId(Integer authorId, Pageable nextPage);
 

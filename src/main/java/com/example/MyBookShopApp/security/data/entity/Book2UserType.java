@@ -9,7 +9,7 @@ public class Book2UserType {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Integer id;
 
     @Column(columnDefinition = "VARCHAR(255) NOT NULL")
     private String code;
@@ -17,14 +17,18 @@ public class Book2UserType {
     @Column(columnDefinition = "VARCHAR(255) NOT NULL")
     private String name;
 
+    //поле для подсчета популярности книги (пока так придумал)
+    @Column(columnDefinition = "REAL NOT NULL DEFAULT 0")
+    private Float point;
+
     @OneToMany(mappedBy = "type")
     List<Book2User> book2UserList;
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
@@ -50,5 +54,13 @@ public class Book2UserType {
 
     public void setBook2UserList(List<Book2User> book2UserList) {
         this.book2UserList = book2UserList;
+    }
+
+    public Float getPoint() {
+        return point;
+    }
+
+    public void setPoint(Float point) {
+        this.point = point;
     }
 }

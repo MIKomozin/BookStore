@@ -1,7 +1,6 @@
 package com.example.MyBookShopApp.data.entity;
 
 import com.example.MyBookShopApp.security.data.entity.Book2User;
-import com.fasterxml.jackson.annotation.JsonGetter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.annotations.ApiModel;
@@ -55,18 +54,6 @@ public class Book {
     @ApiModelProperty("discount value for book")
     private byte discount;
 
-    @Column(name = "users_buy_book", columnDefinition = "INT NOT NULL DEFAULT 0")
-    @ApiModelProperty("number of users bought this book")
-    private Integer usersBuyBook;
-
-    @Column(name = "users_added_book_to_cart", columnDefinition = "INT NOT NULL DEFAULT 0")
-    @ApiModelProperty("number of users added book to cart")
-    private Integer usersAddedBookToCart;
-
-    @Column(name = "users_postponed_book", columnDefinition = "INT NOT NULL DEFAULT 0")
-    @ApiModelProperty("number of users postponed book")
-    private Integer usersPostponedBook;
-
     @OneToMany(mappedBy = "book")
     @JsonIgnore
     List<Book2Tag> book2Tag;
@@ -102,12 +89,15 @@ public class Book {
     private List<BookFile> bookFileList = new ArrayList<>();
 
     @OneToMany(mappedBy = "book")
+    @JsonIgnore
     private List<BookRating> bookRatingList;
 
     @OneToMany(mappedBy = "book")
+    @JsonIgnore
     private List<BookReview> bookReviewList;
 
     @OneToMany(mappedBy = "book")
+    @JsonIgnore
     private List<Book2User> book2UserList;
 
     public Integer getId() {
@@ -182,30 +172,6 @@ public class Book {
         this.discount = discount;
     }
 
-    public Integer getUsersBuyBook() {
-        return usersBuyBook;
-    }
-
-    public void setUsersBuyBook(Integer usersBuyBook) {
-        this.usersBuyBook = usersBuyBook;
-    }
-
-    public Integer getUsersAddedBookToCart() {
-        return usersAddedBookToCart;
-    }
-
-    public void setUsersAddedBookToCart(Integer usersAddedBookToCart) {
-        this.usersAddedBookToCart = usersAddedBookToCart;
-    }
-
-    public Integer getUsersPostponedBook() {
-        return usersPostponedBook;
-    }
-
-    public void setUsersPostponedBook(Integer usersPostponedBook) {
-        this.usersPostponedBook = usersPostponedBook;
-    }
-
     public List<Book2Tag> getBook2Tag() {
         return book2Tag;
     }
@@ -262,3 +228,27 @@ public class Book {
         this.book2UserList = book2UserList;
     }
 }
+
+/*
+    //метод для подсчета популярности книги
+    public double getPopIndex() {
+        double popIndex = 0.0;
+        if (book2UserList.isEmpty()) {
+            return popIndex;
+        } else {
+            for (Book2User book2Users : book2UserList) {
+                String PCK = book2Users.getType().getName();
+                if (PCK.equals("PAID")) {
+                    popIndex = popIndex + 1;
+                } else if (PCK.equals("CART")) {
+                    popIndex = popIndex + 0.7;
+                } else if (PCK.equals("KEPT")) {
+                    popIndex = popIndex + 0.4;
+                } else {
+                    continue;
+                }
+            }
+        }
+        return popIndex;
+    }
+*/
