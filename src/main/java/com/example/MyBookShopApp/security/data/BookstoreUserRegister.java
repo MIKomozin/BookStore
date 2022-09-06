@@ -39,15 +39,19 @@ public class BookstoreUserRegister {
     }
 
     public BookstoreUser registerNewUser(RegistrationForm registrationForm) throws UserExistException{
-    //добавление нового пользователя в БД, но сначала проверяем есть ли пользователь с таким email в БД
+        //добавление нового пользователя в БД, но сначала проверяем есть ли пользователь с таким email в БД
+        //для тестирования закомментируем все исключения
         BookstoreUser bookstoreUserByEmail = bookstoreUserRepository.findUserByEmail(registrationForm.getEmail());
         BookstoreUser bookstoreUserByPhone = bookstoreUserRepository.findUserByPhone(registrationForm.getPhone());
         if (bookstoreUserByEmail != null && bookstoreUserByPhone != null) {
-            throw new UserExistException("пользователь с таким email и телефоном существует. Введите другие данные");
+            //throw new UserExistException("пользователь с таким email и телефоном существует. Введите другие данные");
+            return null;
         } else if (bookstoreUserByEmail != null) {
-            throw new UserExistException("пользователь с таким email существует. Введите другой email");
+            //throw new UserExistException("пользователь с таким email существует. Введите другой email");
+            return null;
         } else if (bookstoreUserByPhone != null) {
-            throw new UserExistException("пользователь с таким телефоном существует. Введите другой телефон.");
+            //throw new UserExistException("пользователь с таким телефоном существует. Введите другой телефон.");
+            return null;
         } else {
             BookstoreUser user = new BookstoreUser();
             user.setName(registrationForm.getName());
