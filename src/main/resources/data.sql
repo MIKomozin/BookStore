@@ -497,3 +497,51 @@ insert into book2user (time, type_id, user_id, book_id) values ('2013-06-04 18:2
 insert into book2user (time, type_id, user_id, book_id) values ('2013-06-05 18:27:08', 3, 2, 10);
 insert into book2user (time, type_id, user_id, book_id) values ('2013-06-06 18:27:08', 3, 2, 11);
 insert into book2user (time, type_id, user_id, book_id) values ('2013-06-07 18:27:08', 3, 2, 12);
+
+--book_review
+insert into book_review (book_id, user_id, time, text) values (3, 1, '2022-06-04', 'Amazing book');
+insert into book_review (book_id, user_id, time, text) values (3, 2, '2022-06-25', 'WOW');
+insert into book_review (book_id, user_id, time, text) values (3, 3, '2022-06-26', 'Wonderful book');
+
+insert into book_review (book_id, user_id, time, text) values (11, 3, '2022-07-04', 'Amazing book');
+insert into book_review (book_id, user_id, time, text) values (11, 4, '2022-07-25', 'WOW');
+insert into book_review (book_id, user_id, time, text) values (11, 5, '2022-07-26', 'Wonderful book');
+
+insert into book_review (book_id, user_id, time, text) values (5, 2, '2022-08-11', 'Amazing book');
+insert into book_review (book_id, user_id, time, text) values (5, 1, '2022-08-12', 'WOW');
+insert into book_review (book_id, user_id, time, text) values (5, 3, '2022-08-21', 'Wonderful book');
+
+--book_review_like
+-- insert into book_review_like (review_id, iser_id, time, value) values (1, 1, '2013-06-04 18:25:08', 1);
+-- insert into book_review_like (review_id, iser_id, time, value) values (1, 2, '2013-06-04 18:25:08', 1);
+-- insert into book_review_like (review_id, iser_id, time, value) values (1, 3, '2013-06-04 18:25:08', 1);
+--
+-- insert into book_review_like (review_id, iser_id, time, value) values (2, 1, '2013-06-04 18:25:08', -1);
+-- insert into book_review_like (review_id, iser_id, time, value) values (2, 2, '2013-06-04 18:25:08', 1);
+-- insert into book_review_like (review_id, iser_id, time, value) values (2, 3, '2013-06-04 18:25:08', -1);
+--
+-- insert into book_review_like (review_id, iser_id, time, value) values (3, 1, '2013-06-04 18:25:08', -1);
+-- insert into book_review_like (review_id, iser_id, time, value) values (3, 2, '2013-06-04 18:25:08', -1);
+--
+-- insert into book_review_like (review_id, iser_id, time, value) values (4, 1, '2013-06-04 18:25:08', 1);
+-- insert into book_review_like (review_id, iser_id, time, value) values (4, 2, '2013-06-04 18:25:08', 1);
+--
+-- insert into book_review_like (review_id, iser_id, time, value) values (5, 1, '2013-06-04 18:25:08', 1);
+-- insert into book_review_like (review_id, iser_id, time, value) values (5, 2, '2013-06-04 18:25:08', 1);
+-- insert into book_review_like (review_id, iser_id, time, value) values (5, 3, '2013-06-04 18:25:08', 1);
+-- insert into book_review_like (review_id, iser_id, time, value) values (5, 4, '2013-06-04 18:25:08', 1);
+--
+-- insert into book_review_like (review_id, iser_id, time, value) values (6, 1, '2013-06-04 18:25:08', -1);
+-- insert into book_review_like (review_id, iser_id, time, value) values (6, 2, '2013-06-04 18:25:08', -1);
+--
+-- insert into book_review_like (review_id, iser_id, time, value) values (7, 1, '2013-06-04 18:25:08', -1);
+-- insert into book_review_like (review_id, iser_id, time, value) values (7, 2, '2013-06-04 18:25:08', 1);
+--
+-- insert into book_review_like (review_id, iser_id, time, value) values (8, 1, '2013-06-04 18:25:08', -1);
+-- insert into book_review_like (review_id, iser_id, time, value) values (8, 2, '2013-06-04 18:25:08', 1);
+-- insert into book_review_like (review_id, iser_id, time, value) values (8, 3, '2013-06-04 18:25:08', 1);
+-- insert into book_review_like (review_id, iser_id, time, value) values (8, 4, '2013-06-04 18:25:08', 1);
+--
+-- insert into book_review_like (review_id, iser_id, time, value) values (9, 1, '2013-06-04 18:25:08', -1);
+-- insert into book_review_like (review_id, iser_id, time, value) values (9, 2, '2013-06-04 18:25:08', 1);
+-- insert into book_review_like (review_id, iser_id, time, value) values (9, 4, '2013-06-04 18:25:08', 1);

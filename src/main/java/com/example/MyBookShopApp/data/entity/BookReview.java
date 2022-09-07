@@ -50,11 +50,6 @@ public class BookReview {
         return count;
     }
 
-    //рейтинг отзыва = (сумма лайков) - (сумма дизлайков)
-    public Long getRatingReview() {
-        return getSumLikes() - getSumDislikes();
-    }
-
     public Integer getId() {
         return id;
     }

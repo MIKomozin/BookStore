@@ -11,7 +11,7 @@ import java.util.List;
 
 public interface BookRepository extends JpaRepository<Book, Integer> {
 
-    @Query(value = "SELECT books.id AS id, pub_date, is_bestseller, books.slug AS slug, title, image, books.description AS description, price, discount, users_buy_book, users_added_book_to_cart, users_postponed_book FROM books " +
+    @Query(value = "SELECT books.id AS id, pub_date, is_bestseller, books.slug AS slug, title, image, books.description AS description, price, discount FROM books " +
             "JOIN book2author ON books.id = book_id " +
             "JOIN authors ON author_id = authors.id " +
             "WHERE name LIKE '%' || ?1 || '%'",
@@ -60,12 +60,20 @@ public interface BookRepository extends JpaRepository<Book, Integer> {
             nativeQuery = true)
     Page<Book> findPopularBookAndSort(Pageable nextPage);
 
+    @Query(value = "SELECT SUM(point) AS pop_index FROM books " +
+            "JOIN book2user ON books.id = book_id " +
+            "JOIN book2user_type ON book2user_type.id = type_id " +
+            "WHERE books.id = ?1",
+            nativeQuery = true)
+    Double findPopIndex (Integer id);
+
     //RECOMMENDED
     @Query(value = "WITH sort_book_by_rating AS " +
-            "(SELECT books.id AS id, pub_date, is_bestseller, slug, title, image, description, price, discount, SUM(rating_star * number_of_users) AS rating FROM books " +
-            "LEFT JOIN book_rating ON books.id = book_id " +
-            "GROUP BY (books.id) " +
-            "ORDER BY rating DESC NULLS LAST) " +
+            "(SELECT books.id AS id, pub_date, is_bestseller, slug, title, image, description, price, discount, " +
+            " round(SUM((rating_star*1.0) * number_of_users)/SUM(number_of_users), 2) AS rating FROM books " +
+            " LEFT JOIN book_rating ON books.id = book_id " +
+            " GROUP BY (books.id) " +
+            " ORDER BY rating DESC NULLS LAST) " +
             "SELECT id, pub_date, is_bestseller, slug, title, image, description, price, discount FROM sort_book_by_rating",
             countQuery = "SELECT count(*) FROM books",
             nativeQuery = true)

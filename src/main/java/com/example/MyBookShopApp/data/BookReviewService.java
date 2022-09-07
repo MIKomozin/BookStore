@@ -3,28 +3,27 @@ package com.example.MyBookShopApp.data;
 import com.example.MyBookShopApp.data.dto.DtoPostNewReview;
 import com.example.MyBookShopApp.data.entity.BookReview;
 import com.example.MyBookShopApp.data.repository.BookRepository;
+import com.example.MyBookShopApp.data.repository.BookReviewLikeRepository;
 import com.example.MyBookShopApp.data.repository.BookReviewRepository;
 import com.example.MyBookShopApp.security.data.entity.BookstoreUser;
 import com.example.MyBookShopApp.security.data.BookstoreUserRegister;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.Date;
-import java.util.List;
-import java.util.stream.Collectors;
+import java.util.*;
 
 @Service
 public class BookReviewService {
 
     private final BookReviewRepository bookReviewRepository;
+    private final BookReviewLikeRepository bookReviewLikeRepository;
     private final BookRepository bookRepository;
     private final BookstoreUserRegister bookstoreUserRegister;
 
     @Autowired
-    public BookReviewService(BookReviewRepository bookReviewRepository, BookRepository bookRepository, BookstoreUserRegister bookstoreUserRegister) {
+    public BookReviewService(BookReviewRepository bookReviewRepository, BookReviewLikeRepository bookReviewLikeRepository, BookRepository bookRepository, BookstoreUserRegister bookstoreUserRegister) {
         this.bookReviewRepository = bookReviewRepository;
+        this.bookReviewLikeRepository = bookReviewLikeRepository;
         this.bookRepository = bookRepository;
         this.bookstoreUserRegister = bookstoreUserRegister;
     }
@@ -43,11 +42,19 @@ public class BookReviewService {
     }
 
     public List<BookReview> getAllBookReviewsByBookId(Integer bookId){
-        List <BookReview> bookReviewList = bookReviewRepository.findBookReviewsByBookId(bookId);
-        if (bookReviewList != null) {
-            return bookReviewList.stream()
-                    .sorted(Comparator.comparingLong(BookReview::getRatingReview).reversed())
-                    .collect(Collectors.toList());
-        } return new ArrayList<>();//если нечего сортировать, то возвращаем пустой список
+        return Objects.requireNonNullElse(bookReviewRepository.findBookReviewsByBookId(bookId), new ArrayList<>());
+    }
+
+    public Integer getCountLikesOfReviewById(Integer reviewId) {
+        return Objects.requireNonNullElse(bookReviewLikeRepository.findCountLikesReviewById(reviewId), 0);
+    }
+
+    public Integer getCountDisLikesOfReviewById(Integer reviewId) {
+        return Objects.requireNonNullElse(bookReviewLikeRepository.findCountDisLikesReviewById(reviewId), 0);
+    }
+
+    //рейтинг отзыва = (сумма лайков) - (сумма дизлайков)
+    public Integer getRatingReview(Integer reviewId) {
+        return getCountLikesOfReviewById(reviewId) - getCountDisLikesOfReviewById(reviewId);
     }
 }

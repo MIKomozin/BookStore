@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 
 @Service
 public class BookService {
@@ -118,34 +119,31 @@ public class BookService {
     }
 
     //рейтинг книги на основании голосов (от 1 до 5 включительно)
-    public Integer getRatingBookBySlug(String slug) {
+    public Double getRatingBookBySlug(String slug) {
         Integer sumRating = bookRepository.findSumRatingBookBySlug(slug); //суммарный рейтинг книги как произведение кол-ва пользователей на кол-во выбранных звезд
         Integer numberOfUsers = bookRepository.findNumberOfUsersGiveRatingBookBySlug(slug); //суммарное кол-во пользователей поставивших рейтинг
         if (sumRating == null || numberOfUsers == null || numberOfUsers == 0) {
-            return 0;
+            return 0.0;
         } else {
-            return Math.toIntExact(Math.round(Double.valueOf(sumRating) / numberOfUsers));
+            return Double.valueOf(sumRating) / numberOfUsers;
         }
     }
 
-    //суммарное количество звезд у книги
+    //рейтинг книги для отображения. Округляется до ближайщего целого в пределах от 0 до 5 вкл.
+    public Integer getRatingBookBySlugForShow(String slug) {
+        return Math.toIntExact(Math.round(getRatingBookBySlug(slug)));
+    }
+
+    //суммарное количество звезд у книги (суммарный рейтинг)
     public Integer getSumRatingBookBySlug(String slug) {
         Integer sumRating = bookRepository.findSumRatingBookBySlug(slug); //суммарный рейтинг книги как произведение кол-ва пользователей на кол-во выбранных звезд
-        if (sumRating == null) {
-            return 0;
-        } else {
-            return sumRating;
-        }
+        return Objects.requireNonNullElse(sumRating, 0);
     }
 
     //колличество пользователей выбравших определенный рейтинг для книги (1, 2, 3, 4 или 5 звезд)
     public Integer getNumberOfUsersBookBySlugAndByNumberOfStars(String slug, Integer numberOfStars) {
         Integer numberOfUsersByStars = bookRepository.findNumberOfUsersBookBySlugAndByNumberOfStars(slug, numberOfStars);
-        if (numberOfUsersByStars == null) {
-            return 0;
-        } else {
-            return numberOfUsersByStars;
-        }
+        return Objects.requireNonNullElse(numberOfUsersByStars, 0);
     }
 
     public Book getBookById(Integer id) {
@@ -160,5 +158,11 @@ public class BookService {
     public Integer getNumberOfReviewsForBook(String slug) {
         Book book = getBookBySlug(slug);
         return book.getBookReviewList().size();//размер массива и есть количетсов отзывов для каждой книги
+    }
+
+    //метод для подсчета популярности книги
+    public Double getPopIndex(Integer id) {
+        Double popIndex = bookRepository.findPopIndex(id);
+        return Objects.requireNonNullElse(popIndex, 0.0);
     }
 }

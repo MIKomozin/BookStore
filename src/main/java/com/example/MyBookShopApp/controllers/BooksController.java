@@ -93,7 +93,7 @@ public class BooksController {
     public String bookPage(@PathVariable("slug") String slug, Model model) {
         Book book = bookService.getBookBySlug(slug);
         model.addAttribute("slugBook", book);
-        model.addAttribute("bookRating", bookService.getRatingBookBySlug(slug));
+        model.addAttribute("bookRating", bookService.getRatingBookBySlugForShow(slug));
         model.addAttribute("sumRating", bookService.getSumRatingBookBySlug(slug));
         model.addAttribute("oneStar", bookService.getNumberOfUsersBookBySlugAndByNumberOfStars(slug, 1));
         model.addAttribute("twoStars", bookService.getNumberOfUsersBookBySlugAndByNumberOfStars(slug, 2));
@@ -102,6 +102,7 @@ public class BooksController {
         model.addAttribute("fiveStars", bookService.getNumberOfUsersBookBySlugAndByNumberOfStars(slug, 5));
         model.addAttribute("countReviews", bookService.getNumberOfReviewsForBook(slug));
         model.addAttribute("allReviews", bookReviewService.getAllBookReviewsByBookId(book.getId()));
+
         return "/books/slugmy";
     }
 

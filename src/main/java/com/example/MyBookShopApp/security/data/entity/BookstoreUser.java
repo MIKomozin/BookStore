@@ -51,7 +51,6 @@ public class BookstoreUser {
     @OneToMany(mappedBy = "user")
     private List<Book2User> book2UserList;
 
-
     public Integer getId() {
         return id;
     }

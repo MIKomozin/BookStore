@@ -230,11 +230,11 @@ public class Book {
 }
 
 /*
-    //метод для подсчета популярности книги
+   //метод для подсчета популярности книги
     public double getPopIndex() {
         double popIndex = 0.0;
         if (book2UserList.isEmpty()) {
-            return popIndex;
+            return 0.0;
         } else {
             for (Book2User book2Users : book2UserList) {
                 String PCK = book2Users.getType().getName();
@@ -251,4 +251,4 @@ public class Book {
         }
         return popIndex;
     }
-*/
+ */
