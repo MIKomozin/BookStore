@@ -12,4 +12,6 @@ public interface BookstoreUserRepository extends JpaRepository<BookstoreUser, In
     @Query(value = "SELECT * FROM users WHERE phone = ?1", nativeQuery = true)
     BookstoreUser findUserByPhone(String phone);
 
+    @Query(value = "SELECT * FROM users WHERE email = ?1 OR phone = ?1", nativeQuery = true)
+    BookstoreUser findUserByEmailOrPhone(String data);
 }

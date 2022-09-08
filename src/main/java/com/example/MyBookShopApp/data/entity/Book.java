@@ -251,4 +251,18 @@ public class Book {
         }
         return popIndex;
     }
+
+        public Integer getBookRating() {
+        Long sumRating = 0L;
+        for (BookRating bookrating : bookRatingList) {
+
+        }
+        Long numberOfUsers = bookRatingList.stream()
+                .map(BookRating::getNumberOfUsers).count();
+        if (sumRating == null || numberOfUsers == null || numberOfUsers == 0) {
+            return 0;
+        } else {
+            return Math.toIntExact(Math.round(Double.valueOf(sumRating) / numberOfUsers));
+        }
+    }
  */

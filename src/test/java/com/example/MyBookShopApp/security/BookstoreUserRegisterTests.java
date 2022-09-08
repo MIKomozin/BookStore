@@ -109,7 +109,7 @@ class BookstoreUserRegisterTests {
     void login() {
         Mockito.doReturn(user)
                 .when(bookstoreUserRepositoryMock)
-                .findUserByEmail(confirmationPayload.getContact());
+                .findUserByEmailOrPhone(confirmationPayload.getContact());
 
         ContactConfirmationResponse response = bookstoreUserRegister.login(confirmationPayload);
         String answer = response.getResult();
@@ -125,7 +125,7 @@ class BookstoreUserRegisterTests {
         //пользователь с таким email существует
         Mockito.doReturn(user)
                 .when(bookstoreUserRepositoryMock)
-                .findUserByEmail(confirmationPayload.getContact());
+                .findUserByEmailOrPhone(confirmationPayload.getContact());
 
         ContactConfirmationResponse response = bookstoreUserRegister.jwtlogin(confirmationPayload);
         String token = response.getResult();
