@@ -46,7 +46,7 @@ class BookServiceTests {
 
     @Test
     void getPopIndex() {
-        //индекс популярности некоторых книг по id (данные взяты из БД)
+        //индекс популярности некоторых книг по id (ожидаемые значения)
         double book_12_check = 3.4;
         double book_11_check = 2.8;
         double book_7_check = 1.5;
@@ -94,14 +94,14 @@ class BookServiceTests {
 
     @Test
     void getRatingBookBySlug() {
-        //индекс популярности некоторых книг по id (данные взяты из БД)
+        //индекс популярности некоторых книг по id (ожидаемые значения)
         double book_3_check = 4.89;
         double book_5_check = 4.50;
         double book_2_check = 3.25;
         double book_8_check = 2.56;
         double book_23_check = 2.33;
 
-        //проверка что метод подсчета рейтинга работает правильно
+        //подсчет gitрейтинга
         double book_3 = bookService.getRatingBookBySlug(bookService.getBookById(3).getSlug());
         double book_5 = bookService.getRatingBookBySlug(bookService.getBookById(5).getSlug());
         double book_2 = bookService.getRatingBookBySlug(bookService.getBookById(2).getSlug());
