@@ -64,7 +64,7 @@ public class CartController {
         return "redirect:/cart";
     }
 
-    @PostMapping("/changeBookStatus/{slug}")
+    @PostMapping("/changeBookStatus/cart/{slug}")
     public String handleChangeBookStatus(@PathVariable String slug, @CookieValue(name = "cartContents", required = false)
                                          String cartContents, HttpServletResponse response, Model model) {
         if (cartContents == null || cartContents.equals("")) {

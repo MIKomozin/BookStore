@@ -79,20 +79,28 @@ public interface BookRepository extends JpaRepository<Book, Integer> {
             nativeQuery = true)
     Page<Book> findRecommendedBookAndSort(Pageable nextPage);
 
-    @Query(value = "SELECT books.id AS id, pub_date, is_bestseller, slug, title, image, description, price, discount FROM books JOIN book2tag ON books.id = book_id JOIN tags ON tag_id = tags.id WHERE tag_id = ?1",
-            nativeQuery = true, countQuery = "SELECT count(*) FROM book2tag WHERE tag_id = ?1")
-    Page<Book> findBooksByTagId(Integer tagId, Pageable nextPage);
+    @Query(value = "SELECT books.id AS id, pub_date, is_bestseller, slug, title, image, description, price, discount FROM books " +
+            "JOIN book2tag ON books.id = book_id " +
+            "JOIN tags ON tag_id = tags.id WHERE tag_name = ?1",
+            nativeQuery = true, countQuery = "SELECT count(*) FROM book2tag JOIN tags ON tag_id = tags.id WHERE tag_name = ?1")
+    Page<Book> findBooksByTagName(String tagName, Pageable nextPage);
 
-    @Query(value = "SELECT books.id AS id, pub_date, is_bestseller, books.slug AS slug, title, image, description, price, discount FROM books JOIN book2genre ON books.id = book_id JOIN genre ON genre_id = genre.id WHERE genre.slug = ?1",
+    @Query(value = "SELECT books.id AS id, pub_date, is_bestseller, books.slug AS slug, title, image, description, price, discount FROM books " +
+            "JOIN book2genre ON books.id = book_id " +
+            "JOIN genre ON genre_id = genre.id WHERE genre.slug = ?1",
             nativeQuery = true, countQuery = "SELECT count(*) FROM book2genre JOIN genre ON genre_id = genre.id WHERE genre.slug = ?1")
     Page<Book> findBooksByGenreSlug(String slugInd, Pageable nextPage);
 
-    @Query(value = "SELECT books.id AS id, pub_date, is_bestseller, books.slug AS slug, title, image, books.description AS description, price, discount FROM books JOIN book2author ON books.id = book_id JOIN authors ON author_id = authors.id WHERE author_id = ?1",
-            nativeQuery = true, countQuery = "SELECT count(*) FROM book2author WHERE author_id = ?1")
-    Page<Book> findBooksByAuthorId(Integer authorId, Pageable nextPage);
+    @Query(value = "SELECT books.id AS id, pub_date, is_bestseller, books.slug AS slug, title, image, books.description AS description, price, discount FROM books " +
+            "JOIN book2author ON books.id = book_id " +
+            "JOIN authors ON author_id = authors.id WHERE authors.slug = ?1",
+            nativeQuery = true, countQuery = "SELECT count(*) FROM book2author JOIN authors ON author_id = authors.id WHERE authors.slug = ?1")
+    Page<Book> findBooksByAuthorSlug(String slug, Pageable nextPage);
 
-    @Query(value = "SELECT count(*) FROM book2author WHERE author_id = ?1", nativeQuery = true)
-    Integer findNumberOfBooksByAuthorId(Integer authorId);
+    @Query(value = "SELECT count(*) FROM book2author " +
+            "JOIN authors ON author_id = authors.id " +
+            "WHERE slug = ?1", nativeQuery = true)
+    Integer findNumberOfBooksByAuthorSlug(String slug);
 
     Book findBooksBySlug(String slug);
 

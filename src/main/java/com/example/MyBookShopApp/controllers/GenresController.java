@@ -3,7 +3,6 @@ package com.example.MyBookShopApp.controllers;
 
 import com.example.MyBookShopApp.data.GenreService;
 import com.example.MyBookShopApp.data.dto.BooksPageDto;
-import com.example.MyBookShopApp.data.dto.GenreDto;
 import com.example.MyBookShopApp.data.entity.Book;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -28,32 +27,32 @@ public class GenresController {
         return new ArrayList<>();
     }
 
-    @ModelAttribute("genreDto")
-    public GenreDto genreDto() {
-        return new GenreDto();
+    @ModelAttribute("slug")
+    public String slug() {
+        return "";
     }
 
     @GetMapping("genres")
     public String genresPage(Model model){
-        model.addAttribute("genres", genreService.getGenresData());
+        model.addAttribute("genres", genreService.getAllGenres());
         return "/genres/index";
     }
 
-    @GetMapping("genres/slug/{slugInd}")
-    public String getSomeBooksByGenre(@PathVariable(value = "slugInd", required = false) GenreDto genreDto,
+    @GetMapping("genres/{slug}")
+    public String getSomeBooksByGenre(@PathVariable(value = "slug", required = false) String slug,
                                     Model model) {
-        model.addAttribute("genreDto", genreDto);
-        model.addAttribute("genreByslug", genreService.getGenreBySlug(genreDto.getSlug()));
-        model.addAttribute("searchResult", genreService.getBooksByGenreSlug(genreDto.getSlug(), 0, 10).getContent());
+        model.addAttribute("slug", slug);
+        model.addAttribute("genreByslug", genreService.getGenreBySlug(slug));
+        model.addAttribute("searchResult", genreService.getBooksByGenreSlug(slug, 0, 10).getContent());
         return "/genres/slug";
     }
 
-    @GetMapping("genres/slug/page/{slugInd}")
+    @GetMapping("genres/{slug}/page")
     @ResponseBody
     public BooksPageDto getNextPageSomeBooksByGenre(@RequestParam("offset") Integer offset,
                                                     @RequestParam("limit") Integer limit,
-                                                    @PathVariable(value = "slugInd", required = false) GenreDto genreDto) {
-        return new BooksPageDto(genreService.getBooksByGenreSlug(genreDto.getSlug(), offset, limit).getContent());
+                                                    @PathVariable(value = "slug", required = false) String slug) {
+        return new BooksPageDto(genreService.getBooksByGenreSlug(slug, offset, limit).getContent());
     }
 
 }

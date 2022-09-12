@@ -32,14 +32,14 @@ public class TagService {
     }
 
     //метод для нахождения тэга по ID
-    public Tag getTagByTagId(Integer tagId) {
-        return tagRepository.findTagByTagId(tagId);
+    public Tag getTagByTagName(String tagName) {
+        return tagRepository.findTagByTagName(tagName);
     }
 
     //список книг для определенного тэга
-    public Page<Book> getBooksByTagId(Integer tagId, Integer offset, Integer limit) {
+    public Page<Book> getBooksByTagName(String tagName, Integer offset, Integer limit) {
         Pageable nextPage = PageRequest.of(offset, limit);
-        return  bookRepository.findBooksByTagId(getTagByTagId(tagId).getId(),nextPage);
+        return  bookRepository.findBooksByTagName(tagName, nextPage);
     }
 }
 

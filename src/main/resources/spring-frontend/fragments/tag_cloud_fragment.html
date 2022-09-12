@@ -3,19 +3,19 @@
 <div class="Tags" id="tags" th:fragment="cloud" >
     <div class="Tag" th:each="tag : ${tags}">
         <div class="Tag Tag_xs" th:if="${tag.tag2Book.size() == 0}">
-            <a th:href="@{books/tag/{tagId}(tagId=${#strings.toLowerCase(tag.id)})}"
+            <a th:href="@{/tags/{tagName}(tagName=${#strings.toLowerCase(tag.tagName)})}"
                th:text="${tag.tagName}">название тэга</a>
         </div>
         <div class="Tag Tag_sm" th:if="${tag.tag2Book.size() > 0 && tag.tag2Book.size() <=5}">
-            <a th:href="@{books/tag/{tagId}(tagId=${#strings.toLowerCase(tag.id)})}"
+            <a th:href="@{/tags/{tagName}(tagName=${#strings.toLowerCase(tag.tagName)})}"
                th:text="${tag.tagName}">название тэга</a>
         </div>
         <div class="Tag Tag_md" th:if="${tag.tag2Book.size() > 6 && tag.tag2Book.size() <=10}">
-            <a th:href="@{books/tag/{tagId}(tagId=${#strings.toLowerCase(tag.id)})}"
+            <a th:href="@{/tags/{tagName}(tagName=${#strings.toLowerCase(tag.tagName)})}"
                th:text="${tag.tagName}">название тэга</a>
         </div>
         <div class="Tag Tag_lg" th:if="${tag.tag2Book.size() > 10}">
-            <a th:href="@{books/tag/{tagId}(tagId=${#strings.toLowerCase(tag.id)})}"
+            <a th:href="@{/tags/{tagName}(tagName=${#strings.toLowerCase(tag.tagName)})}"
                th:text="${tag.tagName}">название тэга</a>
         </div>
     </div>

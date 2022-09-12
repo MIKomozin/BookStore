@@ -2,7 +2,6 @@ package com.example.MyBookShopApp.controllers;
 
 import com.example.MyBookShopApp.data.*;
 import com.example.MyBookShopApp.data.dto.BooksPageDto;
-import com.example.MyBookShopApp.data.dto.TagDto;
 import com.example.MyBookShopApp.data.entity.Book;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -26,27 +25,27 @@ public class TagController {
         return new ArrayList<>();
     }
 
-    @ModelAttribute("tagPhraseDto")
-    public TagDto tagPhraseDto() {
-        return new TagDto();
+    @ModelAttribute("tagName")
+    public String tagPhrase() {
+        return "";
     }
 
-    @GetMapping("/books/tag/{tagId}")
-    public String getSomeBooksByTag(@PathVariable(value = "tagId", required = false) TagDto tagDto,
+    @GetMapping("/tags/{tagName}")
+    public String getSomeBooksByTag(@PathVariable(value = "tagName", required = false) String tagName,
                                   Model model) {
-        model.addAttribute("tagPhraseDto", tagDto);
-        model.addAttribute("tagByTagId", tagService.getTagByTagId(tagDto.getIntId()));
-        model.addAttribute("searchResult", tagService.getBooksByTagId(tagDto.getIntId(), 0, 10).getContent());
+        model.addAttribute("tagName", tagName);
+        model.addAttribute("tagByTagName", tagService.getTagByTagName(tagName));
+        model.addAttribute("searchResult", tagService.getBooksByTagName(tagName, 0, 10).getContent());
 
         return "/tags/index";
     }
 
-    @GetMapping("/books/tag/page/{tagId}")
+    @GetMapping("/tags/{tagName}/page")
     @ResponseBody
     public BooksPageDto getNextPageSomeBooksByTag(@RequestParam("offset") Integer offset,
                                                   @RequestParam("limit") Integer limit,
-                                                  @PathVariable(value = "tagId", required = false) TagDto tagDto) {
-        return new BooksPageDto(tagService.getBooksByTagId(tagDto.getIntId(), offset, limit).getContent());
+                                                  @PathVariable(value = "tagName", required = false) String tagName) {
+        return new BooksPageDto(tagService.getBooksByTagName(tagName, offset, limit).getContent());
     }
 }
 

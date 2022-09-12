@@ -9,7 +9,7 @@ import org.springframework.data.jpa.repository.Query;
 
 public interface TagRepository extends JpaRepository<Tag, Integer> {
 
-    @Query(value = "SELECT * FROM tags WHERE id = ?1", nativeQuery = true)
-    Tag findTagByTagId(Integer tagId);
+    @Query(value = "SELECT * FROM tags WHERE tag_name = ?1", nativeQuery = true)
+    Tag findTagByTagName(String tagName);
 
 }

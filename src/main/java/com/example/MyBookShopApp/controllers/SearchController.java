@@ -3,7 +3,6 @@ package com.example.MyBookShopApp.controllers;
 import com.example.MyBookShopApp.data.entity.Book;
 import com.example.MyBookShopApp.data.BookService;
 import com.example.MyBookShopApp.data.dto.BooksPageDto;
-import com.example.MyBookShopApp.data.dto.SearchWordDto;
 import com.example.MyBookShopApp.errs.EmptySearchException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -23,9 +22,9 @@ public class SearchController {
         this.bookService = bookService;
     }
 
-    @ModelAttribute("searchWordDto")
-    public SearchWordDto searchWordDto() {
-        return new SearchWordDto();
+    @ModelAttribute("searchWord")
+    public String searchWord() {
+        return "";
     }
 
     @ModelAttribute("searchResult")
@@ -47,23 +46,23 @@ public class SearchController {
     */
 
     @GetMapping(value = {"/search", "/search/{searchWord}"})
-    public String getSearchResult(@PathVariable(value = "searchWord", required = false) SearchWordDto searchWordDto,
+    public String getSearchResult(@PathVariable(value = "searchWord", required = false) String searchWord,
                                   Model model) throws EmptySearchException {
-        if (searchWordDto != null) {
-            model.addAttribute("searchWordDto", searchWordDto);
+        if (searchWord != null) {
+            model.addAttribute("searchWord", searchWord);
             model.addAttribute("searchResult",
-                    bookService.getPageOfSearchResultBooks(searchWordDto.getExample(), 0, 5).getContent());
+                    bookService.getPageOfSearchResultBooks(searchWord, 0, 5).getContent());
             return "/search/index";
         } else {
             throw new EmptySearchException("Поиск по пустой строке невозможен");
         }
     }
 
-    @GetMapping("/search/page/{searchWord}")
+    @GetMapping("/search/{searchWord}/page")
     @ResponseBody
     public BooksPageDto getNextSearchPage1(@RequestParam("offset") Integer offset,
                                           @RequestParam("limit") Integer limit,
-                                          @PathVariable(value = "searchWord", required = false) SearchWordDto searchWordDto) {
-        return new BooksPageDto(bookService.getPageOfSearchResultBooks(searchWordDto.getExample(), offset, limit).getContent());
+                                          @PathVariable(value = "searchWord", required = false) String searchWord) {
+        return new BooksPageDto(bookService.getPageOfSearchResultBooks(searchWord, offset, limit).getContent());
     }
 }

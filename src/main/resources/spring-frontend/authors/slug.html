@@ -2,19 +2,19 @@
 <html lang="ru" xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>Сраница автора</title>
-    <meta name="description" content="Описание страницы">
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0">
-    <link href="favicon.ico" rel="shortcut icon">
-    <link rel="preload" href="/assets/fonts/Montserrat/Montserrat-SemiBold.woff2" as="font" crossorigin="anonymous">
-    <link rel="preload" href="/assets/fonts/Montserrat/Montserrat-Light.woff2" as="font" crossorigin="anonymous">
-    <link rel="preload" href="/assets/fonts/Montserrat/Montserrat-Medium.woff2" as="font" crossorigin="anonymous">
-    <link rel="preload" href="/assets/fonts/Montserrat/Montserrat-ExtraBold.woff2" as="font" crossorigin="anonymous">
-    <link rel="stylesheet" href="/assets/css/fonts.min.css?v=93601584">
-    <link rel="stylesheet" href="/assets/css/basic.min.css?v=93601584">
-    <link rel="stylesheet" href="/assets/css/extra.min.css?v=93601584">
+    <meta name="description" content="Описание страницы"/>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0"/>
+    <link href="/favicon.ico" rel="shortcut icon"/>
+    <link rel="preload" href="/assets/fonts/Montserrat/Montserrat-SemiBold.woff2" as="font" crossorigin="anonymous"/>
+    <link rel="preload" href="/assets/fonts/Montserrat/Montserrat-Light.woff2" as="font" crossorigin="anonymous"/>
+    <link rel="preload" href="/assets/fonts/Montserrat/Montserrat-Medium.woff2" as="font" crossorigin="anonymous"/>
+    <link rel="preload" href="/assets/fonts/Montserrat/Montserrat-ExtraBold.woff2" as="font" crossorigin="anonymous"/>
+    <link rel="stylesheet" href="/assets/css/fonts.min.css?v=93601584"/>
+    <link rel="stylesheet" href="/assets/css/basic.min.css?v=93601584"/>
+    <link rel="stylesheet" href="/assets/css/extra.min.css?v=93601584"/>
     <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
-    <script defer src="/assets/js/scripts.min.js?v=93601584"></script>
+    <script th:defer="defer" src="/assets/js/scripts.min.js?v=93601584"></script>
 </head>
 <body class="Site">
 <header class="Header"
@@ -23,11 +23,11 @@
     <div class="wrap">
         <main class="Middle-main">
             <ul class="breadcrumbs"
-                th:replace="~{fragments/breadcrumb_fragment :: breadcrumps(category=${authorById.name})}"></ul>
-            <div th:replace="~{fragments/author_article_fragment :: article(author=${authorById.name})}"></div>
+                th:replace="~{fragments/breadcrumb_fragment :: breadcrumps(category=${authorBySlug.getName()}, path='/authors', pathText='Авторы')}"></ul>
+            <div th:replace="~{fragments/author_article_fragment :: article(author=${authorBySlug.getName()})}"></div>
             <div class="Section"
                  th:replace="~{fragments/books_pool_fragment_authorBooksOneLine :: pool}"></div>
-            <footer class="Section-footer"><a class="Author-books" th:href="@{/books/author/slug/{authorId}(authorId=${#strings.toLowerCase(authorById.id)})}" href="/books/author.html">Все
+            <footer class="Section-footer"><a class="Author-books" th:href="@{/books/author/{slug}(slug=${#strings.toLowerCase(authorBySlug.getSlug())})}" href="/books/author.html">Все
                 книги автора<span
                         class="Author-amount" th:text="${'(' + booksCount + ')'}">(55)</span></a>
             </footer>

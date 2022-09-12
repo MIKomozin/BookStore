@@ -31,16 +31,16 @@ public class AuthorService {
                 .collect(Collectors.groupingBy((Author a) -> a.getName().substring(0, 1)));
     }
 
-    public Author getAuthorById(Integer authorId) {
-        return authorRepository.findAuthorById(authorId);
+    public Author getAuthorBySlug(String slug) {
+        return authorRepository.findAuthorBySlug(slug);
     }
 
-    public Page<Book> getBooksByAuthorId(Integer authorId, Integer offset, Integer limit) {
+    public Page<Book> getBooksByAuthorBySlug(String slug, Integer offset, Integer limit) {
         Pageable nextPage = PageRequest.of(offset, limit);
-        return bookRepository.findBooksByAuthorId(getAuthorById(authorId).getId(), nextPage);
+        return bookRepository.findBooksByAuthorSlug(slug, nextPage);
     }
 
-    public Integer getNumberOfBooksByAuthorId(Integer authorId) {
-        return bookRepository.findNumberOfBooksByAuthorId(getAuthorById(authorId).getId());
+    public Integer getNumberOfBooksByAuthorSlug(String slug) {
+        return bookRepository.findNumberOfBooksByAuthorSlug(slug);
     }
 }

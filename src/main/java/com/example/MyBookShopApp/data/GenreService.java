@@ -25,17 +25,17 @@ public class GenreService {
     }
 
     //для отображения всех жанров из БД
-    public List<Genre> getGenresData() {
+    public List<Genre> getAllGenres() {
         return genreRepository.findAll();
     }
 
     //находим жанр по его идентификатору slug
-    public Genre getGenreBySlug(String slugInd) {
-        return genreRepository.findGenreBySlug(slugInd);
+    public Genre getGenreBySlug(String slug) {
+        return genreRepository.findGenreBySlug(slug);
     }
 
-    public Page<Book> getBooksByGenreSlug(String slugInd, Integer offset, Integer limit) {
+    public Page<Book> getBooksByGenreSlug(String slug, Integer offset, Integer limit) {
         Pageable nextPage = PageRequest.of(offset, limit);
-        return  bookRepository.findBooksByGenreSlug(getGenreBySlug(slugInd).getSlug(),nextPage);
+        return  bookRepository.findBooksByGenreSlug(getGenreBySlug(slug).getSlug(),nextPage);
     }
 }
