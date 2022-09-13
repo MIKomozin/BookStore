@@ -4,12 +4,14 @@ import com.example.MyBookShopApp.data.entity.Book;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.TestPropertySource;
 
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
+@TestPropertySource("/application-test.properties")
 class BookServiceTests {
 
     private final BookService bookService;
@@ -96,12 +98,12 @@ class BookServiceTests {
     void getRatingBookBySlug() {
         //индекс популярности некоторых книг по id (ожидаемые значения)
         double book_3_check = 4.89;
-        double book_5_check = 4.50;
+        double book_5_check = 4.37;
         double book_2_check = 3.25;
         double book_8_check = 2.56;
         double book_23_check = 2.33;
 
-        //подсчет gitрейтинга
+        //подсчет рейтинга
         double book_3 = bookService.getRatingBookBySlug(bookService.getBookById(3).getSlug());
         double book_5 = bookService.getRatingBookBySlug(bookService.getBookById(5).getSlug());
         double book_2 = bookService.getRatingBookBySlug(bookService.getBookById(2).getSlug());

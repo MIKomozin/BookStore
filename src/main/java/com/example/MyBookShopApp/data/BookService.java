@@ -125,7 +125,7 @@ public class BookService {
         if (sumRating == null || numberOfUsers == null || numberOfUsers == 0) {
             return 0.0;
         } else {
-            return Double.valueOf(sumRating) / numberOfUsers;
+            return (sumRating * 1.0) / numberOfUsers;
         }
     }
 

@@ -23,7 +23,7 @@
     <div class="wrap">
         <main class="Middle-main">
             <ul class="breadcrumbs"
-                th:replace="~{fragments/breadcrumb_fragment :: breadcrumps(category=${slugBook.title})}"></ul>
+                th:replace="~{fragments/breadcrumb_fragment :: breadcrumps(category=${slugBook.title}, path='/genres', pathText='Жанры')}"></ul>
             <div class="Product">
                 <div class="ProductCard">
                     <div class="ProductCard-look">
@@ -38,6 +38,7 @@
                     <div class="Product-comments-header">
                         <h3 class="Product-comments-title">Отзывы
                         </h3><span class="Rating"><span class="Rating-stars">
+<!--                        выбор цвета для 1-ой звезды-->
                         <span class="Rating-star Rating-star_view" th:if="${bookRating >= 1}">
                     <svg xmlns="http://www.w3.org/2000/svg" width="19" height="18" viewBox="0 0 19 18">
                       <g>
@@ -56,6 +57,7 @@
                         </g>
                       </g>
                     </svg></span>
+                        <!--                        выбор цвета для 2-ой звезды-->
                         <span class="Rating-star Rating-star_view" th:if="${bookRating >= 2}">
                     <svg xmlns="http://www.w3.org/2000/svg" width="19" height="18" viewBox="0 0 19 18">
                       <g>
@@ -74,6 +76,7 @@
                         </g>
                       </g>
                     </svg></span>
+                        <!--                        выбор цвета для 3-ей звезды-->
                         <span class="Rating-star Rating-star_view" th:if="${bookRating >= 3}">
                     <svg xmlns="http://www.w3.org/2000/svg" width="19" height="18" viewBox="0 0 19 18">
                       <g>
@@ -92,6 +95,7 @@
                         </g>
                       </g>
                     </svg></span>
+                        <!--                        выбор цвета для 4-ой звезды-->
                        <span class="Rating-star Rating-star_view" th:if="${bookRating >= 4}">
                     <svg xmlns="http://www.w3.org/2000/svg" width="19" height="18" viewBox="0 0 19 18">
                       <g>
@@ -110,6 +114,7 @@
                         </g>
                       </g>
                     </svg></span>
+                        <!--                        выбор цвета для 5-ой звезды-->
                         <span class="Rating-star Rating-star_view" th:if="${bookRating == 5}">
                     <svg xmlns="http://www.w3.org/2000/svg" width="19" height="18" viewBox="0 0 19 18">
                       <g>

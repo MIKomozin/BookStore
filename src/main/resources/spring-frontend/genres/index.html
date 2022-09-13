@@ -17,7 +17,8 @@
     <script th:defer="defer" src="/assets/js/scripts.min.js?v=52263780"></script>
 </head>
 <body class="Site">
-<header class="Header" th:replace="~{fragments/common_header_fragment :: head(genres='menu-item menu-item_ACTIVE', status='unauthorized')}">
+<header class="Header"
+        th:replace="~{fragments/common_header_fragment :: head(genres='menu-item menu-item_ACTIVE', status='unauthorized')}">
 </header>
 <div class="Middle">
     <div class="wrap">
@@ -26,10 +27,25 @@
             </h1>
             <div class="Section">
                 <div class="Tags Tags_genres" th:each="genre : ${genres}">
-                    <div class="Tags-title">
-                        <div class="Tag">
-                            <a th:href="@{/genres/{slug}(slug=${#strings.toLowerCase(genre.getSlug())})}"
-                               th:text="${genre.getName() + ' (' + genre.getGenre2Books().size()+')'}">Название жанра<span class="undefined-amount">(15638)</span></a>
+                    <div class="Tags Tags_embed" th:if="${genre.getGenre() == null}">
+                        <div class="Tags-title">
+                            <div class="Tag">
+                                <a th:href="@{/genres/{slug}(slug=${#strings.toLowerCase(genre.getSlug())})}"
+                                   th:text="${genre.getName() + ' (' + genre.getGenre2Books().size()+')'}">Название
+                                    жанра (число книг)</a>
+                            </div>
+                        </div>
+                        <div class="Tags" th:each="genreChild : ${genre.getGenreList()}">
+                            <div class="Tags-title">
+                                <div class="Tag">
+                                    <a th:href="@{/genres/{slug}(slug=${#strings.toLowerCase(genreChild.getSlug())})}"
+                                       th:text="${genreChild.getName() + ' (' + genreChild.getGenre2Books().size()+')'}"></a>
+                                </div>
+                            </div>
+                            <div class="Tag" th:each="genreChild2 : ${genreChild.getGenreList()}">
+                                <a th:href="@{/genres/{slug}(slug=${#strings.toLowerCase(genreChild2.getSlug())})}"
+                                   th:text="${genreChild2.getName() + ' (' + genreChild2.getGenre2Books().size()+')'}"></a>
+                            </div>
                         </div>
                     </div>
                 </div>

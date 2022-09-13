@@ -1,7 +1,6 @@
 package com.example.MyBookShopApp.security.config;
 
 import com.example.MyBookShopApp.security.data.BookstoreUserDetailsService;
-import com.example.MyBookShopApp.security.data.CustomAuthenticationSuccessHandler;
 import com.example.MyBookShopApp.security.data.TokenBlackListService;
 import com.example.MyBookShopApp.security.data.jwt.JWTRequestFilter;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,18 +23,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private final BookstoreUserDetailsService bookstoreUserDetailsService;
     private final JWTRequestFilter jwtRequestFilter;
     private final TokenBlackListService tokenBlackListService;
-    //private final CustomAuthenticationSuccessHandler customAuthenticationSuccessHandler;
 
     @Autowired
     public SecurityConfig(BookstoreUserDetailsService bookstoreUserDetailsService,
                           JWTRequestFilter jwtRequestFilter,
-                          TokenBlackListService tokenBlackListService
-                          //CustomAuthenticationSuccessHandler customAuthenticationSuccessHandler
-    ) {
+                          TokenBlackListService tokenBlackListService) {
         this.bookstoreUserDetailsService = bookstoreUserDetailsService;
         this.jwtRequestFilter = jwtRequestFilter;
         this.tokenBlackListService = tokenBlackListService;
-        //this.customAuthenticationSuccessHandler = customAuthenticationSuccessHandler;
     }
 
     @Bean
@@ -61,7 +56,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http
                 .csrf().disable()
                 .authorizeRequests()
-                .antMatchers("/my", "/profile").authenticated()//hasRole("USER")
+                .antMatchers("/my", "/profile").hasRole("USER")//authenticated()
                 .antMatchers("/**").permitAll()
                 .and().formLogin()
                 .loginPage("/signin").failureUrl("/signin")
@@ -71,7 +66,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                         })
                 .logoutSuccessUrl("/signin").deleteCookies("token");
                 //далее проект ведем без функционала Oauth
-                //.and().oauth2Login().successHandler(customAuthenticationSuccessHandler)
+                //.and().oauth2Login()
                 //.and().oauth2Client();
 
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);//работаем без sessionId для Cookie

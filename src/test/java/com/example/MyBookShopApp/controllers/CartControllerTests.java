@@ -30,7 +30,7 @@ class CartControllerTests {
 
     @Test
     public void checkAddBookIntoCart() throws Exception {
-        mockMvc.perform(post("/changeBookStatus/{slug}", "book-ilp-658"))
+        mockMvc.perform(post("/changeBookStatus/cart/{slug}", "book-ilp-658"))
                 .andDo(print())
                 .andExpect(status().is3xxRedirection())
                 .andExpect(cookie().value("cartContents", "book-ilp-658"))

@@ -24,7 +24,7 @@
     <div class="wrap">
         <main class="Middle-main">
             <ul class="breadcrumbs"
-                th:replace="~{fragments/breadcrumb_fragment :: breadcrumps(category=${slugBook.title})}"></ul>
+                th:replace="~{fragments/breadcrumb_fragment :: breadcrumps(category=${slugBook.title}, path='/genres', pathText='Жанры')}"></ul>
             <div class="Product">
                 <div class="ProductCard">
                     <div class="ProductCard-look">
@@ -39,13 +39,139 @@
                     </div>
                     <div class="ProductCard-desc" th:replace="~{fragments/book_description_fragment :: bookDesc}"></div>
                 </div>
+
                 <div class="Product-comments">
                     <div class="Product-comments-header">
                         <h3 class="Product-comments-title">Отзывы
-                        </h3><span class="Product-comments-amount">567 отзывов</span>
+                        </h3><span class="Rating"><span class="Rating-stars">
+<!--                        выбор цвета для 1-ой звезды-->
+                        <span class="Rating-star Rating-star_view" th:if="${bookRating >= 1}">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="19" height="18" viewBox="0 0 19 18">
+                      <g>
+                        <g>
+                          <path fill="#ffc000"
+                                d="M9.5 14.925L3.629 18l1.121-6.512L0 6.875l6.564-.95L9.5 0l2.936 5.925 6.564.95-4.75 4.613L15.371 18z"></path>
+                        </g>
+                      </g>
+                    </svg></span>
+                        <span class="Rating-star" th:if="${bookRating < 1}">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="19" height="18" viewBox="0 0 19 18">
+                      <g>
+                        <g>
+                          <path fill="#ffc000"
+                                d="M9.5 14.925L3.629 18l1.121-6.512L0 6.875l6.564-.95L9.5 0l2.936 5.925 6.564.95-4.75 4.613L15.371 18z"></path>
+                        </g>
+                      </g>
+                    </svg></span>
+<!--                        выбор цвета для 2-ой звезды-->
+                        <span class="Rating-star Rating-star_view" th:if="${bookRating >= 2}">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="19" height="18" viewBox="0 0 19 18">
+                      <g>
+                        <g>
+                          <path fill="#ffc000"
+                                d="M9.5 14.925L3.629 18l1.121-6.512L0 6.875l6.564-.95L9.5 0l2.936 5.925 6.564.95-4.75 4.613L15.371 18z"></path>
+                        </g>
+                      </g>
+                    </svg></span>
+                        <span class="Rating-star" th:if="${bookRating < 2}">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="19" height="18" viewBox="0 0 19 18">
+                      <g>
+                        <g>
+                          <path fill="#ffc000"
+                                d="M9.5 14.925L3.629 18l1.121-6.512L0 6.875l6.564-.95L9.5 0l2.936 5.925 6.564.95-4.75 4.613L15.371 18z"></path>
+                        </g>
+                      </g>
+                    </svg></span>
+<!--                        выбор цвета для 3-ей звезды-->
+                        <span class="Rating-star Rating-star_view" th:if="${bookRating >= 3}">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="19" height="18" viewBox="0 0 19 18">
+                      <g>
+                        <g>
+                          <path fill="#ffc000"
+                                d="M9.5 14.925L3.629 18l1.121-6.512L0 6.875l6.564-.95L9.5 0l2.936 5.925 6.564.95-4.75 4.613L15.371 18z"></path>
+                        </g>
+                      </g>
+                    </svg></span>
+                        <span class="Rating-star" th:if="${bookRating < 3}">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="19" height="18" viewBox="0 0 19 18">
+                      <g>
+                        <g>
+                          <path fill="#ffc000"
+                                d="M9.5 14.925L3.629 18l1.121-6.512L0 6.875l6.564-.95L9.5 0l2.936 5.925 6.564.95-4.75 4.613L15.371 18z"></path>
+                        </g>
+                      </g>
+                    </svg></span>
+<!--                        выбор цвета для 4-ой звезды-->
+                       <span class="Rating-star Rating-star_view" th:if="${bookRating >= 4}">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="19" height="18" viewBox="0 0 19 18">
+                      <g>
+                        <g>
+                          <path fill="#ffc000"
+                                d="M9.5 14.925L3.629 18l1.121-6.512L0 6.875l6.564-.95L9.5 0l2.936 5.925 6.564.95-4.75 4.613L15.371 18z"></path>
+                        </g>
+                      </g>
+                    </svg></span>
+                        <span class="Rating-star" th:if="${bookRating < 4}">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="19" height="18" viewBox="0 0 19 18">
+                      <g>
+                        <g>
+                          <path fill="#ffc000"
+                                d="M9.5 14.925L3.629 18l1.121-6.512L0 6.875l6.564-.95L9.5 0l2.936 5.925 6.564.95-4.75 4.613L15.371 18z"></path>
+                        </g>
+                      </g>
+                    </svg></span>
+<!--                        выбор цвета для 5-ой звезды-->
+                        <span class="Rating-star Rating-star_view" th:if="${bookRating == 5}">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="19" height="18" viewBox="0 0 19 18">
+                      <g>
+                        <g>
+                          <path fill="#ffc000"
+                                d="M9.5 14.925L3.629 18l1.121-6.512L0 6.875l6.564-.95L9.5 0l2.936 5.925 6.564.95-4.75 4.613L15.371 18z"></path>
+                        </g>
+                      </g>
+                    </svg></span>
+                        <span class="Rating-star" th:if="${bookRating < 5}">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="19" height="18" viewBox="0 0 19 18">
+                      <g>
+                        <g>
+                          <path fill="#ffc000"
+                                d="M9.5 14.925L3.629 18l1.121-6.512L0 6.875l6.564-.95L9.5 0l2.936 5.925 6.564.95-4.75 4.613L15.371 18z"></path>
+                        </g>
+                      </g>
+                    </svg></span></span><span class="Rating-title" th:text="${countReviews}">Количество отзывов отзывов</span></span>
                     </div>
                 </div>
                 <div th:replace="~{fragments/book_reviews_fragment :: reviewBlock}"></div>
+
+                <strong class="Comments-title">Написать отзыв</strong>
+
+                <div th:if="${isAuthenticate}">
+                    <div class="Comments-addComment">
+                        <form class="form" action="#" method="post"
+                              th:attr="data-bookid = ${slugBook.id}"
+                              data-bookid="1111">
+                            <div class="form-group">
+                                <textarea class="form-textarea Comments-review" name="review" id="review"
+                                          placeholder="Текст отзыва" data-validate="require"></textarea>
+                            </div>
+                            <div class="form-group Comments-sendReview">
+                                <button class="btn btn_warning" type="submit">Отправить отзыв
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+                <div th:if="${isAuthenticate == false}">
+                    <h3 class="form-group form-group_center">Отзывы могут оставлять только авторизованные пользователи</h3>
+                    <div class="form-group form-group_center">
+                        <a class="Login-reg" th:href="@{/signin}">Войти</a>
+                    </div>
+                    <div class="form-group form-group_center">
+                        <a class="Login-reg" th:href="@{/signup}">Зарегистрироваться</a>
+                    </div>
+                </div>
+
             </div>
         </main>
     </div>

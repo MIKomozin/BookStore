@@ -103,7 +103,7 @@ public class BooksController {
         model.addAttribute("countReviews", bookService.getNumberOfReviewsForBook(slug));
         model.addAttribute("allReviews", bookReviewService.getAllBookReviewsByBookId(book.getId()));
 
-        return "/books/slugmy";
+        return "/books/slug";
     }
 
     //сделать данные методы только для авторизованных пользователей

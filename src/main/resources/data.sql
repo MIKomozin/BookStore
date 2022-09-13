@@ -175,42 +175,42 @@ insert into book2tag (book_id, tag_id) values (47, 4);
 insert into book2tag (book_id, tag_id) values (48, 4);
 insert into book2tag (book_id, tag_id) values (49, 4);
 
---genre
-insert into genre (parent_id, slug, name) values (0, '1', 'Легкое чтение');
-    insert into genre (parent_id, slug, name) values (1, '21', 'Фантастика');
-    insert into genre (parent_id, slug, name) values (1, '31', 'Боевики');
-    insert into genre (parent_id, slug, name) values (1, '41', 'Детевтивы');
-        insert into genre (parent_id, slug, name) values (4, '54', 'Триллер');
-        insert into genre (parent_id, slug, name) values (4, '64', 'Крутой детектив');
-        insert into genre (parent_id, slug, name) values (4, '74', 'Иронический детектив');
-        insert into genre (parent_id, slug, name) values (4, '84', 'Про маньяков');
-        insert into genre (parent_id, slug, name) values (4, '94', 'Шпионский детектив');
-        insert into genre (parent_id, slug, name) values (4, '104', 'Криминальный детектив');
-        insert into genre (parent_id, slug, name) values (4, '114', 'Классический детектив');
-        insert into genre (parent_id, slug, name) values (4, '124', 'Политический детектив');
-    insert into genre (parent_id, slug, name) values (1, '131', 'Фэнтези');
-    insert into genre (parent_id, slug, name) values (1, '141', 'Романы');
-    insert into genre (parent_id, slug, name) values (1, '151', 'Ужасы');
-    insert into genre (parent_id, slug, name) values (1, '161', 'Приключения');
-insert into genre (parent_id, slug, name) values (0 , '17', 'Серьезное чтение');
-    insert into genre (parent_id, slug, name) values (17, '1817', 'Биографии');
-insert into genre (parent_id, slug, name) values (0 , '19', 'Деловая литература');
-    insert into genre (parent_id, slug, name) values (19, '2019', 'Деловая литература');
-    insert into genre (parent_id, slug, name) values (19, '2119', 'Управление экономикой');
-    insert into genre (parent_id, slug, name) values (19, '2219', 'Карьера');
-    insert into genre (parent_id, slug, name) values (19, '2319', 'Маркетинг, PR, реклама');
-    insert into genre (parent_id, slug, name) values (19, '2419', 'Финансы');
-    insert into genre (parent_id, slug, name) values (19, '2519', 'Бизнес-справочники');
-    insert into genre (parent_id, slug, name) values (19, '2619', 'Личные финансы');
-    insert into genre (parent_id, slug, name) values (19, '2719', 'Менеджмент');
-    insert into genre (parent_id, slug, name) values (19, '2819', 'Зарубежная деловая литература');
-    insert into genre (parent_id, slug, name) values (19, '2919', 'Личная эффективность');
-    insert into genre (parent_id, slug, name) values (19, '3019', 'Тайм-менеджмент');
-insert into genre (parent_id, slug, name) values (0, '31', 'Драматургия');
-    insert into genre (parent_id, slug, name) values (31, '3231', 'Античная драма');
-    insert into genre (parent_id, slug, name) values (31, '3331', 'Комедия');
-    insert into genre (parent_id, slug, name) values (31, '3431', 'Сценарий');
-    insert into genre (parent_id, slug, name) values (31, '3531', 'Драма, пьеса');
+--genres
+insert into genre (parent_id, slug, name) values (NULL, '1-0', 'Легкое чтение');
+    insert into genre (parent_id, slug, name) values (1, '2-1', 'Фантастика');
+    insert into genre (parent_id, slug, name) values (1, '3-1', 'Боевики');
+    insert into genre (parent_id, slug, name) values (1, '4-1', 'Детективы');
+        insert into genre (parent_id, slug, name) values (4, '5-4', 'Триллер');
+        insert into genre (parent_id, slug, name) values (4, '6-4', 'Крутой детектив');
+        insert into genre (parent_id, slug, name) values (4, '7-4', 'Иронический детектив');
+        insert into genre (parent_id, slug, name) values (4, '8-4', 'Про маньяков');
+        insert into genre (parent_id, slug, name) values (4, '9-4', 'Шпионский детектив');
+        insert into genre (parent_id, slug, name) values (4, '10-4', 'Криминальный детектив');
+        insert into genre (parent_id, slug, name) values (4, '11-4', 'Классический детектив');
+        insert into genre (parent_id, slug, name) values (4, '12-4', 'Политический детектив');
+    insert into genre (parent_id, slug, name) values (1, '13-1', 'Фэнтези');
+    insert into genre (parent_id, slug, name) values (1, '14-1', 'Романы');
+    insert into genre (parent_id, slug, name) values (1, '15-1', 'Ужасы');
+    insert into genre (parent_id, slug, name) values (1, '16-1', 'Приключения');
+insert into genre (parent_id, slug, name) values (NULL, '17-0', 'Серьезное чтение');
+    insert into genre (parent_id, slug, name) values (17, '18-17', 'Биографии');
+insert into genre (parent_id, slug, name) values (NULL, '19-0', 'Деловая литература');
+    insert into genre (parent_id, slug, name) values (19, '20-19', 'Деловая литература');
+    insert into genre (parent_id, slug, name) values (19, '21-19', 'Управление экономикой');
+    insert into genre (parent_id, slug, name) values (19, '22-19', 'Карьера');
+    insert into genre (parent_id, slug, name) values (19, '23-19', 'Маркетинг, PR, реклама');
+    insert into genre (parent_id, slug, name) values (19, '24-19', 'Финансы');
+    insert into genre (parent_id, slug, name) values (19, '25-19', 'Бизнес-справочники');
+    insert into genre (parent_id, slug, name) values (19, '26-19', 'Личные финансы');
+    insert into genre (parent_id, slug, name) values (19, '27-19', 'Менеджмент');
+    insert into genre (parent_id, slug, name) values (19, '28-19', 'Зарубежная деловая литература');
+    insert into genre (parent_id, slug, name) values (19, '29-19', 'Личная эффективность');
+    insert into genre (parent_id, slug, name) values (19, '30-19', 'Тайм-менеджмент');
+insert into genre (parent_id, slug, name) values (NULL, '31-0', 'Драматургия');
+    insert into genre (parent_id, slug, name) values (31, '32-31', 'Античная драма');
+    insert into genre (parent_id, slug, name) values (31, '33-31', 'Комедия');
+    insert into genre (parent_id, slug, name) values (31, '34-31', 'Сценарий');
+    insert into genre (parent_id, slug, name) values (31, '35-31', 'Драма, пьеса');
 
 --book2genre
 insert into book2genre (book_id, genre_id) values (1, 1);
@@ -501,7 +501,6 @@ insert into book2user (time, type_id, user_id, book_id) values ('2013-06-07 18:2
 --book_review
 insert into book_review (book_id, user_id, time, text) values (3, 1, '2022-06-04', 'Amazing book');
 insert into book_review (book_id, user_id, time, text) values (3, 2, '2022-06-25', 'WOW');
-insert into book_review (book_id, user_id, time, text) values (3, 3, '2022-06-26', 'Wonderful book');
 
 insert into book_review (book_id, user_id, time, text) values (11, 3, '2022-07-04', 'Amazing book');
 insert into book_review (book_id, user_id, time, text) values (11, 4, '2022-07-25', 'WOW');
@@ -510,38 +509,58 @@ insert into book_review (book_id, user_id, time, text) values (11, 5, '2022-07-2
 insert into book_review (book_id, user_id, time, text) values (5, 2, '2022-08-11', 'Amazing book');
 insert into book_review (book_id, user_id, time, text) values (5, 1, '2022-08-12', 'WOW');
 insert into book_review (book_id, user_id, time, text) values (5, 3, '2022-08-21', 'Wonderful book');
+insert into book_review (book_id, user_id, time, text) values (5, 5, '2022-08-11', 'Interesting book');
+insert into book_review (book_id, user_id, time, text) values (5, 4, '2022-08-12', 'WOWwwwww');
 
---book_review_like
--- insert into book_review_like (review_id, iser_id, time, value) values (1, 1, '2013-06-04 18:25:08', 1);
--- insert into book_review_like (review_id, iser_id, time, value) values (1, 2, '2013-06-04 18:25:08', 1);
--- insert into book_review_like (review_id, iser_id, time, value) values (1, 3, '2013-06-04 18:25:08', 1);
---
--- insert into book_review_like (review_id, iser_id, time, value) values (2, 1, '2013-06-04 18:25:08', -1);
--- insert into book_review_like (review_id, iser_id, time, value) values (2, 2, '2013-06-04 18:25:08', 1);
--- insert into book_review_like (review_id, iser_id, time, value) values (2, 3, '2013-06-04 18:25:08', -1);
---
--- insert into book_review_like (review_id, iser_id, time, value) values (3, 1, '2013-06-04 18:25:08', -1);
--- insert into book_review_like (review_id, iser_id, time, value) values (3, 2, '2013-06-04 18:25:08', -1);
---
--- insert into book_review_like (review_id, iser_id, time, value) values (4, 1, '2013-06-04 18:25:08', 1);
--- insert into book_review_like (review_id, iser_id, time, value) values (4, 2, '2013-06-04 18:25:08', 1);
---
--- insert into book_review_like (review_id, iser_id, time, value) values (5, 1, '2013-06-04 18:25:08', 1);
--- insert into book_review_like (review_id, iser_id, time, value) values (5, 2, '2013-06-04 18:25:08', 1);
--- insert into book_review_like (review_id, iser_id, time, value) values (5, 3, '2013-06-04 18:25:08', 1);
--- insert into book_review_like (review_id, iser_id, time, value) values (5, 4, '2013-06-04 18:25:08', 1);
---
--- insert into book_review_like (review_id, iser_id, time, value) values (6, 1, '2013-06-04 18:25:08', -1);
--- insert into book_review_like (review_id, iser_id, time, value) values (6, 2, '2013-06-04 18:25:08', -1);
---
--- insert into book_review_like (review_id, iser_id, time, value) values (7, 1, '2013-06-04 18:25:08', -1);
--- insert into book_review_like (review_id, iser_id, time, value) values (7, 2, '2013-06-04 18:25:08', 1);
---
--- insert into book_review_like (review_id, iser_id, time, value) values (8, 1, '2013-06-04 18:25:08', -1);
--- insert into book_review_like (review_id, iser_id, time, value) values (8, 2, '2013-06-04 18:25:08', 1);
--- insert into book_review_like (review_id, iser_id, time, value) values (8, 3, '2013-06-04 18:25:08', 1);
--- insert into book_review_like (review_id, iser_id, time, value) values (8, 4, '2013-06-04 18:25:08', 1);
---
--- insert into book_review_like (review_id, iser_id, time, value) values (9, 1, '2013-06-04 18:25:08', -1);
--- insert into book_review_like (review_id, iser_id, time, value) values (9, 2, '2013-06-04 18:25:08', 1);
--- insert into book_review_like (review_id, iser_id, time, value) values (9, 4, '2013-06-04 18:25:08', 1);
+-- book_review_like
+insert into book_review_like (review_id, user_id, time, value) values (1, 1, '2013-06-04 18:25:08', 1);
+insert into book_review_like (review_id, user_id, time, value) values (1, 2, '2013-06-04 18:25:08', 1);
+insert into book_review_like (review_id, user_id, time, value) values (1, 3, '2013-06-04 18:25:08', 1);
+
+insert into book_review_like (review_id, user_id, time, value) values (2, 1, '2013-06-04 18:25:08', -1);
+insert into book_review_like (review_id, user_id, time, value) values (2, 2, '2013-06-04 18:25:08', 1);
+insert into book_review_like (review_id, user_id, time, value) values (2, 3, '2013-06-04 18:25:08', -1);
+
+insert into book_review_like (review_id, user_id, time, value) values (3, 1, '2013-06-04 18:25:08', -1);
+insert into book_review_like (review_id, user_id, time, value) values (3, 2, '2013-06-04 18:25:08', -1);
+
+insert into book_review_like (review_id, user_id, time, value) values (4, 1, '2013-06-04 18:25:08', 1);
+insert into book_review_like (review_id, user_id, time, value) values (4, 2, '2013-06-04 18:25:08', 1);
+
+insert into book_review_like (review_id, user_id, time, value) values (5, 1, '2013-06-04 18:25:08', 1);
+insert into book_review_like (review_id, user_id, time, value) values (5, 2, '2013-06-04 18:25:08', 1);
+insert into book_review_like (review_id, user_id, time, value) values (5, 3, '2013-06-04 18:25:08', 1);
+insert into book_review_like (review_id, user_id, time, value) values (5, 4, '2013-06-04 18:25:08', 1);
+
+insert into book_review_like (review_id, user_id, time, value) values (6, 1, '2013-06-04 18:25:08', -1);
+insert into book_review_like (review_id, user_id, time, value) values (6, 2, '2013-06-04 18:25:08', -1);
+insert into book_review_like (review_id, user_id, time, value) values (6, 3, '2013-06-04 18:25:08', 1);
+insert into book_review_like (review_id, user_id, time, value) values (6, 4, '2013-05-04 18:25:08', 1);
+insert into book_review_like (review_id, user_id, time, value) values (6, 2, '2013-06-11 18:25:08', 1);
+insert into book_review_like (review_id, user_id, time, value) values (6, 1, '2013-05-04 11:25:08', 1);
+insert into book_review_like (review_id, user_id, time, value) values (6, 3, '2013-08-24 18:25:08', 1);
+insert into book_review_like (review_id, user_id, time, value) values (6, 4, '2013-09-14 18:25:08', 1);
+insert into book_review_like (review_id, user_id, time, value) values (6, 2, '2013-10-15 18:25:08', 1);
+
+insert into book_review_like (review_id, user_id, time, value) values (7, 1, '2013-06-04 18:25:08', 1);
+insert into book_review_like (review_id, user_id, time, value) values (7, 2, '2013-06-04 18:25:08', 1);
+insert into book_review_like (review_id, user_id, time, value) values (7, 3, '2013-12-04 18:25:08', 1);
+insert into book_review_like (review_id, user_id, time, value) values (7, 4, '2013-05-12 18:25:08', 1);
+insert into book_review_like (review_id, user_id, time, value) values (7, 5, '2013-11-04 18:25:08', 1);
+insert into book_review_like (review_id, user_id, time, value) values (7, 3, '2013-10-04 18:25:08', 1);
+insert into book_review_like (review_id, user_id, time, value) values (7, 3, '2013-04-04 18:25:08', 1);
+insert into book_review_like (review_id, user_id, time, value) values (7, 2, '2013-02-04 18:25:08', 1);
+
+insert into book_review_like (review_id, user_id, time, value) values (8, 1, '2013-06-04 18:25:08', -1);
+insert into book_review_like (review_id, user_id, time, value) values (8, 2, '2013-06-04 18:25:08', 1);
+insert into book_review_like (review_id, user_id, time, value) values (8, 3, '2013-06-04 18:25:08', 1);
+insert into book_review_like (review_id, user_id, time, value) values (8, 4, '2013-06-04 18:25:08', 1);
+insert into book_review_like (review_id, user_id, time, value) values (8, 5, '2013-06-04 18:25:08', 1);
+
+insert into book_review_like (review_id, user_id, time, value) values (9, 1, '2013-06-04 18:25:08', -1);
+insert into book_review_like (review_id, user_id, time, value) values (9, 2, '2013-06-04 18:25:08', 1);
+insert into book_review_like (review_id, user_id, time, value) values (9, 4, '2013-06-04 18:25:08', 1);
+insert into book_review_like (review_id, user_id, time, value) values (9, 5, '2013-06-04 18:25:08', -1);
+
+insert into book_review_like (review_id, user_id, time, value) values (10, 4, '2013-06-04 18:25:08', -1);
+insert into book_review_like (review_id, user_id, time, value) values (10, 5, '2013-06-04 18:25:08', -1);

@@ -14,6 +14,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.oauth2.core.user.DefaultOAuth2User;
 import org.springframework.stereotype.Service;
 
 import java.util.logging.Logger;
@@ -27,16 +28,14 @@ public class BookstoreUserRegister {
     private final JWTUtil jwtUtil;
     private final PasswordEncoder passwordEncoder;
     private final AuthenticationManager authenticationManager;//проверка подлинности учетных данных клиента
-    private final BookStoreUserFromOtherService bookStoreUserFromOtherService;
 
     @Autowired
-    public BookstoreUserRegister(BookstoreUserRepository bookstoreUserRepository, BookstoreUserDetailsService bookstoreUserDetailsService, JWTUtil jwtUtil, PasswordEncoder passwordEncoder, AuthenticationManager authenticationManager, BookStoreUserFromOtherService bookStoreUserFromOtherService) {
+    public BookstoreUserRegister(BookstoreUserRepository bookstoreUserRepository, BookstoreUserDetailsService bookstoreUserDetailsService, JWTUtil jwtUtil, PasswordEncoder passwordEncoder, AuthenticationManager authenticationManager) {
         this.bookstoreUserRepository = bookstoreUserRepository;
         this.bookstoreUserDetailsService = bookstoreUserDetailsService;
         this.jwtUtil = jwtUtil;
         this.passwordEncoder = passwordEncoder;
         this.authenticationManager = authenticationManager;
-        this.bookStoreUserFromOtherService = bookStoreUserFromOtherService;
     }
 
     public BookstoreUser registerNewUser(RegistrationForm registrationForm) throws UserExistException{
@@ -84,23 +83,25 @@ public class BookstoreUserRegister {
         //SecurityContextHolder.getContext().getAuthentication() == null по факту добавим это в фильтре jwtToken
     }
 
-    public Object getCurrentUser() {
-        BookstoreUserDetails bookstoreUserDetails = (BookstoreUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        BookstoreUser bookstoreUser = bookstoreUserDetails.getBookstoreUser();
-        return bookstoreUser;
-        //Так как функционал без Oauth, то в коде ниже нет необходимсоти
-        /*
-                BookstoreUser bookstoreUser = null;
-        try {
-            bookstoreUserDetails = (BookstoreUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-            bookstoreUser = bookstoreUserDetails.getBookstoreUser();
-        } catch (Exception e) {
-            Logger.getLogger(this.getClass().getSimpleName()).info("не удалось преобразовать, значит объект класса DefaultOAuth2User");
-            DefaultOAuth2User user = (DefaultOAuth2User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-            bookstoreUser = bookStoreUserFromOtherService.convertNewUserToBookstoreUser(user);
-            return bookstoreUser;
+    public BookstoreUser getCurrentUser() {
+        Object object = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        if (object instanceof DefaultOAuth2User) {
+            DefaultOAuth2User defaultOAuth2User = (DefaultOAuth2User) object;
+            String email = defaultOAuth2User.getAttribute("email");
+            BookstoreUser authUser = bookstoreUserRepository.findUserByEmail(email);
+            if (authUser == null) {
+                BookstoreUser bookstoreUser = new BookstoreUser();
+                bookstoreUser.setEmail(email);
+                bookstoreUser.setName(defaultOAuth2User.getAttribute("name"));
+                bookstoreUserRepository.save(bookstoreUser);
+                return bookstoreUser;
+            } else {
+                return authUser;
+            }
+        } else {
+            BookstoreUserDetails bookstoreUserDetails = (BookstoreUserDetails) object;
+            return bookstoreUserDetails.getBookstoreUser();
         }
-         */
     }
 
     //проверка аутентификации пользователя (анонимный или зарегистрированный)
