@@ -34,4 +34,29 @@ public class MainPage {
         element.submit();
         return this;
     }
+
+    public MainPage click(String xPath) {
+        WebElement element = driver.findElement(By.xpath(xPath));
+        element.click();
+        return this;
+    }
+
+    public MainPage setUpPubDateToken(String id, String token) {
+        WebElement element = driver.findElement(By.id(id));
+        element.clear();//значения в полях заполенния дат стоял по умолчанию, очищаем данные поля
+        element.sendKeys(token);
+        return this;
+    }
+
+    public MainPage setUpSignInToken(String id, String token) {
+        WebElement element = driver.findElement(By.id(id));
+        element.sendKeys(token);
+        return this;
+    }
+
+    public MainPage clickButton(String id) {
+        WebElement element = driver.findElement(By.id(id));
+        element.click();
+        return this;
+    }
 }
