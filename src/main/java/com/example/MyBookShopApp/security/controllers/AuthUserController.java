@@ -68,7 +68,7 @@ public class AuthUserController {
     @HandleException
     @PostMapping("/login")
     @ResponseBody
-    public ContactConfirmationResponse handleLogin(@RequestBody ContactConfirmationPayload payload, HttpServletResponse httpServletResponse) throws UsernameNotFoundException {
+    public ContactConfirmationResponse handleUserLogin(@RequestBody ContactConfirmationPayload payload, HttpServletResponse httpServletResponse) throws UsernameNotFoundException {
         ContactConfirmationResponse loginResponse = bookstoreUserRegister.jwtlogin(payload);//при аутентификации создаем jwttoken
         Cookie cookie = new Cookie("token", loginResponse.getResult());//создаем куки под именем "token"
         httpServletResponse.addCookie(cookie);//передаем куки в ответе клиенту, теперь у вошедшео пользователя есть cookie по имени "token"
