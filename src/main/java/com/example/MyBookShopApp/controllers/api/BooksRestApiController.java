@@ -9,7 +9,6 @@ import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
@@ -17,7 +16,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api")
-@Api(description = "book data api")
+@Api("book data api")
 public class BooksRestApiController {
 
     private final BookService bookService;
@@ -62,18 +61,6 @@ public class BooksRestApiController {
     @ApiOperation("get bestsellers books (which is_bestseller = 1)")
     public ResponseEntity<List<Book>> bestsellersBooks() {
         return ResponseEntity.ok(bookService.getBestsellers());
-    }
-
-
-    //обработчики исключений для внешнего REST API
-    @ExceptionHandler(MissingServletRequestParameterException.class)
-    public ResponseEntity<ApiResponse<Book>> handleMissingServletRequestParameterException(Exception exception) {
-        return new ResponseEntity<>(new ApiResponse<>(HttpStatus.BAD_REQUEST, "Missing required parameters", exception), HttpStatus.BAD_REQUEST);
-    }
-
-    @ExceptionHandler(BookStoreApiWrongParameterException.class)
-    public ResponseEntity<ApiResponse<Book>> handleBookStoreApiWrongParameterException(Exception exception) {
-        return new ResponseEntity<>(new ApiResponse<>(HttpStatus.BAD_REQUEST, "Bad parameter value", exception), HttpStatus.BAD_REQUEST);
     }
 
 }

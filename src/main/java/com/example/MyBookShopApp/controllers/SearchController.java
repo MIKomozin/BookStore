@@ -1,5 +1,6 @@
 package com.example.MyBookShopApp.controllers;
 
+import com.example.MyBookShopApp.AOP.annotations.HandleException;
 import com.example.MyBookShopApp.data.entity.Book;
 import com.example.MyBookShopApp.data.BookService;
 import com.example.MyBookShopApp.data.dto.BooksPageDto;
@@ -45,6 +46,7 @@ public class SearchController {
     Сколько в проектк багов!!!
     */
 
+    @HandleException
     @GetMapping(value = {"/search", "/search/{searchWord}"})
     public String getSearchResult(@PathVariable(value = "searchWord", required = false) String searchWord,
                                   Model model) throws EmptySearchException {

@@ -157,7 +157,7 @@ public class BookService {
     //количество оставленных отзывов для определенной книги
     public Integer getNumberOfReviewsForBook(String slug) {
         Book book = getBookBySlug(slug);
-        return book.getBookReviewList().size();//размер массива и есть количетсов отзывов для каждой книги
+        return Objects.requireNonNullElse(book.getBookReviewList().size(), 0);//размер массива и есть количетсов отзывов для каждой книги
     }
 
     //метод для подсчета популярности книги

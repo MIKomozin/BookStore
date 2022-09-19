@@ -35,8 +35,7 @@ public class TokenBlackListService {
     }
 
     public String getHashFromToken(String jwtToken) {
-        String hash = jwtToken.substring(0, 5) + "-" + jwtToken.substring(jwtToken.length() - 5);//hash будет иметь такой вид ХХХХХ-ХХХХХ
-        return hash;
+        return jwtToken.substring(0, 5) + "-" + jwtToken.substring(jwtToken.length() - 5);//hash будет иметь такой вид ХХХХХ-ХХХХХ
     }
 
     public void save(TokenBlackList tokenBlackList) {
@@ -53,8 +52,7 @@ public class TokenBlackListService {
             for (Cookie cookie : cookies) {
                 if (cookie.getName().equals("token")) {
                     token = cookie.getValue();
-                    username = jwtUtil.extractUsername(token);//извлекаем username из созданного jwttokena
-                    Logger.getLogger(this.getClass().getSimpleName()).info("Added in BlackList next token: " + token);
+                    username = jwtUtil.extractUsername(token);//извлекаем username из созданного токена
                 }
             }
         }
@@ -67,6 +65,7 @@ public class TokenBlackListService {
             tokenBlackList.setUserId(userId);
             tokenBlackList.setHash(hashToken);
             save(tokenBlackList);//добавляем наш токен в blackList
+            Logger.getLogger(this.getClass().getSimpleName()).info("Added in BlackList next token: " + token);
         }
     }
 }

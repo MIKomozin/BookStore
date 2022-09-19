@@ -44,14 +44,11 @@ public class BookstoreUserRegister {
         BookstoreUser bookstoreUserByEmail = bookstoreUserRepository.findUserByEmail(registrationForm.getEmail());
         BookstoreUser bookstoreUserByPhone = bookstoreUserRepository.findUserByPhone(registrationForm.getPhone());
         if (bookstoreUserByEmail != null && bookstoreUserByPhone != null) {
-            //throw new UserExistException("пользователь с таким email и телефоном существует. Введите другие данные");
-            return null;
+            throw new UserExistException("пользователь с таким email и телефоном существует. Введите другие данные");
         } else if (bookstoreUserByEmail != null) {
-            //throw new UserExistException("пользователь с таким email существует. Введите другой email");
-            return null;
+            throw new UserExistException("пользователь с таким email существует. Введите другой email");
         } else if (bookstoreUserByPhone != null) {
-            //throw new UserExistException("пользователь с таким телефоном существует. Введите другой телефон.");
-            return null;
+            throw new UserExistException("пользователь с таким телефоном существует. Введите другой телефон.");
         } else {
             BookstoreUser user = new BookstoreUser();
             user.setName(registrationForm.getName());
@@ -108,10 +105,6 @@ public class BookstoreUserRegister {
     public boolean userIsAuthenticate(){
         String auth = SecurityContextHolder.getContext().getAuthentication().getName();
         Logger.getLogger(this.getClass().getSimpleName()).info("Authenticate name: " + auth);
-        if (auth.equals("anonymousUser")) {
-            return false;
-        } else {
-            return true;
-        }
+        return !auth.equals("anonymousUser");
     }
 }

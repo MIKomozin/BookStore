@@ -1,5 +1,6 @@
 package com.example.MyBookShopApp.security.controllers;
 
+import com.example.MyBookShopApp.AOP.annotations.HandleException;
 import com.example.MyBookShopApp.errs.UserExistException;
 import com.example.MyBookShopApp.security.data.BookstoreUserRegister;
 import com.example.MyBookShopApp.security.data.dto.ContactConfirmationPayload;
@@ -56,6 +57,7 @@ public class AuthUserController {
     }
 
     //регистрация нового пользователя после нажатия кнопки зарегистрироватсья
+    @HandleException
     @PostMapping("/reg")
     public String handleUserRegistration(RegistrationForm registrationForm, Model model) throws UserExistException {
         bookstoreUserRegister.registerNewUser(registrationForm);
@@ -63,6 +65,7 @@ public class AuthUserController {
         return "redirect:/signin";
     }
 
+    @HandleException
     @PostMapping("/login")
     @ResponseBody
     public ContactConfirmationResponse handleLogin(@RequestBody ContactConfirmationPayload payload, HttpServletResponse httpServletResponse) throws UsernameNotFoundException {
