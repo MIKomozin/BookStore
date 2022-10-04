@@ -88,11 +88,13 @@
                                             <div class="Profile-btn">
                                                 <button class="btn btn_danger" type="button">Отменить
                                                 </button>
+                                                <form method="post">
                                                 <button class="btn btn_primary" type="submit"
-                                                th:href="@{/profile/saveProfile}">Сохранить
+                                                        th:formaction="@{/profile/saveDataUsers}">Сохранить
                                                 </button>
+                                                </form>
                                             </div>
-                                            <div class="Profile-success">Профиль успешно сохранен
+                                            <div class="Profile-success" th:text="${profileMessage}">Сообщение об успешном изменении профиля или нет
                                             </div>
                                         </div>
                                     </div>

@@ -3,6 +3,7 @@ package com.example.MyBookShopApp.security.data;
 import com.example.MyBookShopApp.errs.UserExistException;
 import com.example.MyBookShopApp.security.data.dto.ContactConfirmationPayload;
 import com.example.MyBookShopApp.security.data.dto.ContactConfirmationResponse;
+import com.example.MyBookShopApp.security.data.dto.DataProfile;
 import com.example.MyBookShopApp.security.data.dto.RegistrationForm;
 import com.example.MyBookShopApp.security.data.entity.BookstoreUser;
 import com.example.MyBookShopApp.security.data.jwt.JWTUtil;
@@ -108,5 +109,18 @@ public class BookstoreUserRegister {
         return !auth.equals("anonymousUser");
     }
 
-
+    public ContactConfirmationResponse changeDataUser(DataProfile payload) {
+        ContactConfirmationResponse response = new ContactConfirmationResponse();
+        BookstoreUser user = bookstoreUserRepository.findUserByEmail(payload.getMail());
+        String password = payload.getPassword();
+        String passwordReply = payload.getPasswordReply();
+        if (password.equals(passwordReply)) {
+            user.setPassword(passwordEncoder.encode(password));
+            bookstoreUserRepository.save(user);
+            response.setResult("Данные пользователя успешно обновлены");
+        } else {
+            response.setResult("Пароль в полях 'Пароль' и 'Подтверждение пароля' не совпадают");
+        }
+        return response;
+    }
 }

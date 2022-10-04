@@ -127,10 +127,10 @@ public class AuthUserController {
         return "/profile";
     }
 
-    @PostMapping("/profile/saveProfile")
-    @ResponseBody
-    public DataProfile handleChangeUsersData(@RequestBody DataProfile payload) {
-
-        return null;
+    @PostMapping("/profile/saveDataUsers")
+    public String handleChangeUsersData(@RequestBody DataProfile payload, Model model) {
+        ContactConfirmationResponse response = bookstoreUserRegister.changeDataUser(payload);
+        model.addAttribute("profileMessage", response.getResult());
+        return "redirect:/profile";
     }
 }
