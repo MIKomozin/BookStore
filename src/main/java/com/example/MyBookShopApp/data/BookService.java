@@ -1,14 +1,20 @@
 package com.example.MyBookShopApp.data;
 
 import com.example.MyBookShopApp.data.entity.Book;
+import com.example.MyBookShopApp.data.entity.Book2Author;
+import com.example.MyBookShopApp.data.google.api.books.Item;
+import com.example.MyBookShopApp.data.google.api.books.Root;
 import com.example.MyBookShopApp.data.repository.BookRepository;
 import com.example.MyBookShopApp.errs.BookStoreApiWrongParameterException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
@@ -17,10 +23,12 @@ import java.util.Objects;
 public class BookService {
 
     private final BookRepository bookRepository;
+    private final RestTemplate restTemplate;
 
     @Autowired
-    public BookService(BookRepository bookRepository) {
+    public BookService(BookRepository bookRepository, RestTemplate restTemplate) {
         this.bookRepository = bookRepository;
+        this.restTemplate = restTemplate;
     }
 
     public List<Book> getBooksByAuthor(String authorName) {
@@ -164,5 +172,39 @@ public class BookService {
     public Double getPopIndex(Integer id) {
         Double popIndex = bookRepository.findPopIndex(id);
         return Objects.requireNonNullElse(popIndex, 0.0);
+    }
+
+    @Value("${google.books.api.key}")
+    private String apiKey;
+
+    public List<Book> getPageOfGoogleBooksApiSearchResult(String searchWord, Integer offset, Integer limit) {
+        String REQUEST_URL = "https://www.googleapis.com/books/v1/volumes" +
+                "?q=" + searchWord +
+                "&key=" + apiKey +
+                "&filter=" + "paid-ebooks" +
+                "&startIndex=" + offset +
+                "&maxResult=" + limit;
+
+        Root root = restTemplate.getForEntity(REQUEST_URL,Root.class).getBody();//возвращает объект типа Т в нашем случае Root
+        ArrayList<Book> list = new ArrayList<>();
+        if (root != null) {
+            for (Item item : root.getItems()) {
+                Book book = new Book();
+                if (item.getVolumeInfo() != null) {
+                    //без авторов
+                    book.setTitle(item.getVolumeInfo().getTitle());
+                    book.setImage(item.getVolumeInfo().getImageLinks().getThumbnail());
+                }
+                if (item.getSaleInfo() != null) {
+                    Double discountPrice = item.getSaleInfo().getRetailPrice().getAmount();
+                    Double price = item.getSaleInfo().getListPrice().getAmount();
+                    Byte discount = (byte) Math.toIntExact(Math.round(((price - discountPrice)/price) * 100));
+                    book.setPrice(price.intValue());
+                    book.setDiscount(discount);
+                }
+                list.add(book);
+            }
+        }
+        return list;
     }
 }

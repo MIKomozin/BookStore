@@ -52,7 +52,7 @@ public class Book {
 
     @Column(columnDefinition = "SMALLINT NOT NULL DEFAULT 0")
     @ApiModelProperty("discount value for book")
-    private byte discount;
+    private Byte discount;
 
     @OneToMany(mappedBy = "book")
     @JsonIgnore
@@ -164,11 +164,11 @@ public class Book {
         this.price = price;
     }
 
-    public byte getDiscount() {
+    public Byte getDiscount() {
         return discount;
     }
 
-    public void setDiscount(byte discount) {
+    public void setDiscount(Byte discount) {
         this.discount = discount;
     }
 

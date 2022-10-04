@@ -1,0 +1,41 @@
+package com.example.MyBookShopApp.data;
+
+import com.example.MyBookShopApp.data.entity.SmsCode;
+import com.example.MyBookShopApp.data.repository.SmsCodeRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.util.Random;
+
+@Service
+public class SmsService {
+
+    private final SmsCodeRepository smsCodeRepository;
+
+    @Autowired
+    public SmsService(SmsCodeRepository smsCodeRepository) {
+        this.smsCodeRepository = smsCodeRepository;
+    }
+
+    public String generateCode() {
+        //nnn nnn - pattern
+        Random random = new Random();
+        StringBuilder sb = new StringBuilder();
+        while (sb.length() < 6) {
+            sb.append(random.nextInt(9));
+        }
+        sb.insert(3, " ");
+        return sb.toString();
+    }
+
+    public void saveNewCode(SmsCode smsCode) {
+        if (smsCodeRepository.findByCode(smsCode.getCode()) == null) {
+            smsCodeRepository.save(smsCode);
+        }
+    }
+
+    public Boolean verifyCode(String code) {
+        SmsCode smsCode = smsCodeRepository.findByCode(code);
+        return (smsCode != null && !smsCode.isExpired());
+    }
+}

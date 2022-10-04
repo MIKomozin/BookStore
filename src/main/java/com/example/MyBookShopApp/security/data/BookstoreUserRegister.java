@@ -107,4 +107,6 @@ public class BookstoreUserRegister {
         Logger.getLogger(this.getClass().getSimpleName()).info("Authenticate name: " + auth);
         return !auth.equals("anonymousUser");
     }
+
+
 }

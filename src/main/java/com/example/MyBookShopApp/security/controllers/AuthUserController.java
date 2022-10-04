@@ -1,12 +1,17 @@
 package com.example.MyBookShopApp.security.controllers;
 
 import com.example.MyBookShopApp.AOP.annotations.HandleException;
+import com.example.MyBookShopApp.data.SmsService;
+import com.example.MyBookShopApp.data.entity.SmsCode;
 import com.example.MyBookShopApp.errs.UserExistException;
 import com.example.MyBookShopApp.security.data.BookstoreUserRegister;
 import com.example.MyBookShopApp.security.data.dto.ContactConfirmationPayload;
 import com.example.MyBookShopApp.security.data.dto.ContactConfirmationResponse;
+import com.example.MyBookShopApp.security.data.dto.DataProfile;
 import com.example.MyBookShopApp.security.data.dto.RegistrationForm;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -19,10 +24,14 @@ import javax.servlet.http.HttpServletResponse;
 public class AuthUserController {
 
     private final BookstoreUserRegister bookstoreUserRegister;
+    private final SmsService smsService;
+    private final JavaMailSender javaMailSender;
 
     @Autowired
-    public AuthUserController(BookstoreUserRegister bookstoreUserRegister) {
+    public AuthUserController(BookstoreUserRegister bookstoreUserRegister, SmsService smsService, JavaMailSender javaMailSender) {
         this.bookstoreUserRegister = bookstoreUserRegister;
+        this.smsService = smsService;
+        this.javaMailSender = javaMailSender;
     }
 
     //переход на страницу входа (войти или зарегистрироваться)
@@ -38,7 +47,7 @@ public class AuthUserController {
         return "signup";
     }
 
-    //запрос подтверждения контакта
+    //при авторизации
     @PostMapping("/requestContactConfirmation")
     @ResponseBody
     public ContactConfirmationResponse handleRequestContactConfirmation(@RequestBody ContactConfirmationPayload payload) {
@@ -47,12 +56,42 @@ public class AuthUserController {
         return response;
     }
 
-    //сравнение отправленного кода на почту или телефон с введенным, пока звглушка по сути
+    //запрос подтверждения контакта при регистрации
+    //для телефона (заглушка)
+    @PostMapping("/requestPhoneConfirmation")
+    @ResponseBody
+    public ContactConfirmationResponse handleRequestPhoneConfirmation(@RequestBody ContactConfirmationPayload payload) {
+        ContactConfirmationResponse response = new ContactConfirmationResponse();
+        response.setResult("true");
+        return response;
+    }
+
+    //для почты
+    @PostMapping("/requestEmailConfirmation")
+    @ResponseBody
+    public ContactConfirmationResponse handleRequestEmailConfirmation(@RequestBody ContactConfirmationPayload payload) {
+        ContactConfirmationResponse response = new ContactConfirmationResponse();
+        SimpleMailMessage message = new SimpleMailMessage();
+        message.setFrom("djemboy@mail.ru");//откуда
+        message.setTo(payload.getContact());//куда ... информацию о том куда отправляем сообщение, берем из полезной нагрузки. По сути введенный пользвателем email адрес
+        SmsCode smsCode = new SmsCode(smsService.generateCode(),300);//5 minutes
+        smsService.saveNewCode(smsCode);//сохраняем сгенерированный код в БД
+        message.setSubject("Bookstore email verification!");//заголовок письма (чтобы не падало в СПАМ!)
+        message.setText("Verification code is: " + smsCode.getCode());//текст письма откуда мы и возьмем наш код
+        javaMailSender.send(message);//при помощи javaMailSender отправявлем письмо с кодом нашему пользователю для прохождения авторизации
+        response.setResult("true");
+        return response;
+    }
+
+    //сравнение отправленного кода на почту или телефон с введенным
     @PostMapping("/approveContact")
     @ResponseBody
     public ContactConfirmationResponse handleApproveContact(@RequestBody ContactConfirmationPayload payload) {
         ContactConfirmationResponse response = new ContactConfirmationResponse();
-        response.setResult("true");
+        //такой же пароль вводим и для телефонп (Twilio не работает, найти и подключить другой сервис...)
+        if (smsService.verifyCode(payload.getCode())){
+            response.setResult("true");
+        }
         return response;
     }
 
@@ -88,18 +127,10 @@ public class AuthUserController {
         return "/profile";
     }
 
-//    @GetMapping("/logout")
-//    public String handleLogout(HttpServletRequest request) {
-//        HttpSession session = request.getSession();//извлекаем текущий сеанс сессии
-//        SecurityContextHolder.clearContext();//удаляем значение контекста из текущего потока
-//
-//        if (session != null) {
-//            session.invalidate(); //аннулируем данную сессию
-//        }
-//
-//        for (Cookie cookie : request.getCookies()) {
-//            cookie.setMaxAge(0);//обнуляем все куки ибо пользователь вышел
-//        }
-//        return "redirect:/signin";
-//    }
+    @PostMapping("/profile/saveProfile")
+    @ResponseBody
+    public DataProfile handleChangeUsersData(@RequestBody DataProfile payload) {
+
+        return null;
+    }
 }
