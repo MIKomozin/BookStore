@@ -13,11 +13,13 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.core.user.DefaultOAuth2User;
 import org.springframework.stereotype.Service;
 
+import java.util.Map;
 import java.util.logging.Logger;
 
 //сервис для регистрации и логирования пользователя
@@ -111,12 +113,13 @@ public class BookstoreUserRegister {
 
     public ContactConfirmationResponse changeDataUser(DataProfile payload) {
         ContactConfirmationResponse response = new ContactConfirmationResponse();
+        Logger.getLogger(this.getClass().getSimpleName()).info("Payload: " + payload.toString());
         BookstoreUser user = bookstoreUserRepository.findUserByEmail(payload.getMail());
         String password = payload.getPassword();
         String passwordReply = payload.getPasswordReply();
         if (password.equals(passwordReply)) {
             user.setPassword(passwordEncoder.encode(password));
-            bookstoreUserRepository.save(user);
+            bookstoreUserRepository.save(user);;
             response.setResult("Данные пользователя успешно обновлены");
         } else {
             response.setResult("Пароль в полях 'Пароль' и 'Подтверждение пароля' не совпадают");
@@ -124,3 +127,41 @@ public class BookstoreUserRegister {
         return response;
     }
 }
+
+
+/*
+   public ContactConfirmationResponse changeDataUser(DataProfile payload) {
+        ContactConfirmationResponse response = new ContactConfirmationResponse();
+        BookstoreUser user = bookstoreUserRepository.findUserByEmail(payload.getMail());
+        String password = payload.getPassword();
+        String passwordReply = payload.getPasswordReply();
+        if (password.equals(passwordReply)) {
+            user.setPassword(passwordEncoder.encode(password));
+            bookstoreUserRepository.save(user);;
+            response.setResult("Данные пользователя успешно обновлены");
+        } else {
+            response.setResult("Пароль в полях 'Пароль' и 'Подтверждение пароля' не совпадают");
+        }
+        return response;
+    }
+ */
+/*
+    public ContactConfirmationResponse changeDataUser(DataProfile payload) {
+        ContactConfirmationResponse response = new ContactConfirmationResponse();
+        BookstoreUser user = bookstoreUserRepository.findUserByEmail(payload.getMail());
+        String password = payload.getPassword();
+        String passwordReply = payload.getPasswordReply();
+        if (password.equals(passwordReply)) {
+            user.setPassword(passwordEncoder.encode(password));
+            bookstoreUserRepository.save(user);
+            BookstoreUserDetails userDetails = (BookstoreUserDetails) bookstoreUserDetailsService.loadUserByUsername(payload.getMail());
+            authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(payload.getMail(), payload.getPassword()));//аутентификация по логину и новому паролю
+            String jwtToken = jwtUtil.generateToken(userDetails);//генерируем jwtToken для обновленного пользователя
+            response.setResult(jwtToken);
+//            response.setResult("Данные пользователя успешно обновлены");
+        } else {
+//            response.setResult("Пароль в полях 'Пароль' и 'Подтверждение пароля' не совпадают");
+        }
+        return response;
+    }
+ */

@@ -47,4 +47,13 @@ public class DataProfile {
     public void setPasswordReply(String passwordReply) {
         this.passwordReply = passwordReply;
     }
+
+    @Override
+    public String toString() {
+        return "name = " + name + ", "
+                + "mail = " + mail + ", "
+                + "phone = " + phone + ", "
+                + "password = " + password + ", "
+                + "passwordReply = " + passwordReply;
+    }
 }
