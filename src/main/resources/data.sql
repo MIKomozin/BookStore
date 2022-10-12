@@ -440,11 +440,11 @@ insert into book_rating (rating_star, number_of_users, book_id) values (4, 8, 25
 insert into book_rating (rating_star, number_of_users, book_id) values (5, 12, 25);
 
 --users
-insert into users (name, email, phone, password) values ('Max', 'max@gmail.com', '+7 (222) 222-22-22', '$2a$10$/UzpCCPv.63ZYMg3FYtaG.uzlDkX96Q05MrW.O.3QZL10B3PXjm2S');
-insert into users (name, email, phone, password) values ('Nadi', 'nadi@gmail.com', '+7 (333) 333-33-33', '$2a$10$cnvyfUSR6THizzCHH4dFFuscg8OMUay94KvJ0j.FDyO53SBdTgCOa');
-insert into users (name, email, phone, password) values ('Den', 'den@gmail.com', '+7 (555) 555-55-55', '$2a$10$rfXwm3U5yR3y3cC4AWAaXObWeI7beI6E51B7fnLBJdthOE3IUG5Ye');
-insert into users (name, email, phone, password) values ('Vova', 'vova@gmail.com', '+7 (999) 999-99-99', '$2a$10$bsHgcu.0kXJnRK7cJz8bu.lM/ePJfxitmj.OJga93qBn6Y6KAuR2u');
-insert into users (name, email, phone, password) values ('Djemboy', 'Djemboy@mail.ru', '+7 (444) 444-44-44', '$2a$10$IFgw9nDYr9EbturnlG7UiOAAwbFofaKVY9WCr2FaLC8uw7QN0noLm');
+insert into users (hash, reg_time, balance, name, email, phone, password) values ('Max2018060422', '2018-06-04', 0, 'Max', 'max@gmail.com', '+7 (222) 222-22-22', '$2a$10$/UzpCCPv.63ZYMg3FYtaG.uzlDkX96Q05MrW.O.3QZL10B3PXjm2S');
+insert into users (hash, reg_time, balance, name, email, phone, password) values ('Nadi1894718418', '2019-09-24', 0, 'Nadi', 'nadi@gmail.com', '+7 (333) 333-33-33', '$2a$10$cnvyfUSR6THizzCHH4dFFuscg8OMUay94KvJ0j.FDyO53SBdTgCOa');
+insert into users (hash, reg_time, balance, name, email, phone, password) values ('Den1894818410', '2021-11-21', 0, 'Den', 'den@gmail.com', '+7 (555) 555-55-55', '$2a$10$rfXwm3U5yR3y3cC4AWAaXObWeI7beI6E51B7fnLBJdthOE3IUG5Ye');
+insert into users (hash, reg_time, balance, name, email, phone, password) values ('Vova18401941', '2020-08-11', 0, 'Vova', 'vova@gmail.com', '+7 (999) 999-99-99', '$2a$10$bsHgcu.0kXJnRK7cJz8bu.lM/ePJfxitmj.OJga93qBn6Y6KAuR2u');
+insert into users (hash, reg_time, balance, name, email, phone, password) values ('Djemboy19401419', '2021-12-27', 0, 'Djemboy', 'Djemboy@mail.ru', '+7 (444) 444-44-44', '$2a$10$IFgw9nDYr9EbturnlG7UiOAAwbFofaKVY9WCr2FaLC8uw7QN0noLm');
 
 --book2user_type
 insert into book2user_type (code, name, point) values ('1', 'KEPT', 0.4);

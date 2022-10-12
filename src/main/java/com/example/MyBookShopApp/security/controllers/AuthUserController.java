@@ -2,16 +2,13 @@ package com.example.MyBookShopApp.security.controllers;
 
 import com.example.MyBookShopApp.AOP.annotations.HandleException;
 import com.example.MyBookShopApp.data.SmsService;
-import com.example.MyBookShopApp.data.entity.Book;
 import com.example.MyBookShopApp.data.entity.SmsCode;
 import com.example.MyBookShopApp.errs.UserExistException;
 import com.example.MyBookShopApp.security.data.BookstoreUserRegister;
 import com.example.MyBookShopApp.security.data.dto.ContactConfirmationPayload;
 import com.example.MyBookShopApp.security.data.dto.ContactConfirmationResponse;
-import com.example.MyBookShopApp.security.data.dto.DataProfile;
 import com.example.MyBookShopApp.security.data.dto.RegistrationForm;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.MediaType;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -121,44 +118,4 @@ public class AuthUserController {
     public String handleMy() {
         return "/my";
     }
-
-    //переход на страницу профиля зарегестрированного пользвателя
-    @GetMapping("/profile")
-    public String handleProfile(Model model) {
-        model.addAttribute("currentUser", bookstoreUserRegister.getCurrentUser());
-        return "/profile";
-    }
-
-    @PostMapping(value = "/profile/saveDataUsers", consumes = "application/x-www-form-urlencoded")
-    public String handleChangeUsersData(DataProfile payload, Model model) {
-        ContactConfirmationResponse response = bookstoreUserRegister.changeDataUser(payload);
-        model.addAttribute("profileMessage", response.getResult());
-        return "redirect:/profile";
-    }
 }
-
-
-
-/*
-    @PostMapping(value = "/profile/saveDataUsers", consumes = "application/x-www-form-urlencoded")
-    public String handleChangeUsersData(@RequestBody DataProfile payload, Model model) {
-        ContactConfirmationResponse response = bookstoreUserRegister.changeDataUser(payload);
-        model.addAttribute("profileMessage", response.getResult());
-        return "redirect:/profile";
-    }
- */
-/*
-consumes = MediaType.APPLICATION_JSON_VALUE
-
-        ContactConfirmationResponse response = bookstoreUserRegister.changeDataUser(payload);
-        String token = response.getResult();
-        if (token.isEmpty()) {
-            model.addAttribute("profileMessage", "Пароль в полях 'Пароль' и 'Подтверждение пароля' не совпадают");
-        } else {
-            model.addAttribute("profileMessage", "Данные пользователя успешно обновлены");
-            Cookie cookie = new Cookie("token", token);
-            httpServletResponse.addCookie(cookie);
-        }
-        return "redirect:/profile";
-    }
- */

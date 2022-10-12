@@ -4,6 +4,7 @@ import com.example.MyBookShopApp.data.entity.BookReview;
 import com.example.MyBookShopApp.data.entity.BookReviewLike;
 
 import javax.persistence.*;
+import java.util.Date;
 import java.util.List;
 
 //данный класс будет изменен согласно ТЗ проекта
@@ -15,14 +16,14 @@ public class BookstoreUser {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-//    @Column(columnDefinition = "VARCHAR(255) NOT NULL")
-//    private String hash;
-//
-//    @Column(name = "reg_time", columnDefinition = "DATE NOT NULL")
-//    private Date regTime;
-//
-//    @Column(columnDefinition = "INT NOT NULL")
-//    private Integer balance;
+    @Column(columnDefinition = "VARCHAR(255) NOT NULL")
+    private String hash;
+
+    @Column(name = "reg_time", columnDefinition = "DATE NOT NULL")
+    private Date regTime;
+
+    @Column(columnDefinition = "INT NOT NULL DEFAULT 0")
+    private Integer balance;
 
     @Column(columnDefinition = "VARCHAR(255)")
     private String name;
@@ -121,5 +122,29 @@ public class BookstoreUser {
 
     public void setBook2UserList(List<Book2User> book2UserList) {
         this.book2UserList = book2UserList;
+    }
+
+    public String getHash() {
+        return hash;
+    }
+
+    public void setHash(String hash) {
+        this.hash = hash;
+    }
+
+    public Date getRegTime() {
+        return regTime;
+    }
+
+    public void setRegTime(Date regTime) {
+        this.regTime = regTime;
+    }
+
+    public Integer getBalance() {
+        return balance;
+    }
+
+    public void setBalance(Integer balance) {
+        this.balance = balance;
     }
 }

@@ -19,6 +19,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.core.user.DefaultOAuth2User;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.Map;
 import java.util.logging.Logger;
 
@@ -54,6 +55,9 @@ public class BookstoreUserRegister {
             throw new UserExistException("пользователь с таким телефоном существует. Введите другой телефон.");
         } else {
             BookstoreUser user = new BookstoreUser();
+            user.setHash(registrationForm.getName() + new Date().getTime());
+            user.setRegTime(new Date());
+            user.setBalance(0);
             user.setName(registrationForm.getName());
             user.setEmail(registrationForm.getEmail());
             user.setPhone(registrationForm.getPhone());

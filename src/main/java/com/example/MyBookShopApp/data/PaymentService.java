@@ -26,10 +26,24 @@ public class PaymentService {
         md.update((merchantLogin + ":" + paymentSumTotal.toString() + ":" + invId + ":" + firstTestPass).getBytes());//создаем хэш (массив байтов) для передачи в робокассу для дальнейше оплаты
         return "https://auth.robokassa.ru/Merchant/Index.aspx"+
                 "?MerchantLogin=" + merchantLogin +
-                "&IndId=" + invId +
+                "&InvId=" + invId +
                 "&Culture=" + "ru" +
                 "&Encoding=" + "utf-8" +
                 "&OutSum=" + paymentSumTotal.toString() +
+                "&SignatureValue="+ DatatypeConverter.printHexBinary(md.digest()).toUpperCase() +
+                "&IsTest=" + "1";
+    }
+
+    public String getPaymentUrl(String summ) throws NoSuchAlgorithmException {
+        MessageDigest md = MessageDigest.getInstance("MD5");//класс для хэширования
+        String invId = "5"; //индекс заказа, задаем сами (тестовый режим), MD5 - метод шифрования
+        md.update((merchantLogin + ":" + summ + ":" + invId + ":" + firstTestPass).getBytes());//создаем хэш (массив байтов) для передачи в робокассу для дальнейше оплаты
+        return "https://auth.robokassa.ru/Merchant/Index.aspx"+
+                "?MerchantLogin=" + merchantLogin +
+                "&InvId=" + invId +
+                "&Culture=" + "ru" +
+                "&Encoding=" + "utf-8" +
+                "&OutSum=" + summ +
                 "&SignatureValue="+ DatatypeConverter.printHexBinary(md.digest()).toUpperCase() +
                 "&IsTest=" + "1";
     }
